@@ -1,0 +1,14 @@
+---
+interface Props {
+  /** Largeur maximale du contenu */
+  size?: 'default' | 'wide' | 'medium' | 'narrow';
+  class?: string;
+}
+
+const { size = 'wide', class: className = '' } = Astro.props;
+const sizeClass = size === 'wide' ? '' : `container--${size}`;
+---
+
+<div class:list={['container', sizeClass, className]}>
+  <slot />
+</div>

@@ -1,0 +1,29 @@
+/* ==========================================================================
+   VIDEOLOOP — vidéo muette en boucle, lue uniquement quand elle est visible
+   ========================================================================== */
+
+.video-loop {
+  margin: 0;
+
+  & .video-loop__frame {
+    overflow: hidden;
+    border: 5px solid var(--color-brand-surface);
+    border-radius: 1.5rem;
+    background-color: var(--color-black);
+    box-shadow: var(--shadow-edge-lg);
+  }
+
+  & .video-loop__media {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  & .video-loop__caption {
+    margin-top: 0.75rem;
+    font-size: var(--text-fluid-sm);
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+}

@@ -1,0 +1,128 @@
+/* ============================================================
+   ANIMATIONS — Moteur GSAP & états d'entrée au scroll (contrat `data-reveal`)
+   Piloté par src/core/motion/reveal.ts & AnimationOrchestrator.ts.
+   ============================================================ */
+
+/* Barre de progression globale de navigation (ClientRouter + GSAP LoaderController) */
+.global-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 0%;
+  height: 2px;
+  opacity: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+    90deg,
+    var(--color-brand-primary-light),
+    var(--color-brand-violet),
+    var(--color-brand-mint)
+  );
+  box-shadow: var(--shadow-glow-primary);
+}
+
+/* Découpeur typographique accessible (textSplitter.ts) */
+.split-wrapper {
+  display: inline;
+}
+
+.split-word {
+  display: inline-block;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.split-space {
+  display: inline-block;
+}
+
+[data-split-mask] {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+[data-split-char] {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+em [data-split-char],
+.split-char--em {
+  font-style: normal;
+  background-image: linear-gradient(
+    90deg,
+    var(--color-brand-primary-light),
+    var(--color-brand-violet)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Boutons à tracé périmétrique vectoriel ([data-vector-btn]) */
+[data-vector-btn] {
+  position: relative;
+
+  &:has(.vector-border-svg) {
+    border-color: transparent;
+  }
+
+  & .vector-border-svg {
+    position: absolute;
+    inset: -1px;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  & .vector-border-svg rect {
+    stroke: var(--color-white-20);
+    transition: stroke var(--duration-base) var(--ease-standard);
+  }
+
+  &:hover .vector-border-svg rect,
+  &:focus-visible .vector-border-svg rect {
+    stroke: var(--color-brand-primary-light);
+  }
+}
+
+/* Zéro-FOUC avant préparation GSAP (levé par startPage après preparePage).
+   Une fois data-anim-pending retiré, seul GSAP pilote autoAlpha (aucune règle .js [data-reveal]
+   susceptible d'écraser l'opacité lors de l'hydratation d'une île Svelte). */
+html[data-anim-pending] .site-header,
+html[data-anim-pending] [data-reveal],
+html[data-anim-pending] [data-section-timeline],
+html[data-anim-pending] [data-split-title],
+html[data-anim-pending] [data-vector-btn],
+html[data-anim-pending] .mosaic > *,
+html[data-anim-pending] .bento > *,
+html[data-anim-pending] .stats > *,
+html[data-anim-pending] .grid-auto > *,
+html[data-anim-pending] .cs-catalogue > *,
+html[data-anim-pending] .variants > *,
+html[data-anim-pending] .chain > *,
+html[data-anim-pending] .cs-videos > *,
+html[data-anim-pending] .about-roles > *,
+html[data-anim-pending] .ds-checks > *,
+html[data-anim-pending] .timeline > *,
+html[data-anim-pending] .home-hero__collage > * {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-anim-pending] .site-header,
+  html[data-anim-pending] [data-reveal],
+  html[data-anim-pending] [data-section-timeline],
+  html[data-anim-pending] [data-split-title],
+  html[data-anim-pending] [data-vector-btn] {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

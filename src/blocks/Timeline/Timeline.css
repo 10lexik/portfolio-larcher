@@ -1,0 +1,80 @@
+/* ==========================================================================
+   TIMELINE — étapes numérotées (grille adaptative)
+   ========================================================================== */
+
+.timeline {
+  display: grid;
+  gap: var(--grid-gap);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+
+  & .timeline__step {
+    --step-accent: var(--color-brand-primary-light);
+
+    padding: 1.4rem 1.5rem;
+    border: var(--border-edge-thin);
+    border-color: color-mix(in srgb, var(--step-accent) 22%, var(--color-white-10));
+    border-radius: var(--radius-tile);
+    background-image:
+      radial-gradient(
+        130% 95% at 0% 0%,
+        color-mix(in srgb, var(--step-accent) 13%, transparent),
+        transparent 62%
+      ),
+      linear-gradient(180deg, var(--color-white-07), var(--color-white-05));
+    box-shadow: var(--shadow-edge-sm);
+
+    &.timeline__step--violet {
+      --step-accent: var(--color-brand-violet);
+    }
+
+    &.timeline__step--mint {
+      --step-accent: var(--color-brand-mint);
+    }
+
+    &.timeline__step--blue {
+      --step-accent: var(--color-brand-blue);
+    }
+
+    &.timeline__step--amber {
+      --step-accent: var(--color-brand-amber);
+    }
+  }
+
+  & .timeline__index {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-fluid-sm);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    color: color-mix(in srgb, var(--step-accent) 88%, var(--color-white));
+
+    &::before {
+      content: '';
+      width: 0.4rem;
+      height: 0.4rem;
+      flex-shrink: 0;
+      border-radius: var(--radius-chip);
+      background-color: var(--step-accent);
+      box-shadow: 0 0 10px var(--step-accent);
+    }
+  }
+
+  & .timeline__title {
+    margin: 0.75rem 0 0.4rem;
+    font-size: var(--text-fluid-h4);
+    line-height: 1.2;
+    color: var(--color-white);
+  }
+
+  & .timeline__text {
+    margin: 0;
+    line-height: 1.55;
+  }
+}

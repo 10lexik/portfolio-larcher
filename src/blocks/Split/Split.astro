@@ -1,0 +1,22 @@
+---
+import './Split.css';
+
+interface Props {
+  /** Place le média à gauche */
+  reverse?: boolean;
+  /** Aligne verticalement les deux colonnes au centre */
+  center?: boolean;
+  class?: string;
+}
+
+const { reverse = false, center = true, class: className = '' } = Astro.props;
+---
+
+<div class:list={['split', reverse && 'split--reverse', center && 'split--center', className]}>
+  <div class="split__text" data-reveal>
+    <slot />
+  </div>
+  <div class="split__media" data-reveal>
+    <slot name="media" />
+  </div>
+</div>

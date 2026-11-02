@@ -1,0 +1,78 @@
+---
+import { formatTitleTypography } from '@core/utils/text';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  id?: string;
+  /** Niveau de titre sémantique */
+  as?: 'h1' | 'h2' | 'h3';
+  class?: string;
+}
+
+const { eyebrow, title, lead, id, as: Tag = 'h2', class: className = '' } = Astro.props;
+const formattedTitle = formatTitleTypography(title);
+---
+
+<header class:list={['section-head', className]} data-section-timeline>
+  {eyebrow && (
+    <p class="eyebrow" data-stl-badge>
+      {eyebrow}
+    </p>
+  )}
+  <Tag id={id} class="section-head__title" data-stl-title>
+    <slot name="title">{formattedTitle}</slot>
+  </Tag>
+  {lead && (
+    <p class="lead" data-stl-subtitle>
+      {lead}
+    </p>
+  )}
+  <span class="section-head__border" data-stl-border aria-hidden="true"></span>
+</header>
+
+<style>
+  .section-head {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .section-head__title {
+    margin: 0;
+    max-width: 30ch;
+    font-size: var(--text-fluid-h2);
+    font-weight: 760;
+    line-height: 1.1;
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+    color: var(--color-white);
+  }
+
+  .section-head__border {
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin-top: 0.35rem;
+    background-image: linear-gradient(
+      90deg,
+      var(--color-brand-primary),
+      var(--color-brand-violet) 45%,
+      transparent 100%
+    );
+    transform-origin: left center;
+  }
+
+  .section-head__title :global(em) {
+    font-style: normal;
+    background-image: linear-gradient(
+      90deg,
+      var(--color-brand-primary-light),
+      var(--color-brand-violet)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+</style>

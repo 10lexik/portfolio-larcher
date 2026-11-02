@@ -1,0 +1,30 @@
+# Sorties de build
+dist/
+.astro/
+storybook-static/
+public/storybook/
+
+# Dépendances
+node_modules/
+
+# Journaux
+*.log
+npm-debug.log*
+
+# Environnement et secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Système et éditeurs
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Services
+.vercel
+scratch/

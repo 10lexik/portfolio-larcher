@@ -1,0 +1,39 @@
+/* ==========================================================================
+   STATS — bandeau de chiffres clés
+   ========================================================================== */
+
+.stats {
+  display: grid;
+  gap: var(--grid-gap);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  & .stats__item {
+    container-type: inline-size;
+    padding: 1.25rem 1.4rem;
+    border: var(--border-edge-thin);
+    border-radius: var(--radius-tile);
+    background-image: linear-gradient(180deg, var(--color-white-07), var(--color-white-05));
+    box-shadow: var(--shadow-edge-sm);
+  }
+
+  /* Le chiffre s'adapte à la largeur de sa carte : jamais de débordement (« 20 + 13 », « 30–50 % ») */
+  & .stats__value {
+    font-size: min(var(--text-fluid-stat), 22cqi);
+  }
+
+  & .stats__label {
+    margin: 0.5rem 0 0;
+    font-size: var(--text-fluid-sm);
+    line-height: 1.35;
+    color: var(--color-text-muted);
+  }
+
+  & .stats__note {
+    margin: 0.25rem 0 0;
+    font-size: var(--text-fluid-xs);
+    color: var(--color-text-faint);
+  }
+}

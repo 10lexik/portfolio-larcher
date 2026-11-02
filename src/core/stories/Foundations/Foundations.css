@@ -1,0 +1,70 @@
+.foundations {
+  display: grid;
+  gap: 1.25rem;
+  color: var(--color-text-body);
+
+  & .foundations__title {
+    margin: 1rem 0 0;
+    font-size: var(--text-fluid-h4);
+    color: var(--color-white);
+  }
+
+  & .foundations__swatches {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    & li {
+      display: grid;
+      gap: 0.25rem;
+    }
+
+    & small {
+      color: var(--color-text-subtle);
+      font-size: var(--text-fluid-xs);
+    }
+  }
+
+  & .foundations__chip {
+    display: block;
+    height: 4.5rem;
+    border: var(--border-edge-md);
+    border-radius: var(--radius-media);
+  }
+
+  & .foundations__list {
+    display: grid;
+    gap: 0.9rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    & li {
+      display: grid;
+      gap: 0.25rem;
+      align-items: baseline;
+
+      @media (min-width: 640px) {
+        grid-template-columns: 10rem 1fr;
+      }
+    }
+  }
+
+  & .foundations__bar {
+    display: block;
+    height: 0.75rem;
+    border-radius: var(--radius-chip);
+    background-image: linear-gradient(90deg, var(--color-brand-primary), var(--color-brand-violet));
+  }
+
+  & .foundations__radius {
+    display: block;
+    width: 6rem;
+    height: 3rem;
+    border: var(--border-edge-lg);
+    background-color: var(--color-white-10);
+  }
+}

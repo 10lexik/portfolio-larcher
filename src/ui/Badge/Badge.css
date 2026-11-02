@@ -1,0 +1,63 @@
+/* ==========================================================================
+   BADGE — Primitive d'étiquette / catégorie (BEM nesté natif)
+   ========================================================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: var(--border-edge) solid transparent;
+  border-radius: var(--radius-chip);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
+
+  &.badge--primary {
+    background-color: var(--color-primary-15);
+    border-color: var(--color-primary-45);
+    color: var(--color-brand-primary-light);
+  }
+
+  &.badge--dark {
+    background-color: var(--color-brand-surface);
+    border-color: var(--color-white-10);
+    color: var(--color-brand-light);
+  }
+
+  &.badge--light {
+    background-color: var(--color-brand-light);
+    color: var(--color-brand-dark);
+  }
+
+  &.badge--gray {
+    background-color: var(--color-white-10);
+    color: var(--color-text-body);
+  }
+
+  &.badge--outline {
+    border: var(--border-edge) dashed var(--color-white-30);
+    background-color: transparent;
+    color: var(--color-text-body);
+  }
+
+  &.badge--sm {
+    font-size: var(--text-fluid-2xs);
+    padding: 0.2rem 0.6rem;
+  }
+
+  &.badge--md {
+    font-size: var(--text-fluid-xs);
+    line-height: var(--text-fluid-xs--line-height);
+    padding: 0.3rem 0.85rem;
+  }
+
+  &.badge--lg {
+    font-size: var(--text-fluid-sm);
+    line-height: var(--text-fluid-sm--line-height);
+    padding: 0.45rem 1.1rem;
+  }
+}

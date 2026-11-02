@@ -1,0 +1,29 @@
+/* ==========================================================================
+   SPLIT — texte et média en deux colonnes (empilées sur mobile)
+   ========================================================================== */
+
+.split {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 4rem);
+
+  & .split__text {
+    display: grid;
+    gap: 1rem;
+  }
+
+  &.split--center {
+    align-items: center;
+
+    & .split__text {
+      align-content: center;
+    }
+  }
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    &.split--reverse .split__text {
+      order: 2;
+    }
+  }
+}

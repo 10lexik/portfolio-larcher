@@ -1,0 +1,43 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Section from '@layouts/Section.astro';
+import Button from '@ui/Button/Button.svelte';
+import { getNotFoundContent } from '@core/content/site';
+import type { Locale } from '@core/content/types';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'fr' } = Astro.props;
+const nf = getNotFoundContent(locale);
+---
+
+<Layout title={nf.title} locale={locale} noindex>
+  <Section theme="dark" size="narrow" class="not-found" labelledby="nf-title">
+    <p class="eyebrow">{nf.eyebrow}</p>
+    <h1 id="nf-title" class="not-found__title">
+      {nf.heading}
+    </h1>
+    <p class="lead">{nf.lead}</p>
+    <div class="cluster">
+      <Button href={nf.ctaHref} label={nf.ctaLabel} variant="primary" size="lg" />
+    </div>
+  </Section>
+</Layout>
+
+<style is:global>
+  .not-found .container {
+    display: grid;
+    gap: 1.25rem;
+    padding-block: clamp(3rem, 10vw, 8rem);
+  }
+
+  .not-found__title {
+    margin: 0;
+    font-size: var(--text-fluid-h1);
+    font-weight: 780;
+    line-height: 1.04;
+    color: var(--color-white);
+  }
+</style>

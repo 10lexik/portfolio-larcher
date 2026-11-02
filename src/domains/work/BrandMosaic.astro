@@ -1,0 +1,625 @@
+---
+import VideoLoop from '@ui/VideoLoop/VideoLoop.svelte';
+import { t } from '@core/i18n/t';
+import type { Locale } from '@core/content/types';
+import { getVeepeeContent, type Brand } from './veepee';
+
+interface Props {
+  brands: Brand[];
+  /** Nombre de colonnes maximum sur grand écran */
+  columns?: 2 | 3;
+  locale?: Locale;
+}
+
+const { brands, columns = 3, locale = 'fr' } = Astro.props;
+const { codeRefs } = getVeepeeContent(locale);
+---
+
+<div class="mosaic-showcase" data-mosaic-showcase data-view="combined">
+  <div class="mosaic-toolbar" data-reveal>
+    <p class="mosaic-toolbar__label">
+      <span class="mosaic-toolbar__dot" aria-hidden="true"></span>
+      {t('mosaicResponsiveLabel', locale)} (<code>{codeRefs.duFn}</code>{' '}
+      {t('mosaicResponsiveDesk', locale)} · <code>{codeRefs.vwFn}</code>{' '}
+      {t('mosaicResponsiveMob', locale)})
+    </p>
+    <div
+      class="mosaic-toolbar__switch"
+      data-mosaic-switch
+      role="group"
+      aria-label={t('mosaicSwitchAria', locale)}
+    >
+      <span class="mosaic-toolbar__pill" data-mosaic-pill aria-hidden="true"></span>
+      <button
+        type="button"
+        class="mosaic-toolbar__btn"
+        data-mosaic-view="combined"
+        aria-pressed="true"
+      >
+        {t('mosaicViewCombined', locale)}
+      </button>
+      <button
+        type="button"
+        class="mosaic-toolbar__btn"
+        data-mosaic-view="desktop"
+        aria-pressed="false"
+      >
+        {t('mosaicViewDesktop', locale)}
+      </button>
+      <button
+        type="button"
+        class="mosaic-toolbar__btn"
+        data-mosaic-view="mobile"
+        aria-pressed="false"
+      >
+        {t('mosaicViewMobile', locale)}
+      </button>
+    </div>
+  </div>
+
+  <ul class:list={['mosaic', `mosaic--${columns}`]}>
+    {brands.map((brand, i) => (
+      <li class="mosaic__item" data-reveal style={`--reveal-index:${i}`}>
+        <div class="mosaic__stage" data-mosaic-stage>
+          <div class="mosaic__desk" data-mosaic-desk>
+            <VideoLoop
+              src={brand.video}
+              poster={brand.posterDesk}
+              label={`${t('mosaicVideoDeskLabel', locale)} ${brand.name}`}
+              ratio={brand.ratioDesk}
+              client:load
+            />
+            <span class="mosaic__badge mosaic__badge--desk">{t('mosaicBadgeDesk', locale)}</span>
+          </div>
+
+          <div
+            class="mosaic__mob"
+            data-mosaic-mob-card
+            role="button"
+            tabindex="0"
+            aria-label={`${t('mosaicToggleMobAria', locale)} ${brand.name}`}
+            title={t('mosaicToggleMobTitle', locale)}
+          >
+            <span class="mosaic__phone-notch" aria-hidden="true"></span>
+            <VideoLoop
+              src={brand.videoMob}
+              poster={brand.posterMob}
+              label={`${t('mosaicVideoMobLabel', locale)} ${brand.name}`}
+              ratio={brand.ratioMob}
+              client:load
+            />
+            <span class="mosaic__badge mosaic__badge--mob">{t('mosaicBadgeMob', locale)}</span>
+          </div>
+        </div>
+
+        <div class="mosaic__meta">
+          <div class="mosaic__header">
+            <p class="mosaic__name">
+              {brand.href ? (
+                <a href={brand.href} target="_blank" rel="noopener noreferrer">
+                  {brand.name} ↗
+                </a>
+              ) : (
+                brand.name
+              )}
+            </p>
+            <span class="mosaic__market">{brand.market}</span>
+          </div>
+          {brand.challenge && (
+            <p class="mosaic__context">
+              <strong class="mosaic__context-label mosaic__context-label--challenge">
+                {t('mosaicChallenge', locale)}
+              </strong>{' '}
+              {brand.challenge}
+            </p>
+          )}
+          {brand.resolution && (
+            <p class="mosaic__context">
+              <strong class="mosaic__context-label mosaic__context-label--resolution">
+                {t('mosaicResolution', locale)}
+              </strong>{' '}
+              {brand.resolution}
+            </p>
+          )}
+          {brand.components && brand.components.length > 0 && (
+            <ul
+              class="mosaic__tags"
+              aria-label={`${t('mosaicComponentsAria', locale)} ${brand.name}`}
+            >
+              {brand.components.map((comp) => (
+                <li>
+                  <code>{comp}</code>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<script>
+  import gsap from 'gsap';
+  import { prefersReducedMotion } from '@core/motion/reveal';
+
+  type MosaicView = 'combined' | 'desktop' | 'mobile';
+
+  const PIP_SCALE = 0.74;
+
+  function computePipOffset(stage: HTMLElement, mob: HTMLElement): { dx: number; dy: number } {
+    const stageW = stage.clientWidth;
+    const stageH = stage.clientHeight;
+    const mobW = mob.offsetWidth;
+    const mobH = mob.offsetHeight;
+    const dx = stageW / 2 - (mobW * PIP_SCALE) / 2 - 8;
+    const dy = stageH / 2 - (mobH * PIP_SCALE) / 2 + 6;
+    return { dx, dy };
+  }
+
+  function syncSwitchPill(showcase: HTMLElement, view: MosaicView, animate: boolean): void {
+    const pill = showcase.querySelector<HTMLElement>('[data-mosaic-pill]');
+    const activeBtn = showcase.querySelector<HTMLButtonElement>(`[data-mosaic-view="${view}"]`);
+    if (!pill || !activeBtn) return;
+
+    const target = {
+      x: activeBtn.offsetLeft,
+      y: activeBtn.offsetTop,
+      width: activeBtn.offsetWidth,
+      height: activeBtn.offsetHeight,
+      opacity: 1,
+    };
+
+    if (!animate || prefersReducedMotion()) {
+      gsap.set(pill, target);
+    } else {
+      gsap.to(pill, {
+        ...target,
+        duration: 0.45,
+        ease: 'expo.out',
+        overwrite: 'auto',
+      });
+    }
+  }
+
+  function applyMosaicView(showcase: HTMLElement, view: MosaicView, animate: boolean): void {
+    showcase.dataset.view = view;
+    const buttons = showcase.querySelectorAll<HTMLButtonElement>('[data-mosaic-view]');
+    buttons.forEach((btn) => {
+      btn.setAttribute('aria-pressed', String(btn.dataset.mosaicView === view));
+    });
+
+    syncSwitchPill(showcase, view, animate);
+
+    const stages = Array.from(showcase.querySelectorAll<HTMLElement>('[data-mosaic-stage]'));
+    const reduced = !animate || prefersReducedMotion();
+
+    stages.forEach((stage, i) => {
+      const desk = stage.querySelector<HTMLElement>('[data-mosaic-desk]');
+      const mob = stage.querySelector<HTMLElement>('[data-mosaic-mob-card]');
+      if (!desk || !mob) return;
+
+      const { dx, dy } = computePipOffset(stage, mob);
+      const delay = reduced ? 0 : i * 0.03;
+
+      if (view === 'combined') {
+        const deskProps = { scale: 1, opacity: 1, filter: 'blur(0px)' };
+        const mobProps = {
+          xPercent: -50,
+          yPercent: -50,
+          x: dx,
+          y: dy,
+          scale: PIP_SCALE,
+          autoAlpha: 1,
+        };
+        if (reduced) {
+          gsap.set(desk, deskProps);
+          gsap.set(mob, mobProps);
+        } else {
+          gsap.to(desk, {
+            ...deskProps,
+            duration: 0.5,
+            delay,
+            ease: 'expo.out',
+            overwrite: 'auto',
+          });
+          gsap.to(mob, { ...mobProps, duration: 0.55, delay, ease: 'expo.out', overwrite: 'auto' });
+        }
+      } else if (view === 'desktop') {
+        const deskProps = { scale: 1, opacity: 1, filter: 'blur(0px)' };
+        const mobProps = {
+          xPercent: -50,
+          yPercent: -50,
+          x: dx + 8,
+          y: dy + 14,
+          scale: 0.56,
+          autoAlpha: 0,
+        };
+        if (reduced) {
+          gsap.set(desk, deskProps);
+          gsap.set(mob, mobProps);
+        } else {
+          gsap.to(desk, {
+            ...deskProps,
+            duration: 0.48,
+            delay,
+            ease: 'expo.out',
+            overwrite: 'auto',
+          });
+          gsap.to(mob, { ...mobProps, duration: 0.42, delay, ease: 'expo.out', overwrite: 'auto' });
+        }
+      } else {
+        // view === 'mobile' : fond Desktop assombri/flouté + Smartphone 9:16 agrandi au centre
+        const deskProps = { scale: 0.96, opacity: 0.16, filter: 'blur(8px)' };
+        const mobProps = {
+          xPercent: -50,
+          yPercent: -50,
+          x: 0,
+          y: 0,
+          scale: 1,
+          autoAlpha: 1,
+        };
+        if (reduced) {
+          gsap.set(desk, deskProps);
+          gsap.set(mob, mobProps);
+        } else {
+          gsap.to(desk, {
+            ...deskProps,
+            duration: 0.52,
+            delay,
+            ease: 'expo.out',
+            overwrite: 'auto',
+          });
+          gsap.to(mob, { ...mobProps, duration: 0.58, delay, ease: 'expo.out', overwrite: 'auto' });
+        }
+      }
+    });
+  }
+
+  function initMosaicShowcases(): void {
+    const showcases = document.querySelectorAll<HTMLElement>('[data-mosaic-showcase]');
+    showcases.forEach((showcase) => {
+      const currentView = (showcase.dataset.view as MosaicView | undefined) ?? 'combined';
+      applyMosaicView(showcase, currentView, false);
+
+      if (showcase.dataset.mosaicBound === 'true') return;
+      showcase.dataset.mosaicBound = 'true';
+
+      const buttons = showcase.querySelectorAll<HTMLButtonElement>('[data-mosaic-view]');
+      const mobCards = showcase.querySelectorAll<HTMLElement>('[data-mosaic-mob-card]');
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const next = (btn.dataset.mosaicView as MosaicView | undefined) ?? 'combined';
+          if (showcase.dataset.view === next) return;
+          applyMosaicView(showcase, next, true);
+        });
+      });
+
+      mobCards.forEach((card) => {
+        const toggleMob = (): void => {
+          const next: MosaicView = showcase.dataset.view === 'mobile' ? 'combined' : 'mobile';
+          applyMosaicView(showcase, next, true);
+        };
+        card.addEventListener('click', toggleMob);
+        card.addEventListener('keydown', (e: KeyboardEvent) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleMob();
+          }
+        });
+      });
+
+      window.addEventListener(
+        'resize',
+        () => {
+          const active = (showcase.dataset.view as MosaicView | undefined) ?? 'combined';
+          applyMosaicView(showcase, active, false);
+        },
+        { passive: true },
+      );
+    });
+  }
+
+  initMosaicShowcases();
+  document.addEventListener('astro:page-load', initMosaicShowcases);
+</script>
+
+<style>
+  .mosaic-showcase {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .mosaic-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.85rem;
+    padding: 0.65rem 0.9rem;
+    border: var(--border-edge-thin);
+    border-radius: var(--radius-media);
+    background-color: var(--color-white-05);
+  }
+
+  .mosaic-toolbar__label {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0;
+    font-size: var(--text-fluid-xs);
+    color: var(--color-text-muted);
+
+    & code {
+      padding: 0.1rem 0.4rem;
+      border-radius: var(--radius-chip);
+      background-color: var(--color-white-07);
+      font-family: var(--font-mono);
+      font-size: var(--text-fluid-2xs);
+      color: var(--color-brand-primary-light);
+    }
+  }
+
+  .mosaic-toolbar__dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: var(--radius-chip);
+    background-color: var(--color-brand-mint);
+  }
+
+  .mosaic-toolbar__switch {
+    position: relative;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding: 0.22rem;
+    border: var(--border-edge-thin);
+    border-radius: var(--radius-chip);
+    background-color: var(--color-brand-dark);
+  }
+
+  .mosaic-toolbar__pill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    border: 1px solid var(--color-primary-45);
+    border-radius: var(--radius-chip);
+    background-color: var(--color-primary-15);
+    box-shadow: var(--shadow-edge-xs);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .mosaic-toolbar__btn {
+    position: relative;
+    z-index: 1;
+    padding: 0.35rem 0.78rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-chip);
+    background-color: transparent;
+    font-family: var(--font-mono);
+    font-size: var(--text-fluid-xs);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: color var(--duration-fast) var(--ease-standard);
+
+    &:hover {
+      color: var(--color-white);
+    }
+
+    &[aria-pressed='true'] {
+      color: var(--color-white);
+    }
+  }
+
+  .mosaic {
+    display: grid;
+    gap: var(--grid-gap);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media (min-width: 1024px) {
+      &.mosaic--3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      &.mosaic--2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  }
+
+  .mosaic__item {
+    display: grid;
+    gap: 0.85rem;
+    align-content: start;
+    min-width: 0;
+    padding: 1rem;
+    border: var(--border-edge-thin);
+    border-radius: var(--radius-tile);
+    background-image: linear-gradient(180deg, var(--color-white-07), var(--color-white-05));
+    box-shadow: var(--shadow-edge-sm);
+  }
+
+  .mosaic__stage {
+    position: relative;
+    min-width: 0;
+  }
+
+  .mosaic__stage :global(.video-loop__frame) {
+    border: var(--border-edge-thin);
+    border-radius: var(--radius-media);
+    background-color: var(--color-brand-surface);
+    box-shadow: var(--shadow-edge-md);
+  }
+
+  .mosaic__desk {
+    position: relative;
+    min-width: 0;
+    will-change: transform, opacity, filter;
+  }
+
+  .mosaic__mob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    width: 34.5%;
+    max-width: 8.6rem;
+    min-width: 5.5rem;
+    padding: 0.26rem;
+    border: var(--border-edge-lg);
+    border-radius: 0.95rem;
+    background-color: var(--color-brand-dark);
+    box-shadow: var(--shadow-edge-xl);
+    transform: translate(-50%, -50%) scale(0.74);
+    cursor: pointer;
+    will-change: transform, opacity;
+    transition: border-color var(--duration-base) var(--ease-standard);
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--color-brand-primary-light);
+    }
+  }
+
+  .mosaic-showcase[data-view='desktop'] .mosaic__mob {
+    pointer-events: none;
+  }
+
+  .mosaic__mob :global(.video-loop__frame) {
+    border: none;
+    border-radius: 0.72rem;
+    box-shadow: none;
+  }
+
+  .mosaic__phone-notch {
+    position: absolute;
+    top: 0.42rem;
+    left: 50%;
+    z-index: 3;
+    width: 28%;
+    height: 0.2rem;
+    border-radius: var(--radius-chip);
+    background-color: var(--color-black-70);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .mosaic__badge {
+    position: absolute;
+    z-index: 3;
+    padding: 0.12rem 0.45rem;
+    border: var(--border-edge-thin);
+    border-radius: var(--radius-chip);
+    background-color: var(--color-dark-85);
+    backdrop-filter: blur(6px);
+    font-family: var(--font-mono);
+    font-size: var(--text-fluid-nano);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--color-white-90);
+    pointer-events: none;
+  }
+
+  .mosaic__badge--desk {
+    top: 0.5rem;
+    left: 0.5rem;
+  }
+
+  .mosaic__badge--mob {
+    bottom: 0.38rem;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    color: var(--color-brand-mint);
+  }
+
+  .mosaic__meta {
+    display: grid;
+    gap: 0.45rem;
+    padding-top: 0.2rem;
+  }
+
+  .mosaic__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-bottom: 0.35rem;
+    border-bottom: var(--border-edge-thin);
+  }
+
+  .mosaic__name {
+    margin: 0;
+    font-weight: 700;
+    color: var(--color-white);
+
+    & a:hover {
+      color: var(--color-brand-primary-light);
+    }
+  }
+
+  .mosaic__market {
+    font-size: var(--text-fluid-xs);
+    font-family: var(--font-mono);
+    color: var(--color-text-subtle);
+  }
+
+  .mosaic__context {
+    margin: 0;
+    font-size: var(--text-fluid-xs);
+    line-height: 1.5;
+    color: var(--color-text-body);
+  }
+
+  .mosaic__context-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-fluid-2xs);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .mosaic__context-label--challenge {
+    color: var(--color-brand-amber);
+  }
+
+  .mosaic__context-label--resolution {
+    color: var(--color-brand-mint);
+  }
+
+  .mosaic__note {
+    margin: 0;
+    font-size: var(--text-fluid-sm);
+    line-height: 1.45;
+    color: var(--color-text-muted);
+  }
+
+  .mosaic__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0.25rem 0 0;
+    padding: 0;
+    list-style: none;
+
+    & code {
+      display: inline-block;
+      padding: 0.15rem 0.55rem;
+      border: var(--border-edge-thin);
+      border-radius: var(--radius-chip);
+      background-color: var(--color-white-05);
+      font-family: var(--font-mono);
+      font-size: var(--text-fluid-xs);
+      color: var(--color-brand-primary-light);
+    }
+  }
+</style>

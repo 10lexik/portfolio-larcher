@@ -1,0 +1,45 @@
+---
+import Container from './Container.astro';
+
+interface Props {
+  id?: string;
+  /** Teinte de bande : contrat `data-theme` (vérifié par `npm run lint:themes`) */
+  theme?: 'dark' | 'raised';
+  tight?: boolean;
+  size?: 'default' | 'wide' | 'medium' | 'narrow';
+  /** Épingle la section et fait reculer son contenu en profondeur sous la section suivante (`data-stack`) */
+  stack?: boolean;
+  class?: string;
+  /** Identifiant de l'élément qui titre la section (accessibilité) */
+  labelledby?: string;
+}
+
+const {
+  id,
+  theme = 'dark',
+  tight = false,
+  size = 'wide',
+  stack = false,
+  class: className = '',
+  labelledby,
+} = Astro.props;
+---
+
+<section
+  id={id}
+  data-theme={theme}
+  data-stack={stack ? '' : undefined}
+  aria-labelledby={labelledby}
+  class:list={[
+    'ds-section',
+    theme === 'raised' && 'ds-section--raised',
+    tight && 'ds-section--tight',
+    className,
+  ]}
+>
+  <div class="ds-section__content" data-stack-content={stack ? '' : undefined}>
+    <Container size={size}>
+      <slot />
+    </Container>
+  </div>
+</section>

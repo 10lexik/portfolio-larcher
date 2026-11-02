@@ -1,0 +1,138 @@
+/* ============================================================
+   LAYOUT — conteneurs, sections, grilles et utilitaires de composition
+   Mobile-first ; ajustements desktop à partir de 768px.
+   ============================================================ */
+
+/* Calque de grain d'impression fixe au scroll (SSOT : tokens.css + src/core/utils/grain.ts) */
+.print-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  pointer-events: none;
+  contain: strict;
+  background-image: var(--grain-image-a), var(--grain-image-b);
+  background-repeat: repeat, repeat;
+  background-position:
+    0 0,
+    var(--grain-offset-b);
+  background-size: var(--grain-size-a), var(--grain-size-b);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--spacing-fluid-x);
+  max-width: calc(var(--container-wide) + 2 * var(--spacing-fluid-x));
+
+  &.container--default {
+    max-width: calc(var(--container-default) + 2 * var(--spacing-fluid-x));
+  }
+
+  &.container--medium {
+    max-width: calc(var(--container-medium) + 2 * var(--spacing-fluid-x));
+  }
+
+  &.container--narrow {
+    max-width: calc(var(--container-narrow) + 2 * var(--spacing-fluid-x));
+  }
+}
+
+.ds-section {
+  position: relative;
+  padding-block: var(--spacing-fluid-y);
+  background-color: var(--color-brand-dark);
+  background-image: radial-gradient(
+    900px 500px at 85% 0%,
+    var(--color-primary-05) 0%,
+    transparent 65%
+  );
+
+  &.ds-section--tight {
+    padding-block: clamp(1.75rem, 4vw, 3.25rem);
+  }
+
+  &.ds-section--raised {
+    background-color: var(--color-brand-surface);
+    background-image: radial-gradient(
+      900px 500px at 15% 0%,
+      var(--color-halo-violet) 0%,
+      transparent 65%
+    );
+    border-block: var(--border-edge-thin);
+  }
+}
+
+.stack {
+  display: grid;
+  gap: var(--stack-gap, 1.25rem);
+}
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cluster-gap, 0.75rem);
+}
+
+.grid-auto {
+  display: grid;
+  gap: var(--grid-gap);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min, 18rem)), 1fr));
+}
+
+.eyebrow {
+  font-size: var(--text-fluid-label);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-brand-primary);
+}
+
+.gradient-text {
+  background-image: linear-gradient(
+    90deg,
+    var(--color-brand-primary-light),
+    var(--color-brand-violet)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lead {
+  font-size: var(--text-fluid-lead);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  max-width: 48rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Cible de saut de contenu (accessibilité) */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-chip);
+  background-color: var(--color-brand-primary);
+  color: var(--color-white);
+  font-weight: 700;
+
+  &:focus {
+    top: 1rem;
+  }
+}

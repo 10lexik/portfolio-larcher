@@ -1,0 +1,922 @@
+{
+  "ui": {
+    "skipToContent": "Aller au contenu",
+    "navLabel": "Navigation principale",
+    "footerNavLabel": "Navigation pied de page",
+    "footerExplore": "Navigation",
+    "footerColophon": "Colophon",
+    "langSwitchLabel": "Changer de langue",
+    "langFr": "FR",
+    "langEn": "EN",
+    "headerCta": "LinkedIn",
+    "homeAriaLabel": "accueil",
+    "menuOpen": "Menu",
+    "close": "Fermer",
+    "zoom": "Agrandir l’image",
+    "playVideo": "Lire la vidéo",
+    "reconstitution": "Reconstitution",
+    "allCaseStudies": "Tous les Case Studies",
+    "viewCaseStudy": "Voir le Case Study",
+    "readCaseStudy": "Lire le Case Study",
+    "openStorybook": "Ouvrir le Storybook",
+    "contactLinkedIn": "Me contacter sur LinkedIn",
+    "myJourney": "Mon parcours",
+    "creativeLab": "Creative Lab (CodePen)",
+    "backToTop": "Haut de page",
+    "backHome": "Retour à l’accueil",
+    "footerBuilt": "Conçu et développé avec Astro, Svelte 5 et Storybook.",
+    "methodNote": "Les vues Styleguide et la version neutre sont des reconstitutions à partir de la version historique du dépôt.",
+    "insightTag": "Synthèse d’architecture",
+    "insightStep1": "01 · Constat terrain",
+    "insightStep2": "02 · Décision d’architecture",
+    "insightStep3": "03 · Résultat en production",
+    "mosaicResponsiveLabel": "Restitution responsive",
+    "mosaicResponsiveDesk": "desktop",
+    "mosaicResponsiveMob": "mobile-first",
+    "mosaicSwitchAria": "Choisir le format d’aperçu des opérations",
+    "mosaicViewCombined": "Duo Desktop + Mobile",
+    "mosaicViewDesktop": "Desktop 16:10",
+    "mosaicViewMobile": "Mobile 9:16",
+    "mosaicBadgeDesk": "Desktop · 16:10",
+    "mosaicBadgeMob": "Mobile · 9:16",
+    "mosaicToggleMobAria": "Basculer l’aperçu mobile 9:16 de",
+    "mosaicToggleMobTitle": "Cliquer pour inspecter la version Mobile 9:16 en grand format",
+    "mosaicChallenge": "Enjeu du brief :",
+    "mosaicResolution": "Réponse du Design System :",
+    "mosaicComponentsAria": "Composants utilisés sur",
+    "mosaicVideoDeskLabel": "Vidéo desktop : animation d’introduction et défilement au scroll — opération",
+    "mosaicVideoMobLabel": "Vidéo mobile (9:16) : adaptation responsive et animations GSAP — opération",
+    "variantInProd": "Déployé sur :",
+    "figmaChainAria": "Chaîne de production de Figma au code",
+    "proofColBrand": "Opération",
+    "proofColUrl": "URL",
+    "proofColNote": "Composants mobilisés",
+    "proofTableCaption": "Opérations de marque vérifiables en ligne"
+  },
+  "site": {
+    "role": "Design System Architect · Lead Front-End",
+    "title": "Gwennaël Larcher — Design System Architect · Lead Front-End",
+    "description": "Portfolio de Gwennaël Larcher, Design System Architect et Lead Front-End (Vue 3, Svelte 5, TypeScript, GSAP). Deux Case Studies : Veepee Ad Studio (+300 opérations sur 13 marchés européens) et une architecture Design System industrialisée.",
+    "ogLocale": "fr_FR"
+  },
+  "nav": {
+    "veepee": "Veepee Ad Studio",
+    "designSystem": "Design System",
+    "storybook": "Storybook",
+    "about": "À propos"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Case Study 01 · Veepee Ad Studio",
+      "titlePrefix": "Industrialiser l’e‑commerce événementiel avec un",
+      "titleEm": "Design System modulaire",
+      "lead": "Conception et pilotage d’une architecture de composants Vue 3, TypeScript et GSAP capable d’habiller chaque campagne sur mesure tout en industrialisant la livraison à l’échelle européenne.",
+      "desktopVideoLabelPrefix": "Aperçu vidéo desktop",
+      "mobileVideoLabelPrefix": "Aperçu vidéo mobile"
+    },
+    "operations": {
+      "eyebrow": "Réalisations en production",
+      "title": "Neuf univers de marque propulsés par le même socle technique",
+      "lead": "De l’automobile au prêt-à-porter premium : Samsung, Peugeot, M&M’s, Pink October, Picard, Coffee B, Pierre & Vacances, Claudie Pierlot et FDJ partagent exactement les mêmes composants, restitués ici en Desktop (16:10) et Mobile (9:16)."
+    },
+    "designSystem": {
+      "eyebrow": "Case Study 02",
+      "title": "Concevoir un Design System gouverné par des contrôles automatisés",
+      "cardEyebrow": "Architecture Front-End · Storybook",
+      "cardTitle": "Six couches unidirectionnelles, tokens en source unique et neuf garde-fous CI",
+      "cardText": "Le socle d’une plateforme média éditoriale — réutilisé tel quel pour bâtir ce portfolio — où chaque convention visuelle et architecturale est vérifiée avant chaque mise en production.",
+      "cardCta": "Lire le Case Study"
+    },
+    "skillsSection": {
+      "eyebrow": "Savoir-faire",
+      "title": "De la direction artistique à l’architecture front-end",
+      "lead": "17 ans d’expérience, des Beaux-Arts au rôle de Lead Front-End : je conçois les systèmes dans Figma et j’en développe l’architecture en production."
+    },
+    "contact": {
+      "title": "Échangeons sur vos enjeux Design System ou Front-End",
+      "text": "Disponible sur LinkedIn pour échanger autour d’un poste de Design System Architect, de Lead Front-End ou d’une mission de structuration front.",
+      "aboutLabel": "Mon parcours"
+    }
+  },
+  "notFound": {
+    "title": "Page introuvable — Gwennaël Larcher",
+    "eyebrow": "Erreur 404",
+    "heading": "Cette page n’existe pas.",
+    "lead": "L’adresse a peut-être changé. Vous pouvez revenir directement à l’accueil.",
+    "ctaLabel": "Retour à l’accueil"
+  },
+  "veepee": {
+    "meta": {
+      "title": "Veepee Ad Studio — Case Study · Gwennaël Larcher",
+      "description": "Case Study Veepee Ad Studio (/base-vue-3) : architecture d’un Design System modulaire en Vue 3, TypeScript, SASS et GSAP pour livrer plus de 300 opérations de marque sur 13 marchés européens."
+    },
+    "hero": {
+      "eyebrow": "Case Study 01 · Veepee Ad Studio (/base-vue-3)",
+      "titlePrefix": "Industrialiser l’e‑commerce événementiel avec un ",
+      "titleHighlight": "Design System modulaire",
+      "lead": "Retour sur la conception, l’architecture et le déploiement de /base-vue-3 : un catalogue de 32 composants Vue 3, TypeScript, SASS et GSAP créé pour absorber la cadence des campagnes événementielles de Veepee Ad Studio.",
+      "badges": [
+        "Lead Dev · System Designer · Product Designer",
+        "Vue 3 · TypeScript · SASS · GSAP",
+        "Migration Vue 2.7 → Vue 3"
+      ],
+      "roleIntroPrefix": "J’ai assuré trois responsabilités complémentaires sur ",
+      "roleIntroSuffix": " : la conception UX/UI des gabarits et mécaniques dans Figma, l’architecture du Design System (tokens SASS, variants, documentation) et le rôle de Lead Front‑End (moteur GSAP, typage strict, outillage CLI et accompagnement de l’équipe)."
+    },
+    "sections": {
+      "marques": {
+        "eyebrow": "Aperçu en production",
+        "title": "Un seul socle technique pour des directions artistiques radicalement différentes",
+        "lead": "Chaque carte présente la capture vidéo Desktop (16:10) et Mobile (9:16) de l’opération en ligne, l’enjeu créatif du brief et la réponse technique apportée par les composants de /base-vue-3."
+      },
+      "contexte": {
+        "eyebrow": "01 · Problématique",
+        "title": "Sortir du développement unitaire à chaque campagne",
+        "lead": "Chez Veepee Ad Studio, une opération de marque est une expérience événementielle sur mesure soumise à un calendrier très court et déclinée sur 13 marchés européens. Avant /base-vue-3, quatre points de friction freinaient la production."
+      },
+      "architecture": {
+        "eyebrow": "02 · Discovery",
+        "title": "Structurer un catalogue modulaire de 32 composants autonomes",
+        "lead": "Pour stopper la duplication, nous avons structuré le dépôt autour d’une règle simple : chaque composant vit dans son propre dossier avec son template, sa logique TypeScript, ses styles SASS, son contrat de types, sa documentation et ses sous-variantes."
+      },
+      "thematisation": {
+        "eyebrow": "03 · Architecture de tokens",
+        "title": "Habiller chaque marque par surcharge de variables SASS",
+        "lead": "Le code source d’un composant ne contient aucune valeur esthétique figée. Toute l’identité visuelle passe par deux niveaux de variables SASS et par des fonctions d’unités fluides (vw() sur mobile, du() sur desktop)."
+      },
+      "variants": {
+        "eyebrow": "04 · Système de variants",
+        "title": "Découper le composant d’ouverture HeaderCus en cinq mises en page isolées",
+        "lead": "L’écran d’ouverture concentre l’essentiel des demandes créatives. Plutôt que de multiplier les conditions dans un fichier unique, HeaderCus répartit ses cinq architectures (top, bottom, pop-in, block, center) dans des sous-dossiers indépendants."
+      },
+      "headerAnimation": {
+        "eyebrow": "05 · Ingénierie Motion",
+        "title": "Piloter les séquences d’introduction et de scroll via une API déclarative",
+        "lead": "Le sous-moteur HeaderCusAnimation transforme des chorégraphies GSAP complexes en simples propriétés de configuration (:animations=\"{ intro, scroll }\"), synchronisées avec le chargement de la page et la validation légale."
+      },
+      "catalogueGsap": {
+        "eyebrow": "06 · Catalogue métier",
+        "title": "Industrialiser les mécaniques événementielles et promotionnelles",
+        "lead": "Au-delà de l’ouverture, l’ensemble du parcours utilisateur s’appuie sur sept composants métiers combinant variants typés, déclencheurs ScrollTrigger au défilement et animations physiques GSAP."
+      },
+      "gouvernance": {
+        "eyebrow": "07 · Gouvernance Design-to-Code",
+        "title": "Maintenir l’alignement continu entre Figma, le code et la documentation",
+        "lead": "Cumuler la conception dans Figma et le développement dans Vue 3 m’a permis d’instaurer une correspondance stricte entre les composants design, les tokens SASS, les contrats TypeScript et la documentation embarquée."
+      },
+      "impact": {
+        "eyebrow": "08 · Impact mesuré",
+        "title": "Preuves en ligne et gains opérationnels à l’échelle européenne",
+        "lead": "Les liens ci-dessous permettent de consulter directement les opérations déployées sur les marchés européens ainsi que sur l’environnement de démonstration de Veepee Ad Studio."
+      },
+      "apprentissages": {
+        "eyebrow": "Bilan du projet",
+        "title": "Trois enseignements clés de ce Case Study"
+      }
+    },
+    "labels": {
+      "quoteCite": "Objectif directeur du Design System",
+      "treeLabel": "Arborescence · base-vue-3 (v2.3)",
+      "leversTitle": "Trois leviers d’industrialisation",
+      "newComponentLabel": "Génération CLI · scripts/new_component.sh",
+      "scssComponentLabel": "Tokens par composant (_variables.scss)",
+      "scssGlobalLabel": "Tokens globaux et unités fluides",
+      "vbrandLabel": "Directives v-brand et v-loader",
+      "vbrandNotePrefix": "L’opération déclare son identité et son écran de chargement une seule fois sur ",
+      "vbrandNoteSuffix": " ; l’ensemble des composants enfants en hérite automatiquement.",
+      "typesLabel": "Contrat TypeScript · HeaderCusTypes.ts",
+      "headerAnimApiLabel": "API déclarative · :animations=\"{ intro, scroll }\"",
+      "timelineManagerLabel": "Orchestration globale · timelineManager.ts",
+      "demoNotePrefix": "Captures vidéo extraites du fichier ",
+      "demoNoteMiddle": " co-localisé dans ",
+      "compProblemLabel": "Besoin métier",
+      "compResolutionLabel": "Architecture du composant",
+      "compVariantsLabel": "Variants disponibles",
+      "compGsapLabel": "Mécaniques GSAP",
+      "compUsedInLabel": "Déployé sur :",
+      "compContractSuffix": " · Contrat TypeScript",
+      "nextCaseCta": "Case Study 02 : Design System"
+    },
+    "kpis": [
+      { "label": "opérations de marque livrées" },
+      { "label": "marchés européens déployés" },
+      {
+        "label": "de gain sur le temps de production",
+        "note": "Mesuré sur l’assemblage d’une opération standard"
+      },
+      { "label": "collaborateurs Tech, Produit et Créa" }
+    ],
+    "rolePillars": [
+      {
+        "role": "Product Designer",
+        "text": "Conception UX/UI dans Figma des gabarits modulaires, des séquences d’ouverture et des mécaniques d’engagement (roue de la fortune, instant gagnant, cartes empilées au scroll) au service de l’image de marque et de la conversion."
+      },
+      {
+        "role": "System Designer",
+        "text": "Structuration des tokens SASS à deux niveaux (globaux et par composant), alignement entre les variants Figma et les sous-dossiers du code, et rédaction des guides Readme.md illustrés en vidéo."
+      },
+      {
+        "role": "Lead Front-End Dev",
+        "text": "Architecture Vue 3, TypeScript et GSAP (timelineManager, scrollManager, mixin Appear, 8 directives sur mesure), script CLI de génération (new_component.sh), migration de Vue 2.7 vers Vue 3 et revues de code."
+      }
+    ],
+    "brandCases": {
+      "samsung": {
+        "challenge": "Présenter plusieurs gammes high-tech (TV, électroménager, mobile) avec une ouverture vidéo plein écran tout en préservant le temps de chargement initial.",
+        "resolution": "Assemblage du variant HeaderCus (center) et du lecteur VideoCus en chargement différé, complétés par MultiOffer et la barre Sticky pour garder l’accès à l’offre tout au long du scroll."
+      },
+      "peugeot": {
+        "challenge": "Permettre à l’utilisateur de comparer plusieurs modèles automobiles et leurs finitions au sein d’une même page événementielle.",
+        "resolution": "Synchronisation bidirectionnelle via Vuex entre la barre de navigation NavBar et le carrousel Slider (5 variants), propulsée par le socle Vue 3 et TypeScript."
+      },
+      "mms": {
+        "challenge": "Restituer un univers pop très coloré et ludique tout en conservant la rigueur structurelle et l’accessibilité des blocs promotionnels.",
+        "resolution": "Habillage intégral par surcharge des tokens SASS (_variables.scss), séquence d’ouverture HeaderCusAnimation (imageAppear / textAppear) et apparitions cadencées via le mixin Appear."
+      },
+      "pink-october": {
+        "challenge": "Mobiliser la communauté autour d’une campagne caritative internationale traduite en plusieurs langues à travers une mécanique de jeu pédagogique.",
+        "resolution": "Développement d’un mini-jeu Memory Card adossé aux composants Modal, Collect et à l’architecture multilingue (13 marchés européens) de /base-vue-3."
+      },
+      "picard": {
+        "challenge": "Favoriser l’utilisation immédiate d’un code promotionnel tout en mettant en valeur un catalogue gourmand réparti en plusieurs rayons.",
+        "resolution": "Intégration du composant CopyCode (copie dans le presse-papiers et retour visuel GSAP) au sein du bloc Offer, associée à un carrousel Slider en mode editoCard."
+      },
+      "coffee-b": {
+        "challenge": "Faire comprendre une innovation produit (capsule de café sans aluminium) par une narration progressive au défilement avant de présenter l’offre d’achat.",
+        "resolution": "Mise en œuvre de MultiOffer en mode Stacking (épinglage ScrollTrigger et effet de profondeur 3D par réduction d’échelle et de luminosité) pour rythmer l’argumentaire."
+      },
+      "pierre-vacances": {
+        "challenge": "Plonger l’utilisateur dans l’univers des séjours dès l’ouverture de la page tout en rendant l’offre promotionnelle et les destinations immédiatement accessibles.",
+        "resolution": "Utilisation du variant HeaderCus pop-in (encart flottant à cheval sur le visuel) animé par HeaderCusAnimation, suivi d’un carrousel de destinations synchronisé."
+      },
+      "claudie-pierlot": {
+        "challenge": "Respecter la sobriété éditoriale du prêt-à-porter premium tout en intégrant des mécaniques promotionnelles visibles et efficaces.",
+        "resolution": "Association du variant épuré HeaderCus top, de la grille lookbook Gallery (décalage asymétrique et parallaxe au scroll) et du composant CopyCode adapté à la charte de la marque."
+      },
+      "fdj": {
+        "challenge": "Déclencher une séquence d’introduction interactive (sélection d’étoile animée en GSAP) uniquement après validation de la fenêtre légale réservée aux majeurs.",
+        "resolution": "Coordination par timelineManager : la modale Consent met en pause la timeline principale jusqu’à l’acceptation de l’utilisateur, puis libère l’introduction interactive et le défilement."
+      }
+    },
+    "problems": [
+      {
+        "label": "01 · Développements repartant d’une copie",
+        "text": "Chaque campagne débutait par la duplication du dossier d’une opération précédente, générant des divergences de code coûteuses à relire et à maintenir."
+      },
+      {
+        "label": "02 · Logiques métiers réécrites",
+        "text": "Les modales de consentement, carrousels, codes promotionnels, lecteurs vidéo et événements de tracking Mixpanel étaient réimplémentés d’un projet à l’autre."
+      },
+      {
+        "label": "03 · Désynchronisation des animations",
+        "text": "Les animations d’ouverture se déclenchaient parfois derrière l’écran de chargement ou la modale légale, et les calculs ScrollTrigger se décalaient sur mobile."
+      },
+      {
+        "label": "04 · Hétérogénéité sur 13 marchés",
+        "text": "Faute de contrats TypeScript et de documentation intégrée au dépôt, la qualité finale dépendait fortement du développeur assigné et de la pression du planning."
+      }
+    ],
+    "quoteText": "Notre enjeu : réduire drastiquement le temps d’assemblage d’une campagne tout en laissant chaque marque exprimer sa direction artistique et ses propres animations.",
+    "sectionInsights": {
+      "architecture": {
+        "role": "System Designer · Lead Front-End Dev",
+        "problem": "Avec plus de 50 intervenants (développeurs, designers, chefs de projet) et des dizaines de campagnes en parallèle, la duplication de dossiers alourdissait la maintenance et freinait l’intégration des nouveaux arrivants.",
+        "decision": "Séparer les 19 composants atomiques et transverses (src/components/) des 13 blocs métiers configurables (_modulus/), imposer la co-localisation complète (.vue, .ts, .scss, Types.ts, Readme.md) et automatiser la création via scripts/new_component.sh.",
+        "resolution": "Un socle partagé (/base-vue-3) pérennisé sur deux générations techniques (Vue 2.7 puis Vue 3), réduisant de 30 à 50 % le temps de production d’une opération."
+      },
+      "thematisation": {
+        "role": "Product Designer · System Designer",
+        "problem": "Servir des chartes graphiques aussi éloignées que Claudie Pierlot, M&M’s ou Samsung avec les mêmes composants Vue imposait de séparer strictement la structure DOM de l’habillage visuel.",
+        "decision": "Externaliser toutes les propriétés visuelles dans un fichier _variables.scss propre à chaque composant, convertir les mesures en unités fluides (vw() sur mobile, du() sur desktop) et créer la directive v-brand.",
+        "resolution": "L’adaptation à une nouvelle marque s’effectue intégralement par surcharge de variables SASS et fichier de configuration, sans toucher à la logique des composants."
+      },
+      "variants": {
+        "role": "Product Designer · System Designer · Lead Dev",
+        "problem": "L’en-tête de campagne (HeaderCus) concentre la majorité des déclinaisons créatives : accumuler des conditions v-if dans un seul fichier le rendait fragile au moindre ajustement responsive.",
+        "decision": "Définir cinq gabarits de référence dans Figma (top, bottom, pop-in, block, center) et isoler chaque variante dans son propre sous-dossier variants/<Nom>/ avec ses fichiers .vue, .ts et .scss dédiés.",
+        "resolution": "Le passage d’une mise en page à une autre s’effectue par une simple propriété typée (variant=\"pop-in\"), garantissant l’étanchéité entre variantes et la correspondance exacte avec Figma."
+      },
+      "headerAnimation": {
+        "role": "Product Designer · Lead Front-End Dev",
+        "problem": "Les séquences d’introduction GSAP partaient parfois avant la fermeture du Loader ou de la modale légale Consent, et un défilement prématuré faussait les repères de ScrollTrigger.",
+        "decision": "Isoler un moteur dédié (HeaderCusAnimation) piloté par une propriété déclarative (:animations=\"{ intro, scroll }\"), verrouiller le défilement pendant l’introduction et séquencer l’ensemble dans timelineManager.ts.",
+        "resolution": "Un enchaînement déterministe (Loader → Consent → Header → HeaderAnimation → Sticky → Slider) donnant accès à 7 découpes clip-path, 5 zooms, l’épinglage et le flou progressif sans écrire de code GSAP impératif."
+      },
+      "catalogueGsap": {
+        "role": "Product Designer · System Designer · Lead Dev",
+        "problem": "Les briefs exigeaient régulièrement des mécaniques interactives avancées (roue de la fortune, cartes empilées en 3D, lookbook à parallaxe, carrousels synchronisés) dans des délais incompatibles avec du développement spécifique.",
+        "decision": "Concevoir sept blocs métiers polymorphes embarquant nativement leurs timelines GSAP, leurs déclencheurs ScrollTrigger au défilement et le mixin transversal Appear.",
+        "resolution": "Des mécaniques autrefois réservées aux opérations à gros budget deviennent des briques prêtes à l’emploi, fiabilisées, accessibles et activables par simple configuration."
+      },
+      "gouvernance": {
+        "role": "Product Designer · System Designer · Lead Dev",
+        "problem": "Une documentation hébergée hors du dépôt (Notion ou Confluence) cesse rapidement d’être maintenue lors des pics de production, créant des écarts entre les maquettes Figma et le code livré.",
+        "decision": "Calquer le nommage des tokens SASS et des dossiers variants/ sur celui de Figma, typer strictement chaque propriété dans *Types.ts et exiger un guide Readme.md illustré de captures vidéo dans chaque dossier de composant.",
+        "resolution": "28 guides Readme.md versionnés avec le code source, des revues de code plus rapides et une prise en main autonome pour chaque développeur rejoignant l’équipe."
+      }
+    },
+    "componentTreeNotes": {
+      "atomic": "19 composants atomiques et transverses",
+      "modulus": "13 blocs métiers configurables",
+      "headerCusBadge": "5 variants + moteur GSAP",
+      "headerCusTypes": "contrat TypeScript strict",
+      "headerCusReadme": "guide et vidéos embarqués",
+      "headerAnimBadge": "intro + scroll",
+      "modulusRow1": "blocs multi-variants animés en GSAP"
+    },
+    "archKpiLabels": [
+      "composants (atomiques et métiers)",
+      "documentations Readme.md embarquées",
+      "directives Vue sur mesure",
+      "locales i18n configurées"
+    ],
+    "levers": [
+      {
+        "title": "Une API de composants stable sur deux générations",
+        "text": "Les contrats de propriétés ont traversé la migration de Vue 2.7 vers Vue 3 (Vite et TypeScript) sans modifier les habitudes d’intégration de l’équipe."
+      },
+      {
+        "title": "Une thématisation SASS par simple surcharge",
+        "text": "Chaque composant expose ses variables dans _variables.scss et s’adapte à la charte d’une marque sans duplication de feuille de style."
+      },
+      {
+        "title": "Un générateur CLI pour standardiser la création",
+        "text": "Le script scripts/new_component.sh génère en une commande l’arborescence complète (.vue, .ts, .scss, Types.ts, Readme.md) et enregistre les variables SASS."
+      }
+    ],
+    "variantDescs": [
+      "Logo, titre principal et sous-titre placés en tête au-dessus du visuel panoramique 16:9.",
+      "Visuel plein cadre en partie haute, bloc éditorial et bouton d’action ancrés en bas.",
+      "Carte flottante à cheval sur le média avec ombre portée et rayon d’arrondi personnalisables.",
+      "Mise en page structurée en deux colonnes séparant le média de l’offre promotionnelle.",
+      "Composition centrée plein écran sur fond vidéo ou diaporama animé en clip-path."
+    ],
+    "headerAnimationKpiLabels": [
+      "découpes directionnelles en clip-path",
+      "effets de zoom GSAP",
+      "modes de défilement ScrollTrigger",
+      "timelines maîtresses synchronisées"
+    ],
+    "headerAnimationPillars": [
+      {
+        "label": "01 · Séquence d’ouverture",
+        "title": "imageAppear + textAppear",
+        "text": "Verrouille le défilement ($scroll.disableScroll()) pendant la chorégraphie d’entrée, cadence l’apparition du titre, du sous-titre, de l’offre et du CTA via des décalages GSAP relatifs (\"-=0.4\", \">\"), puis rend la main à l’utilisateur."
+      },
+      {
+        "label": "02 · Transitions visuelles",
+        "title": "7 découpes clip-path × 5 zooms",
+        "text": "Anime les changements de visuels desktop et mobile par masques polygonaux GSAP (left, right, up, down, sandwichX, sandwichY, random) combinés aux courbes d’échelle (zoom-in, zoom-out, zoom-pulse, zoom-rotate)."
+      },
+      {
+        "label": "03 · Défilement continu",
+        "title": "pin, pinToElement, scaled, filtered",
+        "text": "Épingle le média d’ouverture au scroll jusqu’au sélecteur cible (.app__container, .multi-offer, .footer-cus) tout en pilotant progressivement son échelle (scaled: 1.15) ou ses filtres CSS (blur(8px), grayscale)."
+      },
+      {
+        "label": "04 · Synchronisation globale",
+        "title": "Coordination avec Loader et Consent",
+        "text": "Garantit qu’aucune animation d’ouverture ne se joue en arrière-plan : readyTimeline attend la fermeture du Loader et de la modale Consent avant de lancer la séquence header → headerAnimation> → sticky> → slider."
+      }
+    ],
+    "demoVideos": [
+      {
+        "label": "Démo HeaderCusAnimation : transition en clip-path et effet de zoom",
+        "caption": "Découpe directionnelle clip-path (left, right, sandwichX/Y) combinée à zoomEffect"
+      },
+      {
+        "label": "Démo HeaderCusAnimation : apparition séquencée du visuel et des textes",
+        "caption": "intro : enchaînement imageAppear et textAppear avec verrouillage temporaire du scroll"
+      },
+      {
+        "label": "Démo HeaderCusAnimation : flou et zoom progressifs au défilement",
+        "caption": "scroll : interpolation continue de scaled (1.15) et filtered (blur) via ScrollTrigger"
+      },
+      {
+        "label": "Démo HeaderCusAnimation : maintien du fond jusqu’à une section cible",
+        "caption": "scroll : épinglage pin et pinToElement jusqu’au bloc désigné dans la page"
+      }
+    ],
+    "gsapComponents": [
+      {
+        "name": "Cards",
+        "badge": "5 variants · Mixin Appear",
+        "gsapFeatures": [
+          "Apparition au scroll via ScrollTrigger (autoAlpha + yPercent)",
+          "Pastilles dynamiques (texte ou icône Icomoon)",
+          "Prise en charge native de ImgCus, VideoCus et de l’ouverture en modale"
+        ],
+        "problem": "Chaque marque présentait ses produits, ses catégories ou ses arguments de réassurance avec des structures de cartes légèrement différentes, multipliant les composants redondants.",
+        "resolution": "Regroupement en un composant unique à 5 variants typés, gérant nativement l’affichage en 2 colonnes sur mobile (row), les badges (stickersRounded), la notation par étoiles (Rating), la vidéo et l’apparition échelonnée au défilement.",
+        "usedIn": "Samsung, Peugeot, Claudie Pierlot, M&M’s, Picard, Pink October"
+      },
+      {
+        "name": "Slider",
+        "badge": "5 variants · Synchronisation NavBar",
+        "gsapFeatures": [
+          "Animation d’entrée GSAP slideUp / slideDown calée sur le label slider",
+          "Liaison bidirectionnelle entre Swiper 11 et le composant NavBar",
+          "Mode focus avec mise à l’échelle de la diapositive active"
+        ],
+        "problem": "Sur les opérations à fort catalogue (automobile, séjours, gastronomie), l’utilisateur perdait facilement le lien entre la barre de navigation par univers et le carrousel de contenus.",
+        "resolution": "Synchronisation bidirectionnelle via le store Vuex entre Swiper 11 et NavBar (le balayage met à jour l’onglet actif ; un clic sur un onglet déclenche slideToLoop), complétée par une entrée GSAP coordonnée.",
+        "usedIn": "Peugeot, Pierre & Vacances, Picard"
+      },
+      {
+        "name": "MultiOffer (mode Stacking)",
+        "badge": "2 variants · Épinglage 3D au scroll",
+        "gsapFeatures": [
+          "ScrollTrigger pin: true, scrub: 1, end: \"+=200%\"",
+          "Recouvrement vertical progressif des cartes d’offres",
+          "Effet de profondeur 3D par réduction conjointe de scale et brightness()"
+        ],
+        "problem": "Aligner verticalement trois ou quatre offres commerciales allongeait excessivement la page sur mobile et faisait chuter l’attention avant la dernière offre.",
+        "resolution": "Développement du moteur Stacking.ts : la section s’épingle au défilement pendant que chaque nouvelle offre glisse par-dessus la précédente, qui recule en perspective et s’assombrit progressivement.",
+        "usedIn": "Coffee B, Samsung"
+      },
+      {
+        "name": "Collect (mode SpinningWheel)",
+        "badge": "3 variants · Physique temps réel",
+        "gsapFeatures": [
+          "Rotation GSAP Power4.easeOut (5 tours complets + angle cible safeZone)",
+          "Détection angulaire des encoches en temps réel dans onUpdate()",
+          "Animation physique du clapet (indicatorTl) et recalcul ScrollTrigger.refresh()"
+        ],
+        "problem": "Sur les campagnes de collecte de leads, les formulaires classiques convertissaient peu, mais développer une roue de la fortune fluide et déterministe pour chaque opération était trop long.",
+        "resolution": "Intégration de SpinningWheel au composant Collect : calcul de l’angle d’arrêt (safeZone), rotation sur 5 tours en Power4.easeOut et rebond réaliste du clapet déclenché dans onUpdate à chaque passage de picot.",
+        "usedIn": "Pink October et campagnes événementielles gamifiées"
+      },
+      {
+        "name": "Gallery",
+        "badge": "3 moteurs ScrollTrigger combinables",
+        "gsapFeatures": [
+          "shifted : décalage vertical asymétrique des colonnes au défilement",
+          "parallax : translation interne de l’image dans son cadre",
+          "Compensation automatique de la hauteur lorsque la barre .sticky est active"
+        ],
+        "problem": "Les marques de mode et de prêt-à-porter souhaitaient une mise en scène éditoriale proche d’un lookbook magazine plutôt qu’une grille de produits figée.",
+        "resolution": "Création du composant Gallery réunissant trois effets ScrollTrigger (shifted, parallax, animate) combinables en 8 configurations, avec ajustement automatique des repères si une barre Sticky est présente.",
+        "usedIn": "Claudie Pierlot"
+      },
+      {
+        "name": "Sticky",
+        "badge": "3 variants · Double déclencheur",
+        "gsapFeatures": [
+          "Double ScrollTrigger : point d’apparition à l’entrée et point d’arrêt en bas de page",
+          "Désactivation automatique avant le FooterCus ou un sélecteur cible",
+          "Apparition calée sur le jalon sticky> de timelineManager"
+        ],
+        "problem": "Un bouton d’action flottant en bas d’écran améliore la conversion, mais gêne la lecture du Header au chargement et masque les mentions légales en fin de page.",
+        "resolution": "Pilotage par double ScrollTrigger : la barre n’apparaît qu’une fois l’introduction terminée (jalon sticky>) et se replie automatiquement dès que le pied de page entre dans la fenêtre.",
+        "usedIn": "Samsung, FDJ EuroMillions"
+      },
+      {
+        "name": "Offer (avec mixin Appear)",
+        "badge": "2 variants · Compte à rebours et code promo",
+        "gsapFeatures": [
+          "Composant Timer doté d’un mode de réduction au défilement (timerShrink)",
+          "Composant CopyCode avec confirmation visuelle GSAP au clic",
+          "Mixin transversal appear (boolean | object | array) et appearChildren"
+        ],
+        "problem": "Les leviers promotionnels (compte à rebours, code à copier, bon d’achat, offre duo) étaient régulièrement recodés avec des comportements et des animations disparates.",
+        "resolution": "Centralisation de ces mécaniques au sein du bloc Offer et création du mixin Appear, qui permet d’animer l’entrée de n’importe quel composant ou de ses éléments enfants via une simple propriété.",
+        "usedIn": "Pierre & Vacances, Claudie Pierlot, Picard, M&M’s, FDJ"
+      }
+    ],
+    "figmaChain": [
+      {
+        "label": "01 · Conception Figma",
+        "items": [
+          "Variables visuelles : couleurs, typographies fluides et espacements",
+          "Composants et variants nommés à l’identique des dossiers du dépôt",
+          "Prototypage des séquences d’ouverture et des mécaniques interactives"
+        ]
+      },
+      {
+        "label": "02 · Tokens SASS",
+        "items": [
+          "Vocabulaire partagé entre les maquettes et les fichiers _variables.scss",
+          "Variables $c-vp, $headerCus-* et fonctions fluides vw() / du()",
+          "Surcharge par campagne sans modifier le code interne des composants"
+        ]
+      },
+      {
+        "label": "03 · Composants Vue 3",
+        "items": [
+          "Un variant Figma correspond exactement à un sous-dossier dans variants/",
+          "Propriétés typées dans *Types.ts et validées à l’exécution",
+          "Animations déclarées et coordonnées dans timelineManager"
+        ]
+      },
+      {
+        "label": "04 · Documentation embarquée",
+        "items": [
+          "Chaque dossier de composant inclut son guide Readme.md et ses vidéos MP4",
+          "Tableaux de propriétés, exemples prêts à copier et consignes d’accessibilité",
+          "Prise en main immédiate pour les développeurs rejoignant l’équipe"
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "label": "Règle 01 · Documentation co-localisée",
+        "text": "Chaque composant embarque obligatoirement son guide Readme.md avec le détail des propriétés, des exemples de code et des captures vidéo des états animés."
+      },
+      {
+        "label": "Règle 02 · Cloisonnement des variants",
+        "text": "Chaque variante de mise en page dispose de son propre sous-dossier variants/ réunissant ses fichiers .vue, .ts et .scss afin d’éviter tout fichier monolithique."
+      },
+      {
+        "label": "Règle 03 · Contrats TypeScript et timeline",
+        "text": "Toutes les propriétés exposées sont typées par des unions littérales (*Types.ts) et chaque séquence animée s’enregistre dans timelineManager.ts."
+      }
+    ],
+    "proofNotes": {
+      "pierre-vacances": "HeaderCus pop-in · Slider destinations · Offer",
+      "claudie-pierlot": "HeaderCus top · CopyCode · Gallery · Cards",
+      "fdj": "Intro interactive GSAP (choix d’étoile) · Environnement démo",
+      "peugeot": "Génération Vue 3 · Slider + NavBar synchronisés",
+      "samsung": "Intro vidéo · MultiOffer · Cards · Sticky",
+      "pink-october": "Campagne internationale · Jeu Memory Card",
+      "mms": "Thématisation pop · HeaderCusAnimation · Cards",
+      "picard": "CopyCode · Slider · Offer",
+      "coffee-b": "MultiOffer Stacking · VideoCus",
+      "sephora": "Environnement interne"
+    },
+    "impact": [
+      {
+        "label": "Gain de vélocité (30 à 50 %)",
+        "text": "Une opération standard s’assemble par composition et surcharge de variables SASS ; l’équipe consacre son temps à la direction artistique et aux animations spécifiques."
+      },
+      {
+        "label": "Fiabilité du mouvement et du socle",
+        "text": "La gestion du consentement, le loader, l’orchestration GSAP (timelineManager), les unités fluides (vw/du) et le marquage Mixpanel sont hérités nativement."
+      },
+      {
+        "label": "Déploiement sur 13 marchés européens",
+        "text": "L’ouverture d’une campagne à un nouveau pays ou à une nouvelle marque repose uniquement sur des fichiers i18n et des tokens SASS."
+      }
+    ],
+    "learnings": [
+      "Assurer simultanément la conception dans Figma, l’architecture du Design System et le développement Vue/GSAP supprime les pertes d’information entre le design et la mise en production.",
+      "Versionner la documentation et les vidéos de démonstration directement dans le dossier de chaque composant est le moyen le plus sûr de les garder à jour.",
+      "Dissocier la structure de mise en page (HeaderCus) du moteur déclaratif d’animation (HeaderCusAnimation et timelineManager) permet de livrer des campagnes très créatives sur une base industrielle stable."
+    ]
+  },
+  "designSystem": {
+    "meta": {
+      "title": "Design System — Case Study · Gwennaël Larcher",
+      "description": "Case Study Design System : architecture en 6 couches unidirectionnelles, tokens en source unique, moteur GSAP orchestré, 9 contrôles automatisés et Storybook interactif."
+    },
+    "hero": {
+      "eyebrow": "Case Study 02 · Architecture Front-End · Gouvernance CI",
+      "titlePrefix": "Un Design System conçu de zéro, ",
+      "titleHighlight": "gouverné par des contrôles automatisés",
+      "leadPrefix": "Dans le prolongement des enseignements tirés de ",
+      "leadSuffix": " chez Veepee, j’ai conçu cette architecture pour la refonte d’une plateforme média éditoriale — puis je l’ai réutilisée telle quelle pour bâtir ce portfolio. L’objectif : traduire chaque convention de design et d’architecture en script de vérification bloquant.",
+      "badges": [
+        "Lead Dev · System Designer · Product Designer",
+        "Conception et réalisation intégrales"
+      ],
+      "prevCaseCta": "Case Study 01 : Veepee Ad Studio"
+    },
+    "sections": {
+      "contexte": {
+        "eyebrow": "01 · Problématique",
+        "title": "Construire une plateforme éditoriale rapide sans laisser l’architecture dériver",
+        "lead": "La refonte de la plateforme média devait concilier trois exigences techniques fortes dès le premier sprint : une navigation perçue comme instantanée, un assemblage de pages piloté par un CMS headless et une base de code capable de grandir sans perdre sa cohérence."
+      },
+      "architecture": {
+        "eyebrow": "02 · Discovery",
+        "title": "Six couches à dépendance strictement unidirectionnelle",
+        "lead": "L’arborescence distingue quatre piliers de composants (core, ui, blocks, domains) et deux couches d’assemblage et de routage (layouts, pages). Le sens des imports est contrôlé automatiquement à chaque commit."
+      },
+      "principes": {
+        "eyebrow": "03 · Règles du système",
+        "title": "Six conventions d’ingénierie vérifiées mécaniquement"
+      },
+      "motion": {
+        "eyebrow": "04 · Ingénierie Motion",
+        "title": "Orchestrer cinq moteurs GSAP sans flash de contenu ni conflit de rendu",
+        "lead": "Toutes les animations de la plateforme et de ce portfolio sont centralisées dans src/core/motion/ : préparation avant le premier affichage, épinglage de sections, découpe typographique accessible et apparition des grilles rangée par rangée."
+      },
+      "gardefous": {
+        "eyebrow": "05 · Gouvernance automatisée",
+        "title": "Neuf vérifications bloquantes réunies sous une seule commande",
+        "lead": "Pour éviter que la qualité ne repose uniquement sur la vigilance en revue de code, chaque modification est validée par une chaîne complète d’analyse statique, de typage et de règles architecturales."
+      },
+      "workflow": {
+        "eyebrow": "06 · Industrialisation CI/CD",
+        "title": "Organiser le flux de livraison, la documentation technique et la sécurité"
+      },
+      "storybook": {
+        "eyebrow": "07 · Documentation vivante",
+        "title": "Faire du Storybook le référentiel visuel et accessible du projet",
+        "lead": "Chaque primitive et chaque bloc est développé en isolation, documenté et audité selon les critères WCAG 2.1 AA. Le Storybook compilé avec ce portfolio expose en ligne l’ensemble de ces composants."
+      }
+    },
+    "labels": {
+      "treeLabel": "Arborescence src/",
+      "tokensExcerptLabel": "tokens.css — extrait de la source unique de vérité",
+      "orchestratorLabel": "src/core/motion/AnimationOrchestrator.ts — Cycle de vie et 5 moteurs GSAP",
+      "checksTableAria": "Chaîne des 9 contrôles automatisés",
+      "checkCommandLabel": "Commande unique de validation",
+      "stepImportedByPrefix": "Peut être importé par",
+      "stepLastLayer": "Couche terminale : routage HTTP uniquement."
+    },
+    "kpis": [
+      {
+        "label": "piliers de composants",
+        "note": "core · ui · blocks · domains (+ layouts, pages)"
+      },
+      { "label": "primitives UI atomiques" },
+      { "label": "blocs de composition" },
+      { "label": "stories Storybook interactives" },
+      { "label": "contrôles qualité bloquants", "note": "npm run check" }
+    ],
+    "stack": [
+      "Astro (SSR et îlots)",
+      "Svelte 5",
+      "Tailwind CSS 4",
+      "CMS headless + TypeGen",
+      "GSAP",
+      "Storybook 10",
+      "Vercel"
+    ],
+    "insights": {
+      "contexte": {
+        "role": "Du retour d’expérience Veepee (/base-vue-3) à l’automatisation CI",
+        "problem": "Sur /base-vue-3 chez Veepee, le respect des conventions reposait en partie sur notre vigilance lors des revues de code. Lorsque le rythme de livraison s’accélère, toute règle qui n’est pas vérifiée par un outil finit par être contournée.",
+        "decision": "Formaliser chaque règle d’architecture, de design token, de thème et de co-localisation à la racine du dépôt et lui associer un script de contrôle bloquant.",
+        "resolution": "Les écarts d’architecture ou de style sont interceptés dès le poste de développement par npm run check avant toute ouverture de Pull Request."
+      },
+      "architecture": {
+        "role": "System Designer · Lead Architect",
+        "problem": "Dans de nombreux projets front-end, le dossier src/components/ finit par mêler primitives graphiques, schémas CMS et logique métier, ce qui empêche toute réutilisation propre.",
+        "decision": "Structurer src/ en 6 couches à flux unidirectionnel strict (core → ui → blocks → domains → layouts → pages) et interdire toute dépendance croisée entre les domaines métiers.",
+        "resolution": "Ce portfolio illustre directement cette portabilité : il reprend à l’identique les couches core, ui, blocks et layouts de la plateforme média en remplaçant uniquement les domaines métiers (work, about, navigation)."
+      },
+      "principes": {
+        "role": "Product Designer · System Designer",
+        "problem": "L’introduction progressive de valeurs en dur (couleurs hexadécimales, tailles en pixels, ombres ponctuelles) dégrade rapidement la cohérence typographique et thématique d’une interface.",
+        "decision": "Centraliser l’intégralité des décisions visuelles dans src/core/styles/tokens.css (couleurs, échelle fluide en clamp(), courbes d’animation, texture grain) et contrôler l’absence de valeurs en dur via lint:tokens.",
+        "resolution": "Un changement de direction artistique s’opère dans un seul fichier (tokens.css) et chaque section à fond thématique garantit sa parité de contraste via l’attribut data-theme."
+      },
+      "motion": {
+        "role": "Lead Front-End Dev · Creative Technologist",
+        "problem": "Sur une architecture multi-pages à îlots hydratés (Astro et Svelte 5), déclencher séparément des animations d’entrée et des animations au scroll sur un même élément provoque des sauts visuels et des conflits de transformation.",
+        "decision": "Réunir tout le cycle de vie dans AnimationOrchestrator (préparation avant affichage sous data-anim-pending, règle « un élément = un seul événement d’animation ») et calculer les grilles sur leur géométrie statique.",
+        "resolution": "Cinq moteurs GSAP coordonnés à 60 fps (SectionTimelines, TextSplitter accessible, StaggeredGrids par rangée, épinglage data-stack et bordures vectorielles) respectant nativement prefers-reduced-motion."
+      },
+      "gardefous": {
+        "role": "Lead Front-End Dev · Developer Experience",
+        "problem": "Un document de bonnes pratiques externe ne suffit pas à empêcher l’introduction d’un import circulaire, d’un type any, d’une couleur en dur ou d’un export inutilisé sous la pression d’une mise en production.",
+        "decision": "Assembler neuf outils complémentaires (astro check, svelte-check, ESLint, Stylelint, lint:tokens, lint:themes, lint:arch, Knip et Prettier) au sein de la commande unique npm run check.",
+        "resolution": "La validation complète s’exécute en quelques secondes : les revues de code se concentrent désormais sur la pertinence fonctionnelle et l’expérience utilisateur."
+      },
+      "workflow": {
+        "role": "Lead Front-End · Ingénierie logicielle",
+        "problem": "Faire collaborer plusieurs développeurs sur un même dépôt front-end expose rapidement aux conflits de fusion, aux régressions furtives et à un historique Git difficile à auditer.",
+        "decision": "Inscrire les règles normatives dans AGENTS.md à la racine du dépôt et instaurer un cycle de branches cadencé (feat/* → alpha → main) systématiquement validé par npm run check et npm run build.",
+        "resolution": "Chaque mise en production est isolée, associée à un tag sémantique et vérifiée sur les volets accessibilité, performance et sécurité."
+      },
+      "storybook": {
+        "role": "Product Designer · System Designer",
+        "problem": "Tester un composant uniquement au sein d’une page complète laisse passer des cas limites de contenu, des erreurs de contraste ou des défauts de navigation au clavier.",
+        "decision": "Imposer la présence d’un fichier <Nom>.stories.ts dans chaque dossier de composant UI et Block (exigence vérifiée par lint:arch) et activer l’audit automatique WCAG 2.1 AA (addon-a11y).",
+        "resolution": "67 stories interactives sont compilées et déployées avec le site (/storybook/index.html), permettant de tester chaque composant sur 4 largeurs d’écran et sur chaque thème."
+      }
+    },
+    "constraints": [
+      {
+        "label": "Exigence 01 · Performance",
+        "title": "Affichage immédiat et transitions fluides",
+        "text": "Rendu serveur (SSR), hydratation sélective des îlots Svelte 5, préchargement des liens au survol et orchestration du mouvement avant le premier rendu."
+      },
+      {
+        "label": "Exigence 02 · Scalabilité éditoriale",
+        "title": "Assemblage piloté par le schéma CMS",
+        "text": "Génération automatique des types TypeScript depuis le CMS, internationalisation stricte par dictionnaires JSON et composition des pages à partir de blocs génériques."
+      },
+      {
+        "label": "Exigence 03 · Maintenabilité",
+        "title": "Protection contre l’érosion architecturale",
+        "text": "Cloisonnement strict entre les couches techniques, interdiction des valeurs magiques et vérification mécanique des contrats de composants à chaque commit."
+      }
+    ],
+    "pillars": [
+      {
+        "title": "Socle transversal",
+        "text": "Design tokens (tokens.css), styles globaux, orchestrateur GSAP, texture grain papier procédurale (Domain-Warped fBm 2D injectée via adoptedStyleSheets sans coût au scroll), i18n et utilitaires."
+      },
+      {
+        "title": "Primitives atomiques",
+        "text": "25 composants d’interface élémentaires : bouton, badge, titre, média, modale, champs de formulaire, accordéon, compteur… Chaque dossier regroupe son composant Svelte, son CSS, ses stories et ses types."
+      },
+      {
+        "title": "Blocs de composition",
+        "text": "12 blocs éditoriaux réutilisables : en-tête de section, grille bento, galerie, citation, indicateurs clés, arborescence, synthèse de Case Study et chronologie."
+      },
+      {
+        "title": "Tranches verticales métier",
+        "text": "Chaque domaine regroupe ses composants et ses adaptateurs de données sans jamais importer un domaine voisin : articles, agenda et hubs sur la plateforme média ; work, about et navigation sur ce portfolio."
+      }
+    ],
+    "srcTreeNotes": [
+      "socle : styles (tokens.css), motion GSAP, i18n, contenu et utilitaires",
+      "25 primitives atomiques (1 dossier = .svelte + .css + .stories.ts)",
+      "12 blocs génériques de composition",
+      "tranches métier isolées (média : articles, agenda… → ici : work, about, navigation)",
+      "coquilles Astro (Layout, Section, Container) et templates de page",
+      "routage HTTP uniquement (60 lignes maximum, aucun balisage UI)"
+    ],
+    "guardrailScopes": [
+      "Vérification stricte du typage des fichiers .astro, .svelte et .ts.",
+      "Analyse svelte-check configurée pour échouer au moindre avertissement.",
+      "ESLint : interdiction du type any et des variables inutilisées sur Astro, Svelte et TypeScript.",
+      "Stylelint appliqué à l’ensemble des feuilles CSS et des blocs de style.",
+      "Détection des tailles, couleurs ou ombres en dur et des règles CSS proscrites.",
+      "Contrôle de parité entre les classes de fond thématique et l’attribut data-theme.",
+      "Validation du sens des imports entre les 6 couches, de l’isolation des domaines et de la minceur des routes.",
+      "Knip : détection des fichiers, exports et dépendances non référencés.",
+      "Vérification du formatage Prettier sur Astro, Svelte, TypeScript et CSS."
+    ],
+    "principles": [
+      {
+        "label": "Flux de dépendance unidirectionnel",
+        "text": "core → ui → blocks → domains → layouts → pages. Une couche inférieure n’importe jamais une brique issue d’une couche supérieure."
+      },
+      {
+        "label": "Tokens comme unique source de vérité",
+        "text": "Toutes les couleurs, ombres, courbes d’animation et tailles typographiques fluides en clamp() proviennent exclusivement de tokens.css."
+      },
+      {
+        "label": "Co-localisation complète par dossier",
+        "text": "Chaque composant regroupe son balisage, sa feuille de style, ses stories Storybook et ses types dans un même répertoire, sans fichier barrel index.ts."
+      },
+      {
+        "label": "Routes dédiées au seul routage HTTP",
+        "text": "Les fichiers de src/pages/ se limitent à résoudre la locale et à appeler le template correspondant en moins de 60 lignes."
+      },
+      {
+        "label": "Parité automatique des thèmes de section",
+        "text": "Toute section dotée d’un fond coloré reçoit l’attribut data-theme correspondant, contrôlé par le script lint:themes."
+      },
+      {
+        "label": "Conception Mobile-First",
+        "text": "Les styles de base ciblent les écrans mobiles avec des enrichissements progressifs à partir de 768 px et une gestion centralisée de la hauteur d’en-tête."
+      }
+    ],
+    "workflow": [
+      {
+        "title": "Promotion par branches",
+        "text": "La branche main (production) est alimentée depuis alpha par fusion fast-forward et tag sémantique, après validation sur pre-alpha."
+      },
+      {
+        "title": "Branches fonctionnelles isolées",
+        "text": "Chaque évolution (feat/* ou fix/*) part d’alpha, passe les contrôles npm run check et npm run build, puis est fusionnée en --no-ff."
+      },
+      {
+        "title": "Règles normatives versionnées",
+        "text": "L’architecture et les contrats de composants sont décrits dans AGENTS.md à la racine du dépôt et vérifiés à l’identique en local comme en CI."
+      },
+      {
+        "title": "Cadrage technique complet",
+        "text": "Le système couvre conjointement l’orchestration GSAP, le typage des données et le durcissement sécurité (protection XSS/SSRF, en-têtes CSP et HSTS)."
+      }
+    ],
+    "storybookFacts": [
+      {
+        "title": "Organisation calquée sur le code",
+        "text": "La navigation Foundations, UI, Blocks et Domains reflète exactement le découpage de src/."
+      },
+      {
+        "title": "Audit d’accessibilité intégré",
+        "text": "L’extension a11y évalue chaque composant selon les critères WCAG 2.1 AA directement dans l’interface."
+      },
+      {
+        "title": "Quatre largeurs d’écran calibrées",
+        "text": "Mobile (375 px), tablette (768 px), portable (1280 px) et grand écran (1440 px) reproduisent les points de rupture du système."
+      },
+      {
+        "title": "Prévisualisation multi-thèmes",
+        "text": "Chaque story peut être inspectée sur les différentes surfaces thématiques (dark, raised, light) pour valider les contrastes."
+      }
+    ],
+    "motionEngines": [
+      {
+        "title": "Orchestrateur de cycle de vie (AnimationOrchestrator)",
+        "text": "Gère les transitions du ClientRouter Astro : masquage initial sous data-anim-pending avant le premier rendu, barre #global-loader temporisée (>120 ms), fondu de sortie et lancement coordonné de la première vague."
+      },
+      {
+        "title": "Découpe typographique accessible (SectionTimeline)",
+        "text": "Découpe les titres en lignes masquées (yPercent 118 → 0) tout en préservant la lecture par les aides techniques (aria-label) et les dégradés CSS sur les balises <em>."
+      },
+      {
+        "title": "Apparition de grilles par rangée (StaggeredGrid)",
+        "text": "Regroupe dynamiquement les cartes selon leur position verticale statique (offsetTop) afin que chaque rangée visuelle déclenche son propre ScrollTrigger."
+      },
+      {
+        "title": "Épinglage de sections en profondeur (Stacking)",
+        "text": "Épingle les sections clés (data-stack) pendant que la section suivante glisse par-dessus avec un recul progressif (scale: 0.92 et assombrissement), et gère le dévoilement du pied de page."
+      },
+      {
+        "title": "Parallaxe au défilement et tracé SVG",
+        "text": "Applique une translation verticale douce sur les éléments marqués [data-parallax] et anime le contour vectoriel (stroke-dashoffset) des boutons au survol."
+      }
+    ],
+    "faq": [
+      {
+        "title": "Pourquoi isoler strictement les domaines métiers ?",
+        "content": "Chaque domaine métier évolue, est testé et peut être remplacé sans impacter le reste du système. C’est ce qui a permis de passer de la plateforme média (articles, agenda, engagement) à ce portfolio (work, about, navigation) en conservant intactes les couches core, ui et blocks."
+      },
+      {
+        "title": "Quel est l’intérêt d’un fichier unique pour les design tokens ?",
+        "content": "Adapter le système à une nouvelle identité visuelle ne demande que la mise à jour de tokens.css. Ce portfolio utilise exactement les mêmes primitives et les mêmes blocs que la plateforme média d’origine."
+      },
+      {
+        "title": "Comment garantir que ces règles restent respectées dans le temps ?",
+        "content": "Les conventions sont documentées dans AGENTS.md à la racine du dépôt et chacune est contrôlée par un script dédié au sein de npm run check, exécuté avant chaque intégration."
+      }
+    ]
+  },
+  "about": {
+    "meta": {
+      "title": "À propos — Gwennaël Larcher",
+      "description": "Parcours de Gwennaël Larcher : 17 ans d’expérience de la direction artistique au rôle de Design System Architect et Lead Développeur Front-End (Vue 3, Svelte 5, TypeScript, GSAP)."
+    },
+    "hero": {
+      "eyebrow": "À propos",
+      "titleRole": "design system architect",
+      "titleSuffix": "et lead front-end",
+      "lead": "Issu des Beaux-Arts et de la direction artistique, j’exerce depuis 17 ans dans la conception et le développement d’interfaces web. J’accompagne les équipes Produit, Design et Tech dans la création de Design Systems durables, la modernisation d’architectures front-end (Vue 3, Svelte 5, TypeScript) et la montée en compétence des développeurs.",
+      "codepenLabel": "Creative Lab (CodePen)"
+    },
+    "sections": {
+      "skills": {
+        "eyebrow": "Compétences clés",
+        "title": "Trois domaines d’intervention complémentaires"
+      },
+      "experience": {
+        "eyebrow": "Parcours",
+        "title": "Expériences professionnelles"
+      },
+      "education": {
+        "eyebrow": "Formation initiale",
+        "title": "Des Beaux-Arts à l’ingénierie front-end"
+      }
+    },
+    "skills": [
+      {
+        "title": "Architecture Design System",
+        "text": "Conception et évolution de bibliothèques de composants (Figma, Storybook), architecture de design tokens, documentation technique embarquée, responsive mobile-first et conformité accessibilité (WCAG / RGAA)."
+      },
+      {
+        "title": "Leadership technique",
+        "text": "Accompagnement d’équipes front-end au quotidien (revues de code, pair programming, conventions d’architecture), pilotage de migrations techniques et coordination entre les pôles Produit, UX/UI, Back-End et QA."
+      },
+      {
+        "title": "Ingénierie Front-End et CMS",
+        "text": "Vue 3, Svelte 5, Astro, TypeScript, JavaScript ES6+, HTML5, CSS3, SASS, Tailwind CSS, GSAP, Vite, Node.js, Git et CI/CD. Solide expérience des architectures Adobe Experience Manager (Core Components, HTL, Sling) et API REST."
+      }
+    ],
+    "experience": [
+      {
+        "title": "Lead Développeur Front-End · Référent Design System",
+        "company": "Veepee",
+        "points": [
+          "Conception initiale, documentation et déploiement du Design System /base-vue-3 sur 13 marchés européens (Vue 3, TypeScript, SASS, GSAP, Vite).",
+          "Accompagnement quotidien des développeurs front-end (revues de code, bonnes pratiques) et ateliers de formation partagés entre les équipes Tech et Design à Paris et Barcelone.",
+          "Livraison de plus de 300 opérations événementielles à fort trafic pour de grandes marques (AccorHotels, Sephora, Samsung, FDJ), connectées aux API métiers et aux outils de contenu.",
+          "Industrialisation de l’outillage développeur : générateur CLI de composants (new_component.sh), contrôles qualité en intégration continue et documentation co-localisée."
+        ]
+      },
+      {
+        "title": "Lead Développeur Front-End (écosystèmes AEM et CMS)",
+        "company": "Missions Grands Comptes (Davidson, Ametix)",
+        "points": [
+          "Interventions pour AXA, Carrefour Drive, Ooshop, Société Générale et Showroomprivé.",
+          "Développement de composants Adobe Experience Manager (Core Components, HTL, Sling), mise en conformité accessibilité, architecture SASS/LESS et déploiement CI/CD (Git, Jenkins).",
+          "Référent technique front-end et UX/UI lors de la refonte de portails e-commerce à fort volume de visites."
+        ]
+      },
+      {
+        "title": "Directeur Artistique et Web Designer",
+        "company": "Indépendant",
+        "points": [
+          "Direction artistique et développement d’expériences web interactives pour des PME et des grands comptes.",
+          "Production musicale (plus de 500 000 écoutes) et édition d’un webzine culturel, qui ont nourri ma sensibilité au rythme, au mouvement et à la typographie."
+        ]
+      }
+    ],
+    "education": [
+      { "title": "Beaux-Arts EARUEIL", "text": "Diplôme National des Beaux-Arts" },
+      { "title": "EFFICOM", "text": "BTS Communication Visuelle" },
+      { "title": "FIS Formation", "text": "Formation Intégrateur et Web Designer" }
+    ],
+    "philosophy": {
+      "text": "Un bon Design System et un bon Lead ont la même mission : retirer la friction inutile pour permettre à chaque membre de l’équipe de travailler en confiance, de partager un vocabulaire clair et de livrer un produit dont tout le monde est fier.",
+      "cite": "Ma vision du rôle de Lead"
+    }
+  }
+}

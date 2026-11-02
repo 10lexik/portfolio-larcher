@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json.schemastore.org/stylelintrc",
+  "extends": ["stylelint-config-standard"],
+  "overrides": [
+    {
+      "files": ["**/*.astro", "**/*.svelte"],
+      "customSyntax": "postcss-html"
+    }
+  ],
+  "rules": {
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [
+          "theme",
+          "apply",
+          "utility",
+          "variant",
+          "custom-variant",
+          "source",
+          "plugin",
+          "reference",
+          "config"
+        ]
+      }
+    ],
+    "at-rule-no-deprecated": [true, { "ignoreAtRules": ["apply"] }],
+    "at-rule-prelude-no-invalid": [true, { "ignoreAtRules": ["apply"] }],
+    "no-invalid-position-at-import-rule": [true, { "ignoreAtRules": ["plugin"] }],
+    "function-no-unknown": [true, { "ignoreFunctions": ["theme", "--alpha", "--spacing"] }],
+    "selector-pseudo-class-no-unknown": [true, { "ignorePseudoClasses": ["global"] }],
+    "import-notation": "string",
+    "media-feature-range-notation": "prefix",
+
+    "custom-property-pattern": [
+      "^[a-z][a-z0-9]*(-[a-z0-9]+)*(--[a-z0-9]+(-[a-z0-9]+)*)?$",
+      {
+        "message": "Propriété personnalisée en kebab-case (modificateur Tailwind `--nom--line-height` autorisé)"
+      }
+    ],
+    "selector-class-pattern": null,
+    "selector-not-notation": null,
+    "property-no-vendor-prefix": null,
+    "value-no-vendor-prefix": null,
+
+    "no-descending-specificity": [true, { "severity": "warning" }],
+    "no-duplicate-selectors": [true, { "severity": "warning" }]
+  }
+}

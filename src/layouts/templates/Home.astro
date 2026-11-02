@@ -1,0 +1,280 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Section from '@layouts/Section.astro';
+import SectionHead from '@blocks/SectionHead/SectionHead.astro';
+import Stats from '@blocks/Stats/Stats.svelte';
+import Bento from '@blocks/Bento/Bento.svelte';
+import Button from '@ui/Button/Button.svelte';
+import Tile from '@ui/Tile/Tile.svelte';
+import VideoLoop from '@ui/VideoLoop/VideoLoop.svelte';
+import CaseCard from '@domains/work/CaseCard.astro';
+import BrandMosaic from '@domains/work/BrandMosaic.astro';
+import { getVeepeeContent } from '@domains/work/veepee';
+import { getProfileContent } from '@domains/about/profile';
+import { getSite, getHomeContent } from '@core/content/site';
+import { t } from '@core/i18n/t';
+import { formatTitleTypography } from '@core/utils/text';
+import type { Locale } from '@core/content/types';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'fr' } = Astro.props;
+const site = getSite(locale);
+const home = getHomeContent(locale);
+const veepee = getVeepeeContent(locale);
+const profile = getProfileContent(locale);
+---
+
+<Layout locale={locale}>
+  <Section id="hero" theme="dark" stack class="home-hero" labelledby="hero-title">
+    <div class="home-hero__grid">
+      <div class="home-hero__text">
+        <p class="eyebrow" data-reveal>
+          {home.hero.eyebrow}
+        </p>
+        <h1 id="hero-title" class="home-hero__title" data-split-title>
+          {home.hero.titlePrefix} <em>{home.hero.titleEm}</em>
+        </h1>
+        <p class="lead" data-reveal>
+          {site.name}, {site.role}. {home.hero.lead}
+        </p>
+        <div class="cluster" data-reveal>
+          <Button
+            href={home.hero.caseStudyHref}
+            label={t('viewCaseStudy', locale)}
+            variant="primary"
+            size="lg"
+          />
+          <Button
+            href={home.hero.storybookHref}
+            label={t('openStorybook', locale)}
+            variant="outline"
+            size="lg"
+          />
+        </div>
+      </div>
+      <ul class="home-hero__collage" aria-hidden="true">
+        {home.hero.brands.map((brand) => (
+          <li class="home-hero__card">
+            <VideoLoop
+              src={brand.videoDesk}
+              poster={brand.posterDesk}
+              label={`${home.hero.desktopVideoLabelPrefix} ${brand.name}`}
+              ratio={home.hero.ratios.desktop}
+              client:load
+            />
+            <div class="home-hero__mob">
+              <span class="home-hero__mob-notch"></span>
+              <VideoLoop
+                src={brand.videoMob}
+                poster={brand.posterMob}
+                label={`${home.hero.mobileVideoLabelPrefix} ${brand.name}`}
+                ratio={home.hero.ratios.mobile}
+                client:load
+              />
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div class="home-hero__stats">
+      <Stats items={veepee.kpis} client:load />
+    </div>
+  </Section>
+
+  <Section id="operations" theme="raised" labelledby="operations-title">
+    <SectionHead
+      id="operations-title"
+      eyebrow={home.operations.eyebrow}
+      title={home.operations.title}
+      lead={home.operations.lead}
+    />
+    <BrandMosaic brands={veepee.featuredBrands} columns={3} locale={locale} />
+    <div class="home-hero__more" data-reveal>
+      <Button href={home.hero.caseStudyHref} label={t('viewCaseStudy', locale)} variant="link" />
+    </div>
+  </Section>
+
+  <Section id="design-system" theme="dark" labelledby="ds-title">
+    <SectionHead
+      id="ds-title"
+      eyebrow={home.designSystem.eyebrow}
+      title={home.designSystem.title}
+    />
+    <CaseCard
+      eyebrow={home.designSystem.cardEyebrow}
+      title={home.designSystem.cardTitle}
+      text={home.designSystem.cardText}
+      href={home.designSystem.cardHref}
+      cta={home.designSystem.cardCta}
+      chips={home.designSystem.cardChips}
+    />
+  </Section>
+
+  <Section id="competences" theme="dark" labelledby="skills-title">
+    <SectionHead
+      id="skills-title"
+      eyebrow={home.skillsSection.eyebrow}
+      title={home.skillsSection.title}
+      lead={home.skillsSection.lead}
+    />
+    <Bento
+      items={profile.skills.map((skill) => ({
+        title: skill.title,
+        text: skill.text,
+        accent: skill.accent,
+      }))}
+    />
+  </Section>
+
+  <Section id="contact" theme="raised" size="narrow" labelledby="contact-title">
+    <Tile accent="primary" class="home-contact">
+      <h2 id="contact-title" class="home-contact__title">
+        {formatTitleTypography(home.contact.title)}
+      </h2>
+      <p>{home.contact.text}</p>
+      <div class="cluster">
+        <Button
+          href={site.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          label={t('contactLinkedIn', locale)}
+          variant="primary"
+          size="lg"
+        />
+        <Button
+          href={home.contact.aboutHref}
+          label={home.contact.aboutLabel}
+          variant="outline"
+          size="lg"
+        />
+      </div>
+    </Tile>
+  </Section>
+</Layout>
+
+<style is:global>
+  .home-hero {
+    padding-top: clamp(2rem, 4.5vw, 3.5rem);
+  }
+
+  .home-hero__grid {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 3.25rem);
+    align-items: center;
+
+    @media (min-width: 1024px) {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    }
+  }
+
+  .home-hero__text {
+    display: grid;
+    gap: 1.25rem;
+    align-content: center;
+  }
+
+  .home-hero__title {
+    margin: 0;
+    max-width: 24ch;
+    font-size: var(--text-fluid-h1);
+    font-weight: 780;
+    line-height: 1.08;
+    letter-spacing: -0.028em;
+    color: var(--color-white);
+
+    & em {
+      font-style: normal;
+      background-image: linear-gradient(
+        90deg,
+        var(--color-brand-primary-light),
+        var(--color-brand-violet)
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  .home-hero__collage {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media (min-width: 1024px) {
+      transform: perspective(1800px) rotateY(-9deg) rotateX(3deg);
+    }
+
+    & .video-loop__frame {
+      border: var(--border-edge-thin);
+      border-radius: 1rem;
+      box-shadow: var(--shadow-edge-lg);
+    }
+  }
+
+  .home-hero__card {
+    position: relative;
+    min-width: 0;
+  }
+
+  .home-hero__mob {
+    position: absolute;
+    right: 0.45rem;
+    bottom: -0.25rem;
+    z-index: 2;
+    width: 26%;
+    max-width: 4.8rem;
+    min-width: 3.1rem;
+    padding: 0.16rem;
+    border: var(--border-edge-lg);
+    border-radius: 0.65rem;
+    background-color: var(--color-brand-dark);
+    box-shadow: var(--shadow-edge-lg);
+    pointer-events: none;
+
+    & .video-loop__frame {
+      border: none;
+      border-radius: 0.5rem;
+      box-shadow: none;
+    }
+  }
+
+  .home-hero__mob-notch {
+    position: absolute;
+    top: 0.28rem;
+    left: 50%;
+    z-index: 3;
+    width: 30%;
+    height: 0.15rem;
+    border-radius: var(--radius-chip);
+    background-color: var(--color-black-70);
+    transform: translateX(-50%);
+  }
+
+  .home-hero__stats {
+    margin-top: clamp(2rem, 5vw, 4rem);
+  }
+
+  .home-hero__more {
+    margin-top: 2rem;
+  }
+
+  .home-contact {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .home-contact__title {
+    margin: 0;
+    font-size: var(--text-fluid-h3);
+    font-weight: 760;
+    line-height: 1.1;
+    text-wrap: balance;
+    color: var(--color-white);
+  }
+</style>

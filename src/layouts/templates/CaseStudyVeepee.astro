@@ -1,0 +1,658 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Section from '@layouts/Section.astro';
+import SectionHead from '@blocks/SectionHead/SectionHead.astro';
+import Split from '@blocks/Split/Split.astro';
+import Stats from '@blocks/Stats/Stats.svelte';
+import Quote from '@blocks/Quote/Quote.svelte';
+import ComponentTree from '@blocks/ComponentTree/ComponentTree.svelte';
+import CaseInsight from '@blocks/CaseInsight/CaseInsight.svelte';
+import Bento from '@blocks/Bento/Bento.svelte';
+import Button from '@ui/Button/Button.svelte';
+import Badge from '@ui/Badge/Badge.svelte';
+import Tile from '@ui/Tile/Tile.svelte';
+import VideoLoop from '@ui/VideoLoop/VideoLoop.svelte';
+import CodeBlock from '@ui/CodeBlock/CodeBlock.svelte';
+import BrandMosaic from '@domains/work/BrandMosaic.astro';
+import VariantMatrix from '@domains/work/VariantMatrix.astro';
+import FigmaChain from '@domains/work/FigmaChain.astro';
+import ProofTable from '@domains/work/ProofTable.astro';
+import { getVeepeeContent } from '@domains/work/veepee';
+import { getSite } from '@core/content/site';
+import { t } from '@core/i18n/t';
+import { formatTitleTypography } from '@core/utils/text';
+import type { Locale } from '@core/content/types';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'fr' } = Astro.props;
+const site = getSite(locale);
+const v = getVeepeeContent(locale);
+---
+
+<Layout title={v.meta.title} description={v.meta.description} locale={locale}>
+  <Section id="intro" theme="dark" stack class="cs-hero" labelledby="cs-title">
+    <p class="eyebrow" data-reveal>
+      {v.hero.eyebrow}
+    </p>
+    <h1 id="cs-title" class="cs-hero__title" data-split-title>
+      {v.hero.titlePrefix}
+      <em>{v.hero.titleHighlight}</em>
+    </h1>
+    <p class="lead" data-reveal>
+      {v.hero.lead}
+    </p>
+    <ul class="cluster" data-reveal>
+      <li>
+        <Badge label={v.hero.badges[0]} variant="primary" size="lg" />
+      </li>
+      <li>
+        <Badge label={v.hero.badges[1]} variant="dark" size="lg" />
+      </li>
+      <li>
+        <Badge label={v.hero.badges[2]} variant="gray" size="lg" />
+      </li>
+    </ul>
+    <p class="cs-hero__role" data-reveal>
+      {v.hero.roleIntroPrefix}
+      <code>{v.codeRefs.repo}</code>
+      {v.hero.roleIntroSuffix}
+    </p>
+    <div
+      class="grid-auto"
+      style="
+
+--grid-min: 18rem"
+    >
+      {v.rolePillars.map((item, i) => (
+        <div data-reveal style={`--reveal-index:${i}`}>
+          <Tile label={item.role} accent={item.accent} class="cs-fill">
+            <p>{item.text}</p>
+          </Tile>
+        </div>
+      ))}
+    </div>
+    <div class="cs-hero__stats">
+      <Stats items={v.kpis} client:load />
+    </div>
+  </Section>
+
+  <Section id="marques" theme="raised" labelledby="marques-title">
+    <SectionHead
+      id="marques-title"
+      eyebrow={v.sections.marques.eyebrow}
+      title={v.sections.marques.title}
+      lead={v.sections.marques.lead}
+    />
+    <BrandMosaic brands={v.featuredBrands} columns={3} locale={locale} />
+  </Section>
+
+  <Section id="contexte" theme="dark" labelledby="contexte-title">
+    <SectionHead
+      id="contexte-title"
+      eyebrow={v.sections.contexte.eyebrow}
+      title={v.sections.contexte.title}
+      lead={v.sections.contexte.lead}
+    />
+    <div
+      class="grid-auto"
+      style="
+
+--grid-min: 16rem"
+    >
+      {v.problems.map((problem, i) => (
+        <div data-reveal style={`--reveal-index:${i}`}>
+          <Tile label={problem.label} class="cs-fill">
+            <p>{problem.text}</p>
+          </Tile>
+        </div>
+      ))}
+    </div>
+    <div class="cs-gap" data-reveal>
+      <Quote text={v.quoteText} cite={v.labels.quoteCite} />
+    </div>
+  </Section>
+
+  <Section id="architecture" theme="raised" labelledby="archi-title">
+    <SectionHead
+      id="archi-title"
+      eyebrow={v.sections.architecture.eyebrow}
+      title={v.sections.architecture.title}
+      lead={v.sections.architecture.lead}
+    />
+    <CaseInsight insight={v.sectionInsights.architecture} locale={locale} />
+    <Stats items={v.archKpis} client:load />
+    <div class="cs-gap">
+      <Split center={false}>
+        <ComponentTree
+          root={v.componentTreeRoot}
+          nodes={v.componentTree}
+          label={v.labels.treeLabel}
+        />
+        <div slot="media" class="cs-stack">
+          <Tile label={v.labels.leversTitle} accent="primary">
+            <ol class="cs-levers">
+              {v.levers.map((lever) => (
+                <li>
+                  <strong>{lever.title}.</strong> {lever.text}
+                </li>
+              ))}
+            </ol>
+          </Tile>
+          <CodeBlock code={v.snippets.newComponent} label={v.labels.newComponentLabel} />
+        </div>
+      </Split>
+    </div>
+  </Section>
+
+  <Section id="thematisation" theme="dark" labelledby="theme-title">
+    <SectionHead
+      id="theme-title"
+      eyebrow={v.sections.thematisation.eyebrow}
+      title={v.sections.thematisation.title}
+      lead={v.sections.thematisation.lead}
+    />
+    <CaseInsight insight={v.sectionInsights.thematisation} locale={locale} />
+    <div
+      class="grid-auto"
+      style="
+
+--grid-min: 19rem"
+    >
+      <div data-reveal>
+        <CodeBlock code={v.snippets.scssComponentTokens} label={v.labels.scssComponentLabel} />
+      </div>
+      <div data-reveal>
+        <CodeBlock code={v.snippets.scssGlobalTokens} label={v.labels.scssGlobalLabel} />
+      </div>
+      <div data-reveal>
+        <CodeBlock code={v.snippets.vbrand} label={v.labels.vbrandLabel} />
+        <p class="cs-note">
+          {v.labels.vbrandNotePrefix}
+          <code>{v.codeRefs.mainTag}</code>
+          {v.labels.vbrandNoteSuffix}
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="variants" theme="raised" labelledby="variants-title">
+    <SectionHead
+      id="variants-title"
+      eyebrow={v.sections.variants.eyebrow}
+      title={v.sections.variants.title}
+      lead={v.sections.variants.lead}
+    />
+    <CaseInsight insight={v.sectionInsights.variants} locale={locale} />
+    <VariantMatrix locale={locale} />
+    <div class="cs-gap" data-reveal>
+      <CodeBlock code={v.snippets.types} label={v.labels.typesLabel} />
+    </div>
+  </Section>
+
+  <Section id="header-animation" theme="dark" labelledby="header-anim-title">
+    <SectionHead
+      id="header-anim-title"
+      eyebrow={v.sections.headerAnimation.eyebrow}
+      title={v.sections.headerAnimation.title}
+      lead={v.sections.headerAnimation.lead}
+    />
+    <CaseInsight insight={v.sectionInsights.headerAnimation} locale={locale} />
+    <Stats items={v.headerAnimationKpis} client:load />
+    <div class="cs-gap">
+      <Split center={false}>
+        <CodeBlock code={v.snippets.headerAnimation} label={v.labels.headerAnimApiLabel} />
+        <div slot="media">
+          <CodeBlock code={v.snippets.timelineManager} label={v.labels.timelineManagerLabel} />
+        </div>
+      </Split>
+    </div>
+    <div
+      class="grid-auto cs-gap"
+      style="
+
+--grid-min: 17rem"
+    >
+      {v.headerAnimationPillars.map((pillar, i) => (
+        <div data-reveal style={`--reveal-index:${i}`}>
+          <Tile label={pillar.label} accent="primary" class="cs-fill">
+            <h3 class="cs-card-title">{formatTitleTypography(pillar.title)}</h3>
+            <p>{pillar.text}</p>
+          </Tile>
+        </div>
+      ))}
+    </div>
+    <div class="cs-videos cs-gap">
+      {v.demoVideos.map((video) => (
+        <div class="cs-videos__item">
+          <VideoLoop src={video.src} label={video.label} caption={video.caption} client:load />
+        </div>
+      ))}
+    </div>
+    <p class="cs-note" data-reveal>
+      {v.labels.demoNotePrefix}
+      <code>{v.codeRefs.readmeFile}</code>
+      {v.labels.demoNoteMiddle}
+      <code>{v.codeRefs.headerAnimDir}</code>.
+    </p>
+  </Section>
+
+  <Section id="catalogue-gsap" theme="raised" labelledby="gsap-cat-title">
+    <SectionHead
+      id="gsap-cat-title"
+      eyebrow={v.sections.catalogueGsap.eyebrow}
+      title={v.sections.catalogueGsap.title}
+      lead={v.sections.catalogueGsap.lead}
+    />
+    <CaseInsight insight={v.sectionInsights.catalogueGsap} locale={locale} />
+    <div class="cs-catalogue">
+      {v.gsapComponents.map((comp, i) => (
+        <article class="cs-comp" data-reveal style={`--reveal-index:${i}`}>
+          <div class="cs-comp__body">
+            <div class="cs-comp__header">
+              <div>
+                <p class="cs-comp__path">{comp.path}</p>
+                <h3 class="cs-comp__name">{formatTitleTypography(comp.name)}</h3>
+              </div>
+              <Badge label={comp.badge} variant="primary" size="sm" />
+            </div>
+            <div class="cs-comp__story">
+              <div class="cs-comp__story-block cs-comp__story-block--problem">
+                <p class="cs-comp__story-label">{v.labels.compProblemLabel}</p>
+                <p class="cs-comp__story-text">{comp.problem}</p>
+              </div>
+              <div class="cs-comp__story-block cs-comp__story-block--resolution">
+                <p class="cs-comp__story-label">{v.labels.compResolutionLabel}</p>
+                <p class="cs-comp__story-text">{comp.resolution}</p>
+              </div>
+            </div>
+            <div class="cs-comp__meta">
+              <div>
+                <p class="cs-comp__label">{v.labels.compVariantsLabel}</p>
+                <ul class="cs-comp__chips">
+                  {comp.variants.map((vr) => (
+                    <li>
+                      <code>{vr}</code>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p class="cs-comp__label">{v.labels.compGsapLabel}</p>
+                <ul class="cs-comp__features">
+                  {comp.gsapFeatures.map((feat) => (
+                    <li>{feat}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <p class="cs-comp__used">
+              <span>{v.labels.compUsedInLabel}</span> {comp.usedIn}
+            </p>
+          </div>
+          <div class="cs-comp__code">
+            <CodeBlock code={comp.code} label={`${comp.name}${v.labels.compContractSuffix}`} />
+          </div>
+        </article>
+      ))}
+    </div>
+  </Section>
+
+  <Section id="gouvernance" theme="dark" labelledby="gouv-title">
+    <SectionHead
+      id="gouv-title"
+      eyebrow={v.sections.gouvernance.eyebrow}
+      title={v.sections.gouvernance.title}
+      lead={v.sections.gouvernance.lead}
+    />
+    <CaseInsight insight={v.sectionInsights.gouvernance} locale={locale} />
+    <FigmaChain locale={locale} />
+    <div
+      class="grid-auto cs-gap"
+      style="
+
+--grid-min: 16rem"
+    >
+      {v.rules.map((rule, i) => (
+        <div data-reveal style={`--reveal-index:${i}`}>
+          <Tile label={rule.label} accent="primary" class="cs-fill">
+            <p>{rule.text}</p>
+          </Tile>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section id="impact" theme="raised" labelledby="impact-title">
+    <SectionHead
+      id="impact-title"
+      eyebrow={v.sections.impact.eyebrow}
+      title={v.sections.impact.title}
+      lead={v.sections.impact.lead}
+    />
+    <ProofTable proofs={v.proofs} locale={locale} />
+    <div class="cs-gap">
+      <Stats items={v.kpis} client:load />
+    </div>
+    <div
+      class="grid-auto cs-gap"
+      style="
+
+--grid-min: 16rem"
+    >
+      {v.impact.map((item, i) => (
+        <div data-reveal style={`--reveal-index:${i}`}>
+          <Tile label={item.label} class="cs-fill">
+            <p>{item.text}</p>
+          </Tile>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section id="apprentissages" theme="dark" size="medium" labelledby="learn-title">
+    <SectionHead
+      id="learn-title"
+      eyebrow={v.sections.apprentissages.eyebrow}
+      title={v.sections.apprentissages.title}
+    />
+    <Bento
+      items={v.learnings.map((text, i) => ({
+        title: String(i + 1).padStart(2, '0'),
+        text,
+        accent: v.learningAccents[i],
+        span: 1,
+      }))}
+    />
+    <div class="cluster cs-gap" data-reveal>
+      <Button href={v.nextCaseStudyHref} label={v.labels.nextCaseCta} variant="primary" size="lg" />
+      <Button
+        href={site.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        label={t('contactLinkedIn', locale)}
+        variant="outline"
+        size="lg"
+      />
+    </div>
+  </Section>
+</Layout>
+
+<style is:global>
+  .cs-hero {
+    padding-top: clamp(2rem, 4.5vw, 3.5rem);
+  }
+
+  .cs-hero .container {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .cs-hero__title {
+    margin: 0;
+    max-width: 26ch;
+    font-size: var(--text-fluid-title);
+    font-weight: 780;
+    line-height: 1.08;
+    letter-spacing: -0.028em;
+    color: var(--color-white);
+
+    & em {
+      font-style: normal;
+      background-image: linear-gradient(
+        90deg,
+        var(--color-brand-primary-light),
+        var(--color-brand-violet)
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  .cs-hero__role {
+    margin: 0;
+    max-width: 52rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--color-brand-primary);
+    font-size: var(--text-fluid-p);
+    line-height: 1.6;
+    color: var(--color-white-85);
+  }
+
+  .cs-hero__stats {
+    margin-top: 1rem;
+  }
+
+  .cs-gap {
+    margin-top: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .cs-stack {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+  }
+
+  .cs-fill {
+    height: 100%;
+  }
+
+  .cs-card-title {
+    margin: 0 0 0.45rem;
+    font-size: var(--text-fluid-sub);
+    font-weight: 700;
+    text-wrap: balance;
+    color: var(--color-white);
+  }
+
+  .cs-note {
+    margin: 1rem 0 0;
+    font-size: var(--text-fluid-sm);
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .cs-levers {
+    display: grid;
+    gap: 0.9rem;
+    margin: 0;
+    padding-left: 1.2rem;
+    line-height: 1.5;
+
+    & strong {
+      color: var(--color-white);
+    }
+  }
+
+  .cs-videos {
+    display: grid;
+    gap: var(--grid-gap);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  }
+
+  .cs-catalogue {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .cs-comp {
+    display: grid;
+    gap: 1.5rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border: var(--border-edge-thin);
+    border-radius: var(--radius-tile);
+    background-image: linear-gradient(180deg, var(--color-white-07), var(--color-white-05));
+    box-shadow: var(--shadow-edge-md);
+
+    @media (min-width: 960px) {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      align-items: center;
+    }
+  }
+
+  .cs-comp__body {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+  }
+
+  .cs-comp__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .cs-comp__path {
+    margin: 0 0 0.25rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-fluid-xs);
+    color: var(--color-text-subtle);
+  }
+
+  .cs-comp__name {
+    margin: 0;
+    font-size: var(--text-fluid-h4);
+    font-weight: 760;
+    text-wrap: balance;
+    color: var(--color-white);
+  }
+
+  .cs-comp__story {
+    display: grid;
+    border: var(--border-edge-thin);
+    border-radius: var(--radius-media);
+    background-color: var(--color-dark-45);
+    overflow: hidden;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .cs-comp__story-block {
+    --story-accent: var(--color-brand-amber);
+
+    display: grid;
+    gap: 0.4rem;
+    align-content: start;
+    padding: 0.9rem 1.05rem;
+    background-image: radial-gradient(
+      125% 95% at 0% 0%,
+      color-mix(in srgb, var(--story-accent) 11%, transparent),
+      transparent 65%
+    );
+
+    &:not(:first-child) {
+      border-top: var(--border-edge-thin);
+
+      @media (min-width: 768px) {
+        border-top: 0;
+        border-left: var(--border-edge-thin);
+      }
+    }
+
+    &.cs-comp__story-block--resolution {
+      --story-accent: var(--color-brand-mint);
+    }
+  }
+
+  .cs-comp__story-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-fluid-2xs);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--story-accent) 88%, var(--color-white));
+
+    &::before {
+      content: '';
+      width: 0.35rem;
+      height: 0.35rem;
+      flex-shrink: 0;
+      border-radius: var(--radius-chip);
+      background-color: var(--story-accent);
+      box-shadow: 0 0 8px var(--story-accent);
+    }
+  }
+
+  .cs-comp__story-text {
+    margin: 0;
+    font-size: var(--text-fluid-sm);
+    line-height: 1.5;
+    color: var(--color-text-body);
+  }
+
+  .cs-comp__meta {
+    display: grid;
+    gap: 1rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .cs-comp__label {
+    margin: 0 0 0.45rem;
+    font-size: var(--text-fluid-xs);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .cs-comp__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    & code {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border: var(--border-edge-thin);
+      border-radius: var(--radius-chip);
+      background-color: var(--color-white-07);
+      font-family: var(--font-mono);
+      font-size: var(--text-fluid-xs);
+      color: var(--color-brand-primary-light);
+    }
+  }
+
+  .cs-comp__features {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: var(--text-fluid-sm);
+    line-height: 1.45;
+    color: var(--color-text-muted);
+  }
+
+  .cs-comp__used {
+    margin: 0;
+    padding-top: 0.65rem;
+    border-top: var(--border-edge-thin);
+    font-size: var(--text-fluid-xs);
+    color: var(--color-brand-mint);
+
+    & span {
+      font-weight: 700;
+      color: var(--color-text-muted);
+    }
+  }
+
+  .cs-comp__code {
+    min-width: 0;
+  }
+</style>

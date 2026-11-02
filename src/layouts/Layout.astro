@@ -1,0 +1,112 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/jetbrains-mono';
+import '@core/styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import Header from '@domains/navigation/Header.astro';
+import Footer from '@domains/navigation/Footer.astro';
+import type { Locale } from '@core/content/types';
+import { getSite } from '@core/content/site';
+import { getAlternatePath, t } from '@core/i18n/t';
+
+interface Props {
+  locale?: Locale;
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const { locale = 'fr', title, description, image, noindex = false } = Astro.props;
+
+const site = getSite(locale);
+const resolvedTitle = title ?? site.title;
+const resolvedDescription = description ?? site.description;
+const resolvedImage = image ?? site.ogImage;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const frAlternate = new URL(getAlternatePath(Astro.url.pathname, 'fr'), site.url).href;
+const enAlternate = new URL(getAlternatePath(Astro.url.pathname, 'en'), site.url).href;
+const imageUrl = new URL(resolvedImage, site.url).href;
+---
+
+<!doctype html>
+<html lang={locale} transition:animate="none">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{resolvedTitle}</title>
+    <meta name="description" content={resolvedDescription} />
+    <meta name="theme-color" content={site.themeColor} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="fr" href={frAlternate} />
+    <link rel="alternate" hreflang="en" href={enAlternate} />
+    <link rel="alternate" hreflang="x-default" href={frAlternate} />
+    <link rel="icon" type="image/svg+xml" href={site.favicon} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={site.ogLocale} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={resolvedTitle} />
+    <meta property="og:description" content={resolvedDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="generator" content={Astro.generator} />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      if (!window.__portfolioAnimBoot) {
+        window.__portfolioAnimBoot = true;
+        document.documentElement.setAttribute('data-anim-pending', '');
+        setTimeout(() => {
+          document.documentElement.removeAttribute('data-anim-pending');
+        }, 3000);
+      }
+    </script>
+    <ClientRouter />
+  </head>
+  <body>
+    <div
+      id="global-loader"
+      transition:persist="global-loader"
+      class="global-loader"
+      aria-hidden="true"
+    ></div>
+    <div
+      id="print-grain"
+      transition:persist="print-grain"
+      class="print-grain"
+      aria-hidden="true"
+    ></div>
+    <a class="skip-link" href="#main">
+      {t('skipToContent', locale)}
+    </a>
+    <Header locale={locale} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+    <script>
+      import { initReveal, orchestrator } from '@core/motion/reveal';
+      import { initPrintGrain } from '@core/utils/grain';
+
+      document.addEventListener('astro:before-preparation', (e) =>
+        orchestrator.beforePreparation(e),
+      );
+      document.addEventListener('astro:after-preparation', () => orchestrator.afterPreparation());
+      document.addEventListener('astro:before-swap', () => orchestrator.beginPage());
+      document.addEventListener('astro:after-swap', () => {
+        initPrintGrain();
+        orchestrator.preparePage();
+      });
+      document.addEventListener('astro:page-load', () => initReveal());
+
+      if (typeof document !== 'undefined') {
+        initPrintGrain();
+        orchestrator.preparePage();
+        if (document.readyState === 'complete' && !orchestrator.hasStartedCurrentPage()) {
+          document.dispatchEvent(new Event('astro:page-load'));
+        }
+      }
+    </script>
+  </body>
+</html>

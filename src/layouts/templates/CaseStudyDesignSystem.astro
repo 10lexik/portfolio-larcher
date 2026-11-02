@@ -1,0 +1,337 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Section from '@layouts/Section.astro';
+import SectionHead from '@blocks/SectionHead/SectionHead.astro';
+import Stats from '@blocks/Stats/Stats.svelte';
+import Bento from '@blocks/Bento/Bento.svelte';
+import Timeline from '@blocks/Timeline/Timeline.svelte';
+import ComponentTree from '@blocks/ComponentTree/ComponentTree.svelte';
+import CaseInsight from '@blocks/CaseInsight/CaseInsight.svelte';
+import Button from '@ui/Button/Button.svelte';
+import Badge from '@ui/Badge/Badge.svelte';
+import Tile from '@ui/Tile/Tile.svelte';
+import CodeBlock from '@ui/CodeBlock/CodeBlock.svelte';
+import Accordion from '@ui/Accordion/Accordion.svelte';
+import { getDesignSystemContent } from '@domains/work/designSystem';
+import { getSite } from '@core/content/site';
+import { t } from '@core/i18n/t';
+import type { Locale } from '@core/content/types';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'fr' } = Astro.props;
+const site = getSite(locale);
+const ds = getDesignSystemContent(locale);
+---
+
+<Layout title={ds.meta.title} description={ds.meta.description} locale={locale}>
+  <Section id="intro" theme="dark" stack class="ds-hero" labelledby="ds-title">
+    <p class="eyebrow" data-reveal>
+      {ds.hero.eyebrow}
+    </p>
+    <h1 id="ds-title" class="ds-hero__title" data-split-title>
+      {ds.hero.titlePrefix}
+      <em>{ds.hero.titleHighlight}</em>
+    </h1>
+    <p class="lead" data-reveal>
+      {ds.hero.leadPrefix}
+      <code>{ds.codeRefs.veepeeRepo}</code>
+      {ds.hero.leadSuffix}
+    </p>
+    <ul class="cluster" data-reveal>
+      <li>
+        <Badge label={ds.hero.badges[0]} variant="primary" size="lg" />
+      </li>
+      <li>
+        <Badge label={ds.hero.badges[1]} variant="dark" size="lg" />
+      </li>
+    </ul>
+    <ul class="cluster" data-reveal>
+      {ds.stack.map((item) => (
+        <li>
+          <Badge label={item} variant="gray" size="md" />
+        </li>
+      ))}
+    </ul>
+    <div class="ds-hero__stats">
+      <Stats items={ds.kpis} client:load />
+    </div>
+    <div class="cluster" data-reveal>
+      <Button
+        href={ds.storybookHref}
+        label={t('openStorybook', locale)}
+        variant="primary"
+        size="lg"
+      />
+      <Button href={ds.prevCaseStudyHref} label={ds.hero.prevCaseCta} variant="outline" size="lg" />
+    </div>
+  </Section>
+
+  <Section id="contexte" theme="raised" labelledby="ctx-title">
+    <SectionHead
+      id="ctx-title"
+      eyebrow={ds.sections.contexte.eyebrow}
+      title={ds.sections.contexte.title}
+      lead={ds.sections.contexte.lead}
+    />
+    <CaseInsight insight={ds.insights.contexte} locale={locale} />
+    <Bento
+      items={ds.constraints.map((c) => ({
+        label: c.label,
+        title: c.title,
+        text: c.text,
+        accent: c.accent,
+        span: 1,
+      }))}
+    />
+  </Section>
+
+  <Section id="architecture" theme="dark" labelledby="archi-title">
+    <SectionHead
+      id="archi-title"
+      eyebrow={ds.sections.architecture.eyebrow}
+      title={ds.sections.architecture.title}
+      lead={ds.sections.architecture.lead}
+    />
+    <CaseInsight insight={ds.insights.architecture} locale={locale} />
+    <div class="ds-split">
+      <div class="ds-split__aside" data-reveal>
+        <ComponentTree root={ds.srcTreeRoot} nodes={ds.srcTree} label={ds.labels.treeLabel} />
+      </div>
+      <Timeline steps={ds.steps} />
+    </div>
+    <div
+      class="grid-auto ds-gap"
+      style="
+
+--grid-min: 15rem"
+    >
+      {ds.pillars.map((pillar, i) => (
+        <div data-reveal style={`--reveal-index:${i}`}>
+          <Tile label={pillar.name} title={pillar.title} accent={pillar.accent} class="ds-fill">
+            <p>{pillar.text}</p>
+          </Tile>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section id="principes" theme="raised" labelledby="principes-title">
+    <SectionHead
+      id="principes-title"
+      eyebrow={ds.sections.principes.eyebrow}
+      title={ds.sections.principes.title}
+    />
+    <CaseInsight insight={ds.insights.principes} locale={locale} />
+    <Bento
+      items={ds.principles.map((principle) => ({
+        title: principle.label,
+        text: principle.text,
+        accent: principle.accent,
+        span: principle.span,
+      }))}
+    />
+    <div class="ds-gap">
+      <CodeBlock code={ds.snippets.tokensExcerpt} label={ds.labels.tokensExcerptLabel} />
+    </div>
+  </Section>
+
+  <Section id="motion-gsap" theme="dark" labelledby="motion-title">
+    <SectionHead
+      id="motion-title"
+      eyebrow={ds.sections.motion.eyebrow}
+      title={ds.sections.motion.title}
+      lead={ds.sections.motion.lead}
+    />
+    <CaseInsight insight={ds.insights.motion} locale={locale} />
+    <Bento
+      items={ds.motionEngines.map((engine) => ({
+        title: engine.title,
+        text: engine.text,
+        accent: engine.accent,
+        span: engine.span,
+      }))}
+    />
+    <div class="ds-gap" data-reveal>
+      <CodeBlock code={ds.snippets.orchestrator} label={ds.labels.orchestratorLabel} />
+    </div>
+  </Section>
+
+  <Section id="garde-fous" theme="raised" labelledby="garde-title">
+    <SectionHead
+      id="garde-title"
+      eyebrow={ds.sections.gardefous.eyebrow}
+      title={ds.sections.gardefous.title}
+      lead={ds.sections.gardefous.lead}
+    />
+    <CaseInsight insight={ds.insights.gardefous} locale={locale} />
+    <div class="ds-split">
+      <div class="ds-checks" role="table" aria-label={ds.labels.checksTableAria}>
+        {ds.guardrails.map((check) => (
+          <div class="ds-checks__row" role="row" data-reveal>
+            <code role="cell">{check.command}</code>
+            <span role="cell">{check.scope}</span>
+          </div>
+        ))}
+      </div>
+      <div class="stack">
+        <CodeBlock code={ds.snippets.checkCommand} label={ds.labels.checkCommandLabel} />
+        <Accordion items={ds.faq} openIndex={0} />
+      </div>
+    </div>
+  </Section>
+
+  <Section id="workflow" theme="dark" labelledby="workflow-title">
+    <SectionHead
+      id="workflow-title"
+      eyebrow={ds.sections.workflow.eyebrow}
+      title={ds.sections.workflow.title}
+    />
+    <CaseInsight insight={ds.insights.workflow} locale={locale} />
+    <Bento
+      items={ds.workflow.map((item) => ({
+        title: item.title,
+        text: item.text,
+        accent: item.accent,
+        span: 1,
+      }))}
+    />
+  </Section>
+
+  <Section id="storybook" theme="raised" labelledby="storybook-title">
+    <SectionHead
+      id="storybook-title"
+      eyebrow={ds.sections.storybook.eyebrow}
+      title={ds.sections.storybook.title}
+      lead={ds.sections.storybook.lead}
+    />
+    <CaseInsight insight={ds.insights.storybook} locale={locale} />
+    <div
+      class="grid-auto"
+      style="
+
+--grid-min: 15rem"
+    >
+      {ds.storybookFacts.map((fact, i) => (
+        <div data-reveal style={`--reveal-index:${i}`}>
+          <Tile title={fact.title} class="ds-fill">
+            <p>{fact.text}</p>
+          </Tile>
+        </div>
+      ))}
+    </div>
+    <div class="cluster ds-gap" data-reveal>
+      <Button
+        href={ds.storybookHref}
+        label={t('openStorybook', locale)}
+        variant="primary"
+        size="lg"
+      />
+      <Button
+        href={site.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        label={t('contactLinkedIn', locale)}
+        variant="outline"
+        size="lg"
+      />
+    </div>
+  </Section>
+</Layout>
+
+<style is:global>
+  .ds-hero {
+    padding-top: clamp(2rem, 4.5vw, 3.5rem);
+  }
+
+  .ds-hero .container {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .ds-hero__title {
+    margin: 0;
+    max-width: 26ch;
+    font-size: var(--text-fluid-title);
+    font-weight: 780;
+    line-height: 1.08;
+    letter-spacing: -0.028em;
+    color: var(--color-white);
+
+    & em {
+      font-style: normal;
+      background-image: linear-gradient(
+        90deg,
+        var(--color-brand-primary-light),
+        var(--color-brand-violet)
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  .ds-hero__stats {
+    margin-top: 0.5rem;
+  }
+
+  .ds-gap {
+    margin-top: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .ds-fill {
+    height: 100%;
+  }
+
+  .ds-split {
+    display: grid;
+    gap: var(--grid-gap);
+    align-items: start;
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* L'arborescence reste visible pendant le défilement des six couches */
+  .ds-split__aside {
+    @media (min-width: 1024px) {
+      position: sticky;
+      top: calc(var(--header-height) + 1.5rem);
+    }
+  }
+
+  .ds-checks {
+    border: var(--border-edge-thin);
+    border-radius: var(--radius-tile);
+    background-image: linear-gradient(180deg, var(--color-white-07), var(--color-white-05));
+    overflow: hidden;
+  }
+
+  .ds-checks__row {
+    display: grid;
+    gap: 0.25rem 1.25rem;
+    padding: 0.9rem 1.3rem;
+    border-bottom: var(--border-edge-thin);
+
+    @media (min-width: 640px) {
+      grid-template-columns: 11rem 1fr;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    & code {
+      font-size: var(--text-fluid-sm);
+      color: var(--color-brand-mint);
+    }
+
+    & span {
+      font-size: var(--text-fluid-sm);
+      line-height: 1.5;
+    }
+  }
+</style>

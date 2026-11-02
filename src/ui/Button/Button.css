@@ -1,0 +1,182 @@
+/* ==========================================================================
+   BUTTON — Primitive de bouton et lien d'action (BEM nesté natif)
+   Charte : pilule, fond rose plein (primary), contour verre (outline).
+   ========================================================================== */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  border: var(--border-edge) solid transparent;
+  border-radius: var(--radius-chip);
+  transition:
+    color var(--duration-base) var(--ease-standard),
+    background-color var(--duration-base) var(--ease-standard),
+    border-color var(--duration-base) var(--ease-standard),
+    box-shadow var(--duration-base) var(--ease-standard),
+    transform var(--duration-base) var(--ease-out-glide);
+  text-align: center;
+  cursor: pointer;
+
+  &.btn--auto {
+    width: auto;
+  }
+
+  &.btn--full,
+  &.btn--full-width {
+    width: 100%;
+  }
+
+  &.btn--primary {
+    background-color: var(--color-brand-primary);
+    color: var(--color-white);
+    box-shadow: var(--shadow-glow-primary);
+
+    &:hover {
+      background-color: var(--color-brand-primary-light);
+      transform: translateY(-2px);
+    }
+  }
+
+  &.btn--secondary {
+    background-color: var(--color-brand-light);
+    color: var(--color-brand-dark);
+
+    &:hover {
+      background-color: var(--color-white);
+      transform: translateY(-2px);
+    }
+  }
+
+  &.btn--dark {
+    background-color: var(--color-brand-surface);
+    color: var(--color-white);
+    border-color: var(--color-white-10);
+
+    &:hover {
+      border-color: var(--color-white-30);
+    }
+  }
+
+  &.btn--outline {
+    background-color: var(--color-white-05);
+    border-color: var(--color-white-20);
+    color: var(--color-white);
+
+    &:hover {
+      background-color: var(--color-white-10);
+      border-color: var(--color-white-40);
+    }
+  }
+
+  &.btn--dark:has(.vector-border-svg),
+  &.btn--outline:has(.vector-border-svg) {
+    border-color: transparent;
+
+    &:hover {
+      border-color: transparent;
+    }
+  }
+
+  &.btn--ghost {
+    background-color: transparent;
+    color: var(--color-text-body);
+
+    &:hover {
+      color: var(--color-brand-primary-light);
+    }
+  }
+
+  &.btn--danger {
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger-text);
+    border-color: var(--color-danger-border);
+
+    &:hover {
+      background-color: var(--color-danger-border);
+      color: var(--color-brand-dark);
+    }
+  }
+
+  &.btn--link {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 1px solid currentcolor;
+    border-radius: 0;
+    color: currentcolor;
+    padding: 0;
+    font-weight: 600;
+
+    &:hover {
+      color: var(--color-brand-primary-light);
+    }
+  }
+
+  &.btn--unstyled {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background-color: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    display: inline-block;
+    width: 100%;
+  }
+
+  &.btn--xl {
+    padding: 0.95rem 1.85rem;
+    font-size: var(--text-fluid-base);
+  }
+
+  &.btn--lg {
+    padding: 0.75rem 1.45rem;
+    font-size: var(--text-fluid-sm);
+  }
+
+  &.btn--md {
+    padding: 0.65rem 1.25rem;
+    font-size: var(--text-fluid-sm);
+    line-height: var(--text-fluid-sm--line-height);
+  }
+
+  &.btn--sm {
+    padding: 0.45rem 0.95rem;
+    font-size: var(--text-fluid-xs);
+    line-height: var(--text-fluid-xs--line-height);
+  }
+
+  & .btn__label {
+    display: inline-block;
+  }
+
+  &.btn--icon {
+    padding: 0.6rem;
+    aspect-ratio: 1 / 1;
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  & .btn__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+  }
+
+  & .btn__icon-svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}

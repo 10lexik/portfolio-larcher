@@ -1,0 +1,125 @@
+/* ==========================================================================
+   TILE — carte « verre » : primitive de surface du design system
+   ========================================================================== */
+
+.tile {
+  position: relative;
+  display: block;
+  padding: clamp(1.1rem, 2.2vw, 1.75rem);
+  border: var(--border-edge-thin);
+  border-radius: var(--radius-tile);
+  background-image: linear-gradient(180deg, var(--color-white-07), var(--color-white-05));
+  box-shadow: var(--shadow-edge-sm);
+  overflow: hidden;
+  color: var(--color-text-body);
+
+  &.tile--flush {
+    padding: 0;
+  }
+
+  &.tile--accent-primary {
+    --tile-accent: var(--color-brand-primary-light);
+  }
+
+  &.tile--accent-violet {
+    --tile-accent: var(--color-brand-violet);
+  }
+
+  &.tile--accent-mint {
+    --tile-accent: var(--color-brand-mint);
+  }
+
+  &.tile--accent-blue {
+    --tile-accent: var(--color-brand-blue);
+  }
+
+  &.tile--accent-amber {
+    --tile-accent: var(--color-brand-amber);
+  }
+
+  &.tile--accent {
+    border-color: color-mix(in srgb, var(--tile-accent) 22%, var(--color-white-10));
+    background-image:
+      radial-gradient(
+        130% 95% at 0% 0%,
+        color-mix(in srgb, var(--tile-accent) 13%, transparent),
+        transparent 62%
+      ),
+      linear-gradient(180deg, var(--color-white-07), var(--color-white-05));
+  }
+
+  &.tile--interactive {
+    transition:
+      transform var(--duration-base) var(--ease-out-glide),
+      border-color var(--duration-base) var(--ease-standard),
+      box-shadow var(--duration-base) var(--ease-standard);
+
+    &:hover {
+      transform: translateY(-4px);
+      border-color: var(--color-white-30);
+      box-shadow: var(--shadow-edge-md);
+    }
+  }
+
+  & .tile__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.7rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-fluid-label);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  &.tile--accent .tile__label {
+    color: color-mix(in srgb, var(--tile-accent) 88%, var(--color-white));
+
+    &::before {
+      content: '';
+      width: 0.375rem;
+      height: 0.375rem;
+      flex-shrink: 0;
+      border-radius: var(--radius-chip);
+      background-color: var(--tile-accent);
+      box-shadow: 0 0 10px var(--tile-accent);
+    }
+  }
+
+  & .tile__title {
+    margin: 0 0 0.5rem;
+    font-size: var(--text-fluid-h4);
+    line-height: 1.18;
+    font-weight: 750;
+    text-wrap: balance;
+    color: var(--color-white);
+  }
+
+  &.tile--accent:not(:has(.tile__label)) .tile__title {
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+
+    &::before {
+      content: '';
+      width: 0.4rem;
+      height: 0.4rem;
+      flex-shrink: 0;
+      border-radius: var(--radius-chip);
+      background-color: var(--tile-accent);
+      box-shadow: 0 0 10px var(--tile-accent);
+      transform: translateY(-0.12em);
+    }
+  }
+
+  & p {
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  & p + p {
+    margin-top: 0.75rem;
+  }
+}

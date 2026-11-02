@@ -1,0 +1,92 @@
+---
+import { t } from '@core/i18n/t';
+import type { Locale } from '@core/content/types';
+import { getVeepeeContent } from './veepee';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'fr' } = Astro.props;
+const variants = getVeepeeContent(locale).variantItems;
+---
+
+<ul class="variants">
+  {variants.map((item, i) => (
+    <li class="variants__item" data-reveal style={`--reveal-index:${i}`}>
+      <div class="variants__head">
+        <code class="variants__tag">variant="{item.id}"</code>
+        <span class="variants__folder">{item.folder}</span>
+      </div>
+      <p class="variants__desc">{item.desc}</p>
+      <p class="variants__example">
+        <span>{t('variantInProd', locale)}</span> {item.example}
+      </p>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .variants {
+    display: grid;
+    gap: var(--grid-gap);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .variants__item {
+    display: grid;
+    gap: 0.75rem;
+    align-content: start;
+    padding: 1.25rem 1.35rem;
+    border: var(--border-edge-thin);
+    border-radius: var(--radius-tile);
+    background-image: linear-gradient(180deg, var(--color-white-07), var(--color-white-05));
+    box-shadow: var(--shadow-edge-sm);
+  }
+
+  .variants__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .variants__tag {
+    padding: 0.25rem 0.7rem;
+    border-radius: var(--radius-chip);
+    background-color: var(--color-white-10);
+    font-family: var(--font-mono);
+    font-size: var(--text-fluid-xs);
+    color: var(--color-brand-primary-light);
+  }
+
+  .variants__folder {
+    font-family: var(--font-mono);
+    font-size: var(--text-fluid-xs);
+    color: var(--color-text-subtle);
+  }
+
+  .variants__desc {
+    margin: 0;
+    font-size: var(--text-fluid-sm);
+    line-height: 1.5;
+    color: var(--color-text-body);
+  }
+
+  .variants__example {
+    margin: 0;
+    padding-top: 0.55rem;
+    border-top: var(--border-edge-thin);
+    font-size: var(--text-fluid-xs);
+    color: var(--color-brand-mint);
+
+    & span {
+      font-weight: 600;
+      color: var(--color-text-muted);
+    }
+  }
+</style>

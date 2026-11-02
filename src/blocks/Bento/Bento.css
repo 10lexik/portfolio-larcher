@@ -1,0 +1,31 @@
+/* ==========================================================================
+   BENTO — grille de cartes asymétrique (1 colonne mobile, 3 colonnes desktop)
+   ========================================================================== */
+
+.bento {
+  display: grid;
+  gap: var(--grid-gap);
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  & .bento__cell {
+    display: grid;
+    min-width: 0;
+
+    @media (min-width: 768px) {
+      &.bento__cell--span-2 {
+        grid-column: span 2;
+      }
+
+      &.bento__cell--span-3 {
+        grid-column: span 3;
+      }
+    }
+  }
+
+  & .bento__tile {
+    height: 100%;
+  }
+}

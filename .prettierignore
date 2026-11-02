@@ -1,0 +1,19 @@
+# Sorties et dépendances
+dist/
+.astro/
+.vercel/
+node_modules/
+package-lock.json
+
+# Données générées / migrées (contenu, pas du code)
+src/data/
+pages.json
+public/
+
+# Hors périmètre front
+sanity/
+scratch/
+*.py
+
+# Documentation rédigée à la main (AGENTS.md, README)
+*.md

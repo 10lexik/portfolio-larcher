@@ -1,0 +1,55 @@
+/* ==========================================================================
+   CODEBLOCK — extrait de code (fond sombre, coloration minimale)
+   ========================================================================== */
+
+.code-block {
+  border: var(--border-edge-thin);
+  border-radius: var(--radius-media);
+  background-color: var(--color-code-bg);
+  overflow: hidden;
+
+  & .code-block__label {
+    margin: 0;
+    padding: 0.55rem 1rem;
+    border-bottom: var(--border-edge-thin);
+    font-family: var(--font-mono);
+    font-size: var(--text-fluid-xs);
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+  }
+
+  & .code-block__pre {
+    margin: 0;
+    padding: 1rem;
+    overflow-x: auto;
+    font-size: var(--text-fluid-sm);
+    line-height: 1.6;
+    color: var(--color-text-body);
+    tab-size: 2;
+  }
+
+  & .tok-c {
+    color: var(--color-text-faint);
+    font-style: italic;
+  }
+
+  & .tok-v {
+    color: var(--color-brand-primary-light);
+  }
+
+  & .tok-s {
+    color: var(--color-brand-mint);
+  }
+
+  & .tok-t {
+    color: var(--color-brand-blue);
+  }
+
+  & .tok-k {
+    color: var(--color-brand-violet);
+  }
+
+  & .tok-n {
+    color: var(--color-brand-amber);
+  }
+}

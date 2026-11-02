@@ -1,0 +1,341 @@
+{
+  "identity": {
+    "url": "https://portfolio-larcher.vercel.app",
+    "name": "Gwennaël Larcher",
+    "monogram": "GL",
+    "themeColor": "#090912",
+    "linkedin": "https://www.linkedin.com/in/legwarkshop",
+    "codepen": "https://codepen.io/pink_ananas"
+  },
+  "routes": {
+    "storybook": "/storybook/index.html",
+    "fr": {
+      "home": "/",
+      "veepee": "/veepee-ad-studio",
+      "designSystem": "/design-system",
+      "about": "/a-propos"
+    },
+    "en": {
+      "home": "/en",
+      "veepee": "/en/veepee-ad-studio",
+      "designSystem": "/en/design-system",
+      "about": "/en/about"
+    }
+  },
+  "media": {
+    "favicon": "/favicon.svg",
+    "ogImage": "/media/og.jpg",
+    "ratios": {
+      "desktop": "16 / 10",
+      "mobile": "9 / 16"
+    },
+    "heroBrandIds": ["samsung", "peugeot", "pierre-vacances", "claudie-pierlot"],
+    "featuredBrandIds": [
+      "samsung",
+      "peugeot",
+      "mms",
+      "pink-october",
+      "picard",
+      "coffee-b",
+      "pierre-vacances",
+      "claudie-pierlot",
+      "fdj"
+    ],
+    "proofBrandIds": [
+      "pierre-vacances",
+      "claudie-pierlot",
+      "fdj",
+      "peugeot",
+      "samsung",
+      "pink-october",
+      "mms",
+      "picard",
+      "coffee-b",
+      "sephora"
+    ],
+    "brands": {
+      "samsung": {
+        "name": "Samsung",
+        "market": "veepee.fr",
+        "href": "https://www.veepee.fr/experiences/crb-samsung14/",
+        "display": "veepee.fr/experiences/crb-samsung14",
+        "videoDesk": "/media/videos/brands/samsung.mp4",
+        "videoMob": "/media/videos/brands/samsung-mob.mp4",
+        "posterDesk": "/media/brands/samsung-desk.webp",
+        "posterMob": "/media/brands/samsung-mob.webp",
+        "components": ["HeaderCus", "VideoCus", "MultiOffer", "Cards", "Sticky"]
+      },
+      "peugeot": {
+        "name": "Peugeot",
+        "market": "veepee.es",
+        "href": "https://www.veepee.es/experiences/pb-peugeot31/",
+        "display": "veepee.es/experiences/pb-peugeot31",
+        "videoDesk": "/media/videos/brands/peugeot.mp4",
+        "videoMob": "/media/videos/brands/peugeot-mob.mp4",
+        "posterDesk": "/media/brands/peugeot-desk.webp",
+        "posterMob": "/media/brands/peugeot-mob.webp",
+        "components": ["HeaderCus", "HeaderCusAnimation", "Slider", "NavBar", "Cards"]
+      },
+      "mms": {
+        "name": "M&M’s",
+        "market": "veepee.fr",
+        "href": "https://www.veepee.fr/experiences/crb-mymms6/",
+        "display": "veepee.fr/experiences/crb-mymms6",
+        "videoDesk": "/media/videos/brands/mms.mp4",
+        "videoMob": "/media/videos/brands/mms-mob.mp4",
+        "posterDesk": "/media/brands/mms-desk.webp",
+        "posterMob": "/media/brands/mms-mob.webp",
+        "components": ["HeaderCus", "HeaderCusAnimation", "Cards", "Offer", "Appear"]
+      },
+      "pink-october": {
+        "name": "Pink October",
+        "market": "veepee.fr",
+        "href": "https://www.veepee.fr/experiences/pink-october4/#/",
+        "display": "veepee.fr/experiences/pink-october4",
+        "videoDesk": "/media/videos/brands/pink-october.mp4",
+        "videoMob": "/media/videos/brands/pink-october-mob.mp4",
+        "posterDesk": "/media/brands/pink-october-desk.webp",
+        "posterMob": "/media/brands/pink-october-mob.webp",
+        "components": ["HeaderCus", "Collect", "Modal", "Cards"]
+      },
+      "picard": {
+        "name": "Picard",
+        "market": "veepee.fr",
+        "href": "https://www.veepee.fr/experiences/crb-picard11/",
+        "display": "veepee.fr/experiences/crb-picard11",
+        "videoDesk": "/media/videos/brands/picard.mp4",
+        "videoMob": "/media/videos/brands/picard-mob.mp4",
+        "posterDesk": "/media/brands/picard-desk.webp",
+        "posterMob": "/media/brands/picard-mob.webp",
+        "components": ["HeaderCus", "Slider", "CopyCode", "Offer", "Cards"]
+      },
+      "coffee-b": {
+        "name": "Coffee B",
+        "market": "veepee.fr",
+        "href": "https://www.veepee.fr/experiences/crb-coffeeb1/",
+        "display": "veepee.fr/experiences/crb-coffeeb1",
+        "videoDesk": "/media/videos/brands/coffee-b.mp4",
+        "videoMob": "/media/videos/brands/coffee-b-mob.mp4",
+        "posterDesk": "/media/brands/coffee-b-desk.webp",
+        "posterMob": "/media/brands/coffee-b-mob.webp",
+        "components": ["HeaderCus", "HeaderCusAnimation", "MultiOffer", "Stacking", "VideoCus"]
+      },
+      "pierre-vacances": {
+        "name": "Pierre & Vacances",
+        "market": "veepee.fr",
+        "href": "https://www.veepee.fr/experiences/crb-pvacances5/",
+        "display": "veepee.fr/experiences/crb-pvacances5",
+        "videoDesk": "/media/videos/brands/pierre-vacances.mp4",
+        "videoMob": "/media/videos/brands/pierre-vacances-mob.mp4",
+        "posterDesk": "/media/brands/pierre-vacances-desk.webp",
+        "posterMob": "/media/brands/pierre-vacances-mob.webp",
+        "components": ["HeaderCus (pop-in)", "HeaderCusAnimation", "Slider", "NavBar", "Offer"]
+      },
+      "claudie-pierlot": {
+        "name": "Claudie Pierlot",
+        "market": "veepee.fr",
+        "href": "https://www.veepee.fr/experiences/crb-cpierlot6/",
+        "display": "veepee.fr/experiences/crb-cpierlot6",
+        "videoDesk": "/media/videos/brands/claudie-pierlot.mp4",
+        "videoMob": "/media/videos/brands/claudie-pierlot-mob.mp4",
+        "posterDesk": "/media/brands/claudie-pierlot-desk.webp",
+        "posterMob": "/media/brands/claudie-pierlot-mob.webp",
+        "components": ["HeaderCus (top)", "HeaderCusAnimation", "CopyCode", "Gallery", "Cards"]
+      },
+      "fdj": {
+        "name": "FDJ · EuroMillions",
+        "market": "brand-media-demo",
+        "href": "https://brand-media-demo.front.vpgrp.net/experiences/crb-fdj49/",
+        "display": "brand-media-demo.front.vpgrp.net/…/crb-fdj49",
+        "videoDesk": "/media/videos/brands/fdj.mp4",
+        "videoMob": "/media/videos/brands/fdj-mob.mp4",
+        "posterDesk": "/media/brands/fdj-desk.webp",
+        "posterMob": "/media/brands/fdj-mob.webp",
+        "components": ["Consent", "HeaderCusAnimation", "HowTo", "Offer", "Sticky"]
+      },
+      "sephora": {
+        "name": "Sephora",
+        "market": "brand-media-demo",
+        "href": "https://brand-media-demo.front.vpgrp.net/experiences/crb-sephora26/",
+        "display": "brand-media-demo.front.vpgrp.net/…/crb-sephora26",
+        "videoDesk": "",
+        "videoMob": "",
+        "posterDesk": "",
+        "posterMob": "",
+        "components": []
+      }
+    },
+    "headerAnimationVideos": [
+      "/media/videos/clip-path-slider.mp4",
+      "/media/videos/image-text-appear.mp4",
+      "/media/videos/scroll-filtered.mp4",
+      "/media/videos/scroll-pin.mp4"
+    ]
+  },
+  "home": {
+    "designSystemChips": ["Astro", "Svelte 5", "Tailwind 4", "Storybook 10"]
+  },
+  "veepee": {
+    "codeRefs": {
+      "repo": "/base-vue-3",
+      "mainTag": "<main>",
+      "readmeFile": "Readme.md",
+      "headerAnimDir": "src/components/_modulus/headerCus/headerCusAnimation/",
+      "duFn": "du()",
+      "vwFn": "vw()"
+    },
+    "kpiMetrics": [
+      { "value": 300, "prefix": "+" },
+      { "value": 13 },
+      { "value": 50, "display": "30–50 %" },
+      { "value": 50, "prefix": "+" }
+    ],
+    "rolePillarAccents": ["primary", "violet", "mint"],
+    "archKpiMetrics": [
+      { "value": 32, "display": "19 + 13" },
+      { "value": 28 },
+      { "value": 8 },
+      { "value": 13 }
+    ],
+    "headerAnimationKpiValues": [7, 5, 4, 2],
+    "componentTreeRoot": "src/components/",
+    "componentTreeStructure": {
+      "atomicRow1": ["Click", "Consent", "Loader", "Sticky", "Stacking"],
+      "atomicRow2": ["CopyCode", "Timer", "VideoCus", "ImgCus", "Fonts", "Rating", "Modal", "…"],
+      "modulusFolder": "_modulus/",
+      "headerCusFolder": "HeaderCus/",
+      "headerCusCoreFiles": ["HeaderCus.vue", ".ts", ".scss"],
+      "headerCusTypesFile": ["HeaderCusTypes.ts"],
+      "headerCusReadmeFile": ["Readme.md"],
+      "variantsFolder": "variants/",
+      "variantsFiles": ["Top", "Bottom", "PopIn", "Block", "Center"],
+      "headerAnimFolder": "HeaderCusAnimation/",
+      "headerAnimFiles": ["HeaderCusAnimation.vue", ".ts", ".scss", "Readme.md"],
+      "modulusRow1": ["Cards (5)", "Slider (5)", "Collect (3) + SpinningWheel"],
+      "modulusRow2": [
+        "MultiOffer (2)",
+        "Gallery (3 modes)",
+        "Offer (2)",
+        "NavBar",
+        "Accordion",
+        "…"
+      ]
+    },
+    "variants": [
+      { "id": "top", "folder": "variants/Top/", "example": "Claudie Pierlot · Pink October" },
+      { "id": "bottom", "folder": "variants/Bottom/", "example": "Peugeot · Coffee B" },
+      { "id": "pop-in", "folder": "variants/PopIn/", "example": "Pierre & Vacances · Picard" },
+      { "id": "block", "folder": "variants/Block/", "example": "M&M’s" },
+      { "id": "center", "folder": "variants/Center/", "example": "Samsung · FDJ EuroMillions" }
+    ],
+    "figmaChainAccents": ["primary", "blue", "mint", "amber"],
+    "learningAccents": ["primary", "violet", "mint"],
+    "snippets": {
+      "newComponent": "// scripts/new_component.sh\nsrc/components/_modulus/monComposant/\n├── MonComposant.vue\n├── MonComposant.ts\n├── MonComposant.scss\n├── MonComposantTypes.ts\n├── Readme.md\n└── variants/",
+      "scssComponentTokens": "$headerCus-background-color: white;\n$headerCus-logo-width-mob: vw(104px);\n$headerCus-logo-width-desk: du(184px);\n$headerCus-color-text: white;\n$headerCus-pop-in-border-radius-desk:\n    du(30px);",
+      "scssGlobalTokens": "// src/assets/styles/vars/\n$c-theme: #161616;\n$c-vp: #ec008c;\n$c-text: #464650;\n\nvw($px)   du($px)   vh($px)",
+      "vbrand": "<main\n  class=\"app\"\n  v-brand=\"'logos/pierre-vacances.svg'\"\n  v-loader=\"{ type: 'progressBar' }\"\n>",
+      "types": "export type HeaderVariant =\n  | 'top'\n  | 'bottom'\n  | 'pop-in'\n  | 'block'\n  | 'center';\n\nexport type HeaderDirection =\n  | 'left' | 'right' | 'up' | 'down'\n  | 'sandwichX' | 'sandwichY' | 'random';\n\nexport type HeaderZoomEffect =\n  | 'zoom-in' | 'zoom-out'\n  | 'zoom-pulse' | 'zoom-rotate' | 'none';",
+      "headerAnimation": "<HeaderCus\n  variant=\"pop-in\"\n  :bg=\"{\n    type: 'image',\n    mob: ['header/mob-1.jpg', 'header/mob-2.jpg'],\n    desk: ['header/desk-1.jpg', 'header/desk-2.jpg'],\n    direction: 'sandwichX',\n    zoomEffect: 'zoom-out',\n  }\"\n  :animations=\"{\n    intro: {\n      imageAppear: { duration: 1.1, ease: 'power3.out' },\n      textAppear: {\n        title: { y: 40, duration: 0.8, position: '-=0.4' },\n        cta: { scale: 0.9, duration: 0.5, position: '+=0.15' },\n      },\n    },\n    scroll: {\n      pin: true,\n      pinToElement: '.multi-offer',\n      scaled: 1.15,\n      filtered: 'blur(8px)',\n    },\n  }\"\n/>",
+      "timelineManager": "// src/ts/plugins/timelineManager.ts\nreadyTimeline\n  .addLabel('header')\n  .add(headerIntroTl, 'header')\n  .addLabel('headerAnimation>', '>')\n  .add(stickyAppearTl, 'headerAnimation>')\n  .add(scrollAppearTl, 'headerAnimation>')\n  .addLabel('stacking', '>')\n  .addLabel('slider', '>');"
+    },
+    "gsapComponentsMeta": [
+      {
+        "path": "src/components/_modulus/cards/",
+        "accent": "primary",
+        "variants": ["edito", "info", "category", "reinsurance", "horizontal"],
+        "code": "export type CardVariant =\n  | 'edito' | 'info' | 'category'\n  | 'reinsurance' | 'horizontal';\n\n<Cards\n  variant=\"edito\"\n  :cards=\"items\"\n  :stickers=\"true\"\n  :appear=\"{ yPercent: 30, stagger: 0.12 }\"\n/>"
+      },
+      {
+        "path": "src/components/_modulus/slider/",
+        "accent": "violet",
+        "variants": ["infoCard", "simpleCard", "editoCard", "media", "reaCard"],
+        "code": "export type SliderVariant =\n  | 'infoCard' | 'simpleCard' | 'editoCard'\n  | 'media' | 'reaCard';\n\n<Slider\n  variant=\"editoCard\"\n  :focus=\"true\"\n  :syncWithNavBar=\"true\"\n  :appear=\"true\"\n/>"
+      },
+      {
+        "path": "src/components/_modulus/multiOffer/ + stacking/",
+        "accent": "mint",
+        "variants": ["stacking", "bundle", "size: small | big", "reversed"],
+        "code": "// src/components/stacking/Stacking.ts\nScrollTrigger.create({\n  trigger: this.$el,\n  pin: true,\n  scrub: 1,\n  end: '+=200%',\n  animation: stackingTimeline,\n});"
+      },
+      {
+        "path": "src/components/_modulus/collect/",
+        "accent": "amber",
+        "variants": ["simple", "instantWin", "spinningWheel", "popIn"],
+        "code": "gsap.to(wheel, {\n  rotation: 360 * 5 + targetSafeZoneAngle,\n  duration: 6,\n  ease: 'power4.out',\n  onUpdate: () => this.triggerClapperPhysics(indicatorTl),\n  onComplete: () => ScrollTrigger.refresh(),\n});"
+      },
+      {
+        "path": "src/components/_modulus/gallery/",
+        "accent": "blue",
+        "variants": ["shifted", "parallax", "animate", "8 modes"],
+        "code": "<Gallery\n  :images=\"lookbook\"\n  :shifted=\"true\"\n  :parallax=\"true\"\n  :animate=\"true\"\n/>"
+      },
+      {
+        "path": "src/components/sticky/",
+        "accent": "primary",
+        "variants": ["middle", "pop-in", "full", "bottom | top"],
+        "code": "export type StickyVariant = 'middle' | 'pop-in' | 'full';\nexport type StickyPosition = 'bottom' | 'top';\n\n<Sticky\n  variant=\"pop-in\"\n  position=\"bottom\"\n  endTrigger=\".footer-cus\"\n/>"
+      },
+      {
+        "path": "src/components/_modulus/offer/ + mixins/appear/",
+        "accent": "violet",
+        "variants": ["simple", "bundle", "row", "popIn", "dual (+)"],
+        "code": "<Offer\n  variant=\"bundle\"\n  :row=\"true\"\n  :timer=\"{ endDate: '2025-11-30', timerShrink: true }\"\n  :copyCode=\"{ code: 'VEEPEE20' }\"\n  :appearChildren=\"true\"\n/>"
+      }
+    ]
+  },
+  "designSystem": {
+    "codeRefs": {
+      "veepeeRepo": "/base-vue-3"
+    },
+    "kpiValues": [4, 25, 12, 67, 9],
+    "constraintAccents": ["primary", "violet", "mint"],
+    "pillarsMeta": [
+      { "name": "core", "accent": "primary" },
+      { "name": "ui", "accent": "blue" },
+      { "name": "blocks", "accent": "mint" },
+      { "name": "domains", "accent": "amber" }
+    ],
+    "srcTreeRoot": "src/",
+    "srcTreeFolders": ["core/", "ui/", "blocks/", "domains/", "layouts/", "pages/"],
+    "dependencyFlow": ["core", "ui", "blocks", "domains", "layouts", "pages"],
+    "stepAccents": ["primary", "blue", "mint", "amber", "violet", "primary"],
+    "guardrailCommands": [
+      "astro check",
+      "typecheck:svelte",
+      "lint",
+      "lint:css",
+      "lint:tokens",
+      "lint:themes",
+      "lint:arch",
+      "lint:dead",
+      "format:check"
+    ],
+    "principlesMeta": [
+      { "accent": "primary", "span": 2 },
+      { "accent": "violet", "span": 1 },
+      { "accent": "mint", "span": 1 },
+      { "accent": "blue", "span": 1 },
+      { "accent": "amber", "span": 1 },
+      { "accent": "primary", "span": 1 }
+    ],
+    "workflowAccents": ["primary", "violet", "mint", "blue"],
+    "motionEnginesMeta": [
+      { "accent": "primary", "span": 1 },
+      { "accent": "violet", "span": 1 },
+      { "accent": "mint", "span": 1 },
+      { "accent": "blue", "span": 2 },
+      { "accent": "amber", "span": 1 }
+    ],
+    "snippets": {
+      "tokensExcerpt": "@theme {\n  --color-brand-primary: #ec008c;\n  --color-brand-dark: #090912;\n\n  --text-fluid-h2: clamp(1.5rem, 2.4vw, 2.25rem);\n  --text-fluid-lead: clamp(1rem, 0.92rem + 0.35vw, 1.1875rem);\n\n  --duration-base: 300ms;\n  --ease-out-glide: cubic-bezier(0.215, 0.61, 0.355, 1);\n  --grain-tile-size: 380px;\n  --grain-paper-opacity: 0.095;\n}",
+      "checkCommand": "npm run check\n  = astro check\n  && typecheck:svelte && lint && lint:css\n  && lint:tokens && lint:themes && lint:arch\n  && lint:dead && format:check",
+      "orchestrator": "// src/core/motion/AnimationOrchestrator.ts\ndocument.addEventListener('astro:before-preparation', (e) => orchestrator.beforePreparation(e));\ndocument.addEventListener('astro:after-preparation', () => orchestrator.afterPreparation());\ndocument.addEventListener('astro:before-swap', () => orchestrator.beginPage());\ndocument.addEventListener('astro:after-swap', () => orchestrator.preparePage());\ndocument.addEventListener('astro:page-load', () => {\n  initStacking();\n  initSectionTimelines();\n  initAllStaggeredGrids();\n  createParallax();\n  playFirstWave();\n});"
+    }
+  },
+  "about": {
+    "skillAccents": ["primary", "violet", "mint"],
+    "experiencePeriods": ["2017 – 2025", "2012 – 2017", "2008 – 2012"],
+    "educationPeriods": ["2006 – 2008", "2008 – 2010", "2011"]
+  }
+}

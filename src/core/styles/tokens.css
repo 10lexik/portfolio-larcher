@@ -1,0 +1,305 @@
+/* ============================================================
+   DESIGN TOKENS & PRIMITIVES (SSOT)
+   Source unique de vérité du design system du portfolio.
+   Couleurs, typographie fluide (clamp), espacements, layout, motion.
+   Charte : fond quasi-noir, accent rose, dégradé rose → violet, tuiles « verre ».
+   ============================================================ */
+
+@theme {
+  /* Couleurs de marque */
+  --color-brand-primary: #ec008c;
+  --color-brand-primary-light: #ff4fb0;
+  --color-brand-violet: #9d7bff;
+  --color-brand-mint: #7cf7c3;
+  --color-brand-blue: #7aa8ff;
+  --color-brand-amber: #ffc66d;
+  --color-brand-alt: #9d7bff;
+  --color-brand-dark: #090912;
+  --color-brand-surface: #12121c;
+  --color-brand-gray: #b4b4c8;
+  --color-brand-light: #e8e8f0;
+  --color-white: #fff;
+  --color-black: #000;
+
+  /* Couleurs sémantiques neutres (SSOT — zéro #hex en dur dans les composants) */
+  --color-text-body: #c8c8dc;
+  --color-text-muted: #9a9ab0;
+  --color-text-subtle: #7d7d95;
+  --color-text-faint: #6d6d85;
+  --color-border-muted: rgb(255 255 255 / 20%);
+  --color-border-subtle: rgb(255 255 255 / 10%);
+  --color-surface-muted: rgb(255 255 255 / 7%);
+  --color-surface-subtle: rgb(255 255 255 / 3%);
+  --color-surface-raised: #181826;
+  --color-code-bg: #0d0d16;
+
+  /* Couleurs d'alerte / statut sémantiques */
+  --color-danger-bg: #2a0f1c;
+  --color-danger-border: #ff7a9a;
+  --color-danger-text: #ffb3c6;
+  --color-link-blue: var(--color-brand-blue);
+
+  /* Halos de fond (dégradés radiaux de la charte) */
+  --color-halo-violet: #2a0a3f;
+  --color-halo-rose: #3a0a2a;
+
+  /* Transparences sémantiques (SSOT — zéro rgb() en dur dans les composants) */
+  --color-white-90: rgb(255 255 255 / 90%);
+  --color-white-85: rgb(255 255 255 / 85%);
+  --color-white-80: rgb(255 255 255 / 80%);
+  --color-white-70: rgb(255 255 255 / 70%);
+  --color-white-60: rgb(255 255 255 / 60%);
+  --color-white-50: rgb(255 255 255 / 50%);
+  --color-white-40: rgb(255 255 255 / 40%);
+  --color-white-30: rgb(255 255 255 / 30%);
+  --color-white-20: rgb(255 255 255 / 20%);
+  --color-white-10: rgb(255 255 255 / 10%);
+  --color-white-07: rgb(255 255 255 / 7%);
+  --color-white-05: rgb(255 255 255 / 5%);
+  --color-black-90: rgb(0 0 0 / 90%);
+  --color-black-70: rgb(0 0 0 / 70%);
+  --color-black-40: rgb(0 0 0 / 40%);
+  --color-black-20: rgb(0 0 0 / 20%);
+  --color-black-05: rgb(0 0 0 / 5%);
+  --color-dark-90: color-mix(in srgb, var(--color-brand-dark) 90%, transparent);
+  --color-dark-85: color-mix(in srgb, var(--color-brand-dark) 85%, transparent);
+  --color-dark-80: color-mix(in srgb, var(--color-brand-dark) 80%, transparent);
+  --color-dark-70: color-mix(in srgb, var(--color-brand-dark) 70%, transparent);
+  --color-dark-60: color-mix(in srgb, var(--color-brand-dark) 60%, transparent);
+  --color-dark-45: color-mix(in srgb, var(--color-brand-dark) 45%, transparent);
+  --color-dark-40: color-mix(in srgb, var(--color-brand-dark) 40%, transparent);
+  --color-dark-30: color-mix(in srgb, var(--color-brand-dark) 30%, transparent);
+  --color-dark-20: color-mix(in srgb, var(--color-brand-dark) 20%, transparent);
+  --color-dark-15: color-mix(in srgb, var(--color-brand-dark) 15%, transparent);
+  --color-dark-10: color-mix(in srgb, var(--color-brand-dark) 10%, transparent);
+  --color-dark-05: color-mix(in srgb, var(--color-brand-dark) 5%, transparent);
+  --color-light-85: color-mix(in srgb, var(--color-brand-light) 85%, transparent);
+  --color-primary-45: color-mix(in srgb, var(--color-brand-primary) 45%, transparent);
+  --color-primary-15: color-mix(in srgb, var(--color-brand-primary) 15%, transparent);
+  --color-primary-05: color-mix(in srgb, var(--color-brand-primary) 5%, transparent);
+
+  /* Bordures « verre » (SSOT) */
+  --border-edge: 1px;
+  --border-edge-sm: 1px;
+  --border-edge-lg: 1px solid var(--color-white-30);
+  --border-edge-md: 1px solid var(--color-white-20);
+  --border-edge-3: 1px solid var(--color-white-20);
+  --border-edge-thin: 1px solid var(--color-white-10);
+
+  /* Rayons (SSOT) */
+  --radius-tile: 22px;
+  --radius-chip: 999px;
+  --radius-media: 14px;
+
+  /* Ombres douces et halos (SSOT) */
+  --shadow-edge-xs: 0 2px 8px var(--color-black-20);
+  --shadow-edge-sm: 0 6px 18px var(--color-black-40);
+  --shadow-edge-md: 0 12px 32px var(--color-black-40);
+  --shadow-edge-lg: 0 20px 48px var(--color-black-70);
+  --shadow-edge-xl: 0 30px 70px var(--color-black-70);
+  --shadow-edge-2xl: 0 40px 90px var(--color-black-90);
+  --shadow-glow-primary: 0 0 0 1px var(--color-primary-45), 0 12px 40px var(--color-primary-15);
+  --shadow-edge-current: 0 12px 32px currentcolor;
+
+  /* Typographie : police système + Inter variable, mono JetBrains */
+  --font-sans:
+    'Inter Variable', -apple-system, 'SF Pro Display', 'Helvetica Neue', arial, sans-serif;
+  --font-mono:
+    'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas',
+    monospace;
+
+  /* Typography - Fluid Math (clamp) calibré pour Inter Variable (échelle éditoriale & technique) */
+  --text-fluid-hero: clamp(2.5rem, 5vw, 4.25rem);
+  --text-fluid-title: clamp(2.125rem, 3.8vw, 3.25rem);
+  --text-fluid-h1: clamp(1.875rem, 3.2vw, 2.75rem);
+  --text-fluid-h2: clamp(1.5rem, 2.4vw, 2.25rem);
+  --text-fluid-h3: clamp(1.1875rem, 1.5vw, 1.5rem);
+  --text-fluid-h4: clamp(1.0625rem, 1.2vw, 1.25rem);
+  --text-fluid-lead: clamp(1rem, 0.92rem + 0.35vw, 1.1875rem);
+  --text-fluid-p: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+  --text-fluid-block-title: clamp(0.875rem, 0.75rem + 0.5vw, 1.125rem);
+  --text-fluid-punchline: clamp(1rem, 0.7rem + 1vw, 1.5rem);
+  --text-fluid-quote: clamp(1.25rem, 1.8vw, 1.625rem);
+  --text-fluid-label: clamp(0.6875rem, 0.75vw, 0.8125rem);
+
+  /*
+   * Typography - échelle de rôles : chaque rôle est un clamp(min, pente, max) calibré entre 375 px et son
+   * breakpoint cible. Les rôles à valeur fixe (-xs, -sm…) reprennent la taille fixe correspondante.
+   */
+  --text-fluid-2xs: 0.625rem;
+  --text-fluid-xs: 0.75rem;
+  --text-fluid-sm: 0.875rem;
+  --text-fluid-base: 0.9375rem;
+  --text-fluid-lg: 1.0625rem;
+  --text-fluid-xl: 1.1875rem;
+  --text-fluid-2xl: 1.375rem;
+  --text-fluid-3xl: 1.625rem;
+  --text-fluid-4xl: 2rem;
+  --text-fluid-5xl: 2.5rem;
+  --text-fluid-meta: clamp(0.625rem, 0.5057rem + 0.509vw, 0.75rem);
+  --text-fluid-caption: clamp(0.75rem, 0.68rem + 0.3vw, 0.8438rem);
+  --text-fluid-body-sm: clamp(0.8438rem, 0.78rem + 0.3vw, 0.9375rem);
+  --text-fluid-body: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+  --text-fluid-sub: clamp(1rem, 0.94rem + 0.25vw, 1.125rem);
+  --text-fluid-card: clamp(1.0625rem, 0.95rem + 0.45vw, 1.25rem);
+  --text-fluid-title-sm: clamp(1.125rem, 1rem + 0.5vw, 1.3125rem);
+  --text-fluid-card-lg: clamp(1.25rem, 1.05rem + 0.75vw, 1.5rem);
+  --text-fluid-title-md: clamp(1.25rem, 1rem + 0.85vw, 1.5rem);
+  --text-fluid-feature: clamp(1.375rem, 1.05rem + 1.2vw, 1.875rem);
+  --text-fluid-stat: clamp(1.75rem, 1.4rem + 1.3vw, 2.5rem);
+  --text-fluid-stat-lg: clamp(2rem, 1.6rem + 1.5vw, 2.75rem);
+  --text-fluid-stat-display: clamp(2.75rem, 2rem + 3vw, 4.5rem);
+  --text-fluid-cta: clamp(1.25rem, 1.05rem + 0.8vw, 1.625rem);
+  --text-fluid-initials: clamp(1.5rem, 1.1rem + 1.5vw, 2.25rem);
+  --text-fluid-author-name: clamp(1.5rem, 2.5vw, 2.25rem);
+  --text-fluid-modal-title: clamp(1.25rem, 1rem + 0.9vw, 1.5rem);
+  --text-fluid-accordion: clamp(1.5rem, 1.15rem + 1.5vw, 2.25rem);
+
+  /*
+   * Interlignes des rôles : chaque rôle reprend l'interligne natif de la taille
+   * qu'il remplace au breakpoint le plus large de sa chaîne. Une classe `leading-*` explicite prime.
+   */
+  --text-fluid-xs--line-height: calc(1 / 0.75);
+  --text-fluid-sm--line-height: calc(1.25 / 0.875);
+  --text-fluid-base--line-height: 1.5;
+  --text-fluid-lg--line-height: calc(1.75 / 1.125);
+  --text-fluid-xl--line-height: calc(1.75 / 1.25);
+  --text-fluid-2xl--line-height: calc(2 / 1.5);
+  --text-fluid-3xl--line-height: 1.2;
+  --text-fluid-4xl--line-height: calc(2.5 / 2.25);
+  --text-fluid-5xl--line-height: 1;
+  --text-fluid-meta--line-height: calc(1 / 0.75);
+  --text-fluid-caption--line-height: calc(1.25 / 0.875);
+  --text-fluid-body-sm--line-height: 1.5;
+  --text-fluid-body--line-height: calc(1.75 / 1.125);
+  --text-fluid-sub--line-height: calc(1.75 / 1.25);
+  --text-fluid-card--line-height: calc(2 / 1.5);
+  --text-fluid-title-sm--line-height: calc(2 / 1.5);
+  --text-fluid-card-lg--line-height: 1.2;
+  --text-fluid-title-md--line-height: 1.2;
+  --text-fluid-feature--line-height: calc(2.5 / 2.25);
+  --text-fluid-stat--line-height: 1;
+  --text-fluid-stat-lg--line-height: 1;
+  --text-fluid-stat-display--line-height: 1;
+  --text-fluid-cta--line-height: calc(2.5 / 2.25);
+  --text-fluid-initials--line-height: 1;
+  --text-fluid-modal-title--line-height: 1.2;
+  --text-fluid-accordion--line-height: 1;
+  --text-fluid-drop-cap--line-height: 0.8;
+  --text-fluid-btn-xs--line-height: calc(1.25 / 0.875);
+  --text-fluid-btn-compact--line-height: calc(1.25 / 0.875);
+  --text-fluid-field-compact--line-height: calc(1.25 / 0.875);
+  --text-fluid-tiny--line-height: calc(1 / 0.75);
+  --text-fluid-micro--line-height: calc(1 / 0.75);
+  --text-fluid-code--line-height: calc(1.25 / 0.875);
+  --text-fluid-member-name--line-height: calc(1.75 / 1.25);
+  --text-fluid-visitor--line-height: 1.5;
+
+  /* Rôles compacts (labels, boutons, légendes) */
+  --text-fluid-nano: clamp(0.4688rem, 0.3197rem + 0.636vw, 0.625rem);
+
+  /* 7.5 → sm:8 → md:10px */
+  --text-fluid-micro: clamp(0.4688rem, 0.3522rem + 0.497vw, 0.75rem);
+
+  /* 7.5 → md:9.5 → xl:12px */
+  --text-fluid-tiny: clamp(0.5625rem, 0.3836rem + 0.763vw, 0.75rem);
+
+  /* 9 → sm:10 → md:12px */
+  --text-fluid-code: clamp(0.5625rem, 0.433rem + 0.5525vw, 0.875rem);
+
+  /* 9 → md:11 → xl:14px */
+
+  /* 9 → sm:10px (puis md:text-fluid-label) */
+  --text-fluid-btn-xs: clamp(0.5625rem, 0.474rem + 0.377vw, 0.625rem);
+
+  /* 8 → sm:9px (puis md:text-fluid-label) */
+  --text-fluid-footer-meta: clamp(0.5rem, 0.4116rem + 0.377vw, 0.5625rem);
+
+  /* 10 → sm:12px (puis md:text-fluid-p) */
+  --text-fluid-desc: clamp(0.625rem, 0.448rem + 0.755vw, 0.75rem);
+
+  /* 8.5 → min-390:9.5px (puis sm:text-fluid-label) */
+  --text-fluid-legal: clamp(0.5313rem, -1.0313rem + 6.667vw, 0.5938rem);
+  --text-fluid-member-name: clamp(0.6875rem, 0.4544rem + 0.9945vw, 1.25rem);
+
+  /* 11 → … → xl:20px */
+  --text-fluid-visitor: clamp(0.625rem, 0.4083rem + 0.9245vw, 1rem);
+
+  /* 10 → … → lg:16px */
+
+  /* 9-10 → md:10-11 → lg:12-14px (dvh) */
+  --text-fluid-dvh-list: clamp(0.5625rem, 0.6vw + 0.6dvh, 0.875rem);
+
+  /* 11 → sm:12 → md:14px */
+  --text-fluid-field-compact: clamp(0.6875rem, 0.5086rem + 0.763vw, 0.875rem);
+
+  /* 10 → sm:12 → md:14px */
+  --text-fluid-btn-compact: clamp(0.625rem, 0.3864rem + 1.018vw, 0.875rem);
+
+  /* Layout - Fluid Spacing & Grid System */
+  --spacing-fluid-x: clamp(1.5rem, 5vw, 5rem);
+  --spacing-fluid-y: clamp(2.75rem, 6vw, 5.5rem);
+
+  /* Layout - Header Heights (SSOT) */
+  --header-height-mobile: 4rem;
+
+  /* 64px = 16px py + 32px logo + 16px py */
+  --header-height-desktop: 6.5rem;
+
+  /* 104px = 24px py + 56px logo + 24px py */
+  --header-height: var(--header-height-mobile);
+
+  /* Layout - Grid Gutter (Gap inter-colonnes & gouttière symétrique des dividers de section) */
+  --grid-gap: clamp(1rem, 2.5vw, 2rem);
+  --grid-gutter: 1.5rem;
+
+  /* Layout - Largeurs de conteneurs (SSOT) */
+  --container-narrow: 56rem;
+  --container-medium: 64rem;
+  --container-default: 80rem;
+  --container-wide: 96rem;
+
+  /* Texture de Grain d'Impression & Encre (SSOT — lu par src/core/utils/grain.ts) */
+  --grain-tile-size: 380px;
+  --grain-scale: 0.5;
+  --grain-density-min: 0.28;
+  --grain-density-max: 0.96;
+  --grain-gradient-contrast: 1.35;
+  --grain-ink-density-min: 0.8;
+  --grain-ink-density-max: 0.92;
+  --grain-ink-opacity: 0.065;
+  --grain-paper-opacity: 0.095;
+  --grain-ratio-a-y: 1.11;
+  --grain-ratio-b-x: 1.39;
+  --grain-ratio-b-y: 1.29;
+  --grain-offset-b: 173px 119px;
+  --grain-size-a: 380px 422px;
+  --grain-size-b: 528px 490px;
+  --grain-image-a: none;
+  --grain-image-b: none;
+
+  /* Motion Tokens - Durations (Miroir de motionTokens.ts) */
+  --duration-instant: 150ms;
+  --duration-fast: 250ms;
+  --duration-base: 300ms;
+  --duration-normal: 500ms;
+  --duration-moderate: 700ms;
+  --duration-glide: 850ms;
+  --duration-epic: 1200ms;
+
+  /* Motion Tokens - Easings */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-out-glide: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --header-height: var(--header-height-desktop);
+    --grid-gutter: 2rem;
+  }
+}
