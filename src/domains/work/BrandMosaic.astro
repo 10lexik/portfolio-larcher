@@ -67,7 +67,8 @@ const { codeRefs } = getVeepeeContent(locale);
               poster={brand.posterDesk}
               label={`${t('mosaicVideoDeskLabel', locale)} ${brand.name}`}
               ratio={brand.ratioDesk}
-              client:load
+              lazy
+              client:visible={{ rootMargin: '280px' }}
             />
             <span class="mosaic__badge mosaic__badge--desk">{t('mosaicBadgeDesk', locale)}</span>
           </div>
@@ -86,7 +87,8 @@ const { codeRefs } = getVeepeeContent(locale);
               poster={brand.posterMob}
               label={`${t('mosaicVideoMobLabel', locale)} ${brand.name}`}
               ratio={brand.ratioMob}
-              client:load
+              lazy
+              client:visible={{ rootMargin: '280px' }}
             />
             <span class="mosaic__badge mosaic__badge--mob">{t('mosaicBadgeMob', locale)}</span>
           </div>
@@ -142,6 +144,7 @@ const { codeRefs } = getVeepeeContent(locale);
 <script>
   import gsap from 'gsap';
   import { prefersReducedMotion } from '@core/motion/reveal';
+  import { notifyVideoLayoutChange } from '@core/motion/videoPlayback';
 
   type MosaicView = 'combined' | 'desktop' | 'mobile';
 
@@ -193,6 +196,7 @@ const { codeRefs } = getVeepeeContent(locale);
 
     const stages = Array.from(showcase.querySelectorAll<HTMLElement>('[data-mosaic-stage]'));
     const reduced = !animate || prefersReducedMotion();
+    const isDesktop = window.matchMedia('(min-width: 768px)').matches;
 
     stages.forEach((stage, i) => {
       const desk = stage.querySelector<HTMLElement>('[data-mosaic-desk]');
@@ -203,7 +207,6 @@ const { codeRefs } = getVeepeeContent(locale);
       const delay = reduced ? 0 : i * 0.03;
 
       if (view === 'combined') {
-        const deskProps = { scale: 1, opacity: 1, filter: 'blur(0px)' };
         const mobProps = {
           xPercent: -50,
           yPercent: -50,
@@ -213,20 +216,22 @@ const { codeRefs } = getVeepeeContent(locale);
           autoAlpha: 1,
         };
         if (reduced) {
-          gsap.set(desk, deskProps);
+          gsap.set(desk, { scale: 1, opacity: 1, clearProps: 'filter' });
           gsap.set(mob, mobProps);
         } else {
           gsap.to(desk, {
-            ...deskProps,
+            scale: 1,
+            opacity: 1,
+            filter: 'blur(0px)',
             duration: 0.5,
             delay,
             ease: 'expo.out',
             overwrite: 'auto',
+            clearProps: 'filter',
           });
           gsap.to(mob, { ...mobProps, duration: 0.55, delay, ease: 'expo.out', overwrite: 'auto' });
         }
       } else if (view === 'desktop') {
-        const deskProps = { scale: 1, opacity: 1, filter: 'blur(0px)' };
         const mobProps = {
           xPercent: -50,
           yPercent: -50,
@@ -236,21 +241,26 @@ const { codeRefs } = getVeepeeContent(locale);
           autoAlpha: 0,
         };
         if (reduced) {
-          gsap.set(desk, deskProps);
+          gsap.set(desk, { scale: 1, opacity: 1, clearProps: 'filter' });
           gsap.set(mob, mobProps);
         } else {
           gsap.to(desk, {
-            ...deskProps,
+            scale: 1,
+            opacity: 1,
+            filter: 'blur(0px)',
             duration: 0.48,
             delay,
             ease: 'expo.out',
             overwrite: 'auto',
+            clearProps: 'filter',
           });
           gsap.to(mob, { ...mobProps, duration: 0.42, delay, ease: 'expo.out', overwrite: 'auto' });
         }
       } else {
-        // view === 'mobile' : fond Desktop assombri/flouté + Smartphone 9:16 agrandi au centre
-        const deskProps = { scale: 0.96, opacity: 0.16, filter: 'blur(8px)' };
+        // view === 'mobile' : fond Desktop assombri (+ flouté sur desktop) et Smartphone 9:16 agrandi au centre
+        const deskProps = isDesktop
+          ? { scale: 0.96, opacity: 0.16, filter: 'blur(8px)' }
+          : { scale: 0.96, opacity: 0.14, clearProps: 'filter' };
         const mobProps = {
           xPercent: -50,
           yPercent: -50,
@@ -274,6 +284,8 @@ const { codeRefs } = getVeepeeContent(locale);
         }
       }
     });
+
+    notifyVideoLayoutChange();
   }
 
   function initMosaicShowcases(): void {
@@ -310,9 +322,13 @@ const { codeRefs } = getVeepeeContent(locale);
         });
       });
 
+      let lastWidth = showcase.clientWidth;
       window.addEventListener(
         'resize',
         () => {
+          const width = showcase.clientWidth;
+          if (Math.abs(width - lastWidth) < 2) return;
+          lastWidth = width;
           const active = (showcase.dataset.view as MosaicView | undefined) ?? 'combined';
           applyMosaicView(showcase, active, false);
         },
@@ -462,7 +478,6 @@ const { codeRefs } = getVeepeeContent(locale);
   .mosaic__desk {
     position: relative;
     min-width: 0;
-    will-change: transform, opacity, filter;
   }
 
   .mosaic__mob {
@@ -480,7 +495,6 @@ const { codeRefs } = getVeepeeContent(locale);
     box-shadow: var(--shadow-edge-xl);
     transform: translate(-50%, -50%) scale(0.74);
     cursor: pointer;
-    will-change: transform, opacity;
     transition: border-color var(--duration-base) var(--ease-standard);
 
     &:hover,
@@ -519,13 +533,17 @@ const { codeRefs } = getVeepeeContent(locale);
     border: var(--border-edge-thin);
     border-radius: var(--radius-chip);
     background-color: var(--color-dark-85);
-    backdrop-filter: blur(6px);
     font-family: var(--font-mono);
     font-size: var(--text-fluid-nano);
     font-weight: 600;
     letter-spacing: 0.04em;
     color: var(--color-white-90);
     pointer-events: none;
+
+    @media (min-width: 768px) {
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
   }
 
   .mosaic__badge--desk {

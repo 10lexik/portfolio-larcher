@@ -1,6 +1,7 @@
 ---
 import '@fontsource-variable/inter';
 import '@fontsource-variable/jetbrains-mono';
+import interLatinWoff2 from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import '@core/styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import Header from '@domains/navigation/Header.astro';
@@ -14,10 +15,11 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  preloadImage?: string;
   noindex?: boolean;
 }
 
-const { locale = 'fr', title, description, image, noindex = false } = Astro.props;
+const { locale = 'fr', title, description, image, preloadImage, noindex = false } = Astro.props;
 
 const site = getSite(locale);
 const resolvedTitle = title ?? site.title;
@@ -42,6 +44,10 @@ const imageUrl = new URL(resolvedImage, site.url).href;
     <link rel="alternate" hreflang="en" href={enAlternate} />
     <link rel="alternate" hreflang="x-default" href={frAlternate} />
     <link rel="icon" type="image/svg+xml" href={site.favicon} />
+    <link rel="preload" href={interLatinWoff2} as="font" type="font/woff2" crossorigin />
+    {preloadImage && (
+      <link rel="preload" as="image" href={preloadImage} fetchpriority="high" type="image/webp" />
+    )}
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:type" content="website" />
     <meta property="og:locale" content={site.ogLocale} />
@@ -59,7 +65,7 @@ const imageUrl = new URL(resolvedImage, site.url).href;
         document.documentElement.setAttribute('data-anim-pending', '');
         setTimeout(() => {
           document.documentElement.removeAttribute('data-anim-pending');
-        }, 3000);
+        }, 900);
       }
     </script>
     <ClientRouter />

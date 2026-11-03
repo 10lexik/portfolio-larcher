@@ -476,10 +476,11 @@ class AnimationOrchestrator {
   }
 
   private async waitForIslands() {
-    if (typeof document === 'undefined') return;
+    if (typeof document === 'undefined' || typeof window === 'undefined') return;
+    const viewportH = window.innerHeight;
     const islands = Array.from(
       document.querySelectorAll<HTMLElement>('astro-island[ssr][client="load"]'),
-    );
+    ).filter((island) => island.getBoundingClientRect().top < viewportH);
     if (!islands.length) return;
 
     await Promise.all(
@@ -490,7 +491,7 @@ class AnimationOrchestrator {
               resolve();
               return;
             }
-            const timer = setTimeout(resolve, 250);
+            const timer = setTimeout(resolve, 180);
             island.addEventListener(
               'astro:hydrate',
               () => {

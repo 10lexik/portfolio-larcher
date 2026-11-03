@@ -227,7 +227,13 @@ const v = getVeepeeContent(locale);
     <div class="cs-videos cs-gap">
       {v.demoVideos.map((video) => (
         <div class="cs-videos__item">
-          <VideoLoop src={video.src} label={video.label} caption={video.caption} client:load />
+          <VideoLoop
+            src={video.src}
+            label={video.label}
+            caption={video.caption}
+            lazy
+            client:visible={{ rootMargin: '280px' }}
+          />
         </div>
       ))}
     </div>

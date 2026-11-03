@@ -3,7 +3,8 @@
  * Source : ~/Workspace/case-studies/assets (captures déjà réalisées, aucune nouvelle capture).
  * Sortie : public/media/ (servi en cache immuable, voir vercel.json).
  */
-import { mkdirSync, copyFileSync, existsSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
@@ -55,7 +56,7 @@ for (const v of ['top', 'bottom', 'pop-in', 'block', 'center']) {
   await toWebp(`raw/neutral-${v}-desk.png`, `variants/${v}.webp`, 900);
 }
 
-// Démos vidéo des Readme (HeaderCusAnimation)
+// Démos vidéo des Readme (HeaderCusAnimation) — ré-encodage H.264 sans piste audio + faststart
 const videos = [
   ['02-animation-clip-path-animation-slider.mp4', 'clip-path-slider.mp4'],
   ['03-animation-with-imageappear-true-textappe.mp4', 'image-text-appear.mp4'],
@@ -63,7 +64,35 @@ const videos = [
   ['16-animation-default-pin-pin-true-fixing-ba.mp4', 'scroll-pin.mp4'],
 ];
 for (const [from, to] of videos) {
-  copyFileSync(join(SRC, 'videos', from), join(OUT, 'videos', to));
+  execFileSync(
+    'ffmpeg',
+    [
+      '-y',
+      '-v',
+      'error',
+      '-i',
+      join(SRC, 'videos', from),
+      '-crf',
+      '25',
+      '-maxrate',
+      '780k',
+      '-bufsize',
+      '1560k',
+      '-c:v',
+      'libx264',
+      '-preset',
+      'slow',
+      '-profile:v',
+      'high',
+      '-pix_fmt',
+      'yuv420p',
+      '-movflags',
+      '+faststart',
+      '-an',
+      join(OUT, 'videos', to),
+    ],
+    { stdio: 'inherit' },
+  );
   console.log('ok', `videos/${to}`);
 }
 

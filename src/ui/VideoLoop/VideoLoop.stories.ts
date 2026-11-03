@@ -16,3 +16,14 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const ClipPath: Story = {};
+
+export const LazyWithPoster: Story = {
+  args: {
+    src: '/media/videos/brands/samsung.mp4',
+    poster: '/media/brands/samsung-desk.webp',
+    label: 'Aperçu desktop Samsung',
+    caption: 'Chargement différé avec poster WebP.',
+    ratio: '16 / 10',
+    lazy: true,
+  },
+};

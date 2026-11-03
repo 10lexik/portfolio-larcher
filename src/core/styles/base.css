@@ -20,9 +20,12 @@ body {
   background-image:
     radial-gradient(1200px 700px at 12% -10%, var(--color-halo-violet) 0%, transparent 60%),
     radial-gradient(900px 600px at 105% 105%, var(--color-halo-rose) 0%, transparent 55%);
-  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  @media (min-width: 768px) {
+    background-attachment: fixed;
+  }
 }
 
 img,

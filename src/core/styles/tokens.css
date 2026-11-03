@@ -260,7 +260,7 @@
   --container-wide: 96rem;
 
   /* Texture de Grain d'Impression & Encre (SSOT — lu par src/core/utils/grain.ts) */
-  --grain-tile-size: 380px;
+  --grain-tile-size: 220px;
   --grain-scale: 0.5;
   --grain-density-min: 0.28;
   --grain-density-max: 0.96;
@@ -301,5 +301,6 @@
   :root {
     --header-height: var(--header-height-desktop);
     --grid-gutter: 2rem;
+    --grain-tile-size: 380px;
   }
 }

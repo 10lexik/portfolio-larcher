@@ -34,9 +34,28 @@ interface GrainConfig {
 
 const GRAIN_OVERLAY_ID = 'print-grain';
 
+interface SchedulerWithYield {
+  yield?: () => Promise<void>;
+}
+
 let cachedVarsRule: string | null = null;
 let grainStyleSheet: CSSStyleSheet | null = null;
+let isSynthesizing = false;
 const activeObjectUrls: string[] = [];
+
+/**
+ * Rend brièvement la main au thread principal (`scheduler.yield()` avec repli `setTimeout`)
+ * afin qu'aucune tranche de synthèse procédurale ne dépasse le budget d'interaction (INP < 50 ms).
+ */
+function yieldToMain(): Promise<void> {
+  const win = window as Window & { scheduler?: SchedulerWithYield };
+  if (win.scheduler && typeof win.scheduler.yield === 'function') {
+    return win.scheduler.yield();
+  }
+  return new Promise((resolve) => {
+    setTimeout(resolve, 0);
+  });
+}
 
 /**
  * Lit et parse une propriété personnalisée CSS numérique sur `:root`.
@@ -228,12 +247,12 @@ function createPeriodicValueNoise2D(
  * Génère une carte 2D de nuages d'absorption papier par **Domain-Warped fBm** (4 octaves
  * de bruit périodique + champ de distorsion organique), normalisée sur `[0, 1]`.
  */
-function buildDomainWarpedCloudField(
+async function buildDomainWarpedCloudField(
   width: number,
   height: number,
   contrast: number,
   rand: () => number,
-): Float32Array {
+): Promise<Float32Array> {
   // Grilles de distorsion de domaine (basses fréquences pour courber les nappes)
   const warpX = createPeriodicValueNoise2D(3, 3, rand);
   const warpY = createPeriodicValueNoise2D(3, 3, rand);
@@ -274,6 +293,10 @@ function buildDomainWarpedCloudField(
       field[rowOffset + x] = n;
       if (n < minVal) minVal = n;
       if (n > maxVal) maxVal = n;
+    }
+
+    if ((y & 31) === 31) {
+      await yieldToMain();
     }
   }
 
@@ -324,7 +347,13 @@ async function renderGrainTileDataUrl(
   if (!ctx) return '';
 
   const rand = createPrng(seed);
-  const cloudField = buildDomainWarpedCloudField(width, height, config.gradientContrast, rand);
+  const cloudField = await buildDomainWarpedCloudField(
+    width,
+    height,
+    config.gradientContrast,
+    rand,
+  );
+  await yieldToMain();
 
   const imageData = ctx.createImageData(width, height);
   const pixels = imageData.data;
@@ -391,6 +420,10 @@ async function renderGrainTileDataUrl(
         );
       }
     }
+
+    if ((y & 31) === 31) {
+      await yieldToMain();
+    }
   }
 
   ctx.putImageData(imageData, 0, 0);
@@ -448,40 +481,48 @@ export function initPrintGrain(): void {
     return;
   }
 
+  if (isSynthesizing) return;
+  isSynthesizing = true;
+
   const run = async () => {
-    const config = readGrainConfig();
-    const base = config.tileSize;
+    try {
+      const config = readGrainConfig();
+      const base = config.tileSize;
 
-    // Dimensions copremières pour éviter tout alignement périodique entre les 2 nappes
-    const wA = base;
-    const hA = Math.round(base * config.ratioAY);
-    const wB = Math.round(base * config.ratioBX);
-    const hB = Math.round(base * config.ratioBY);
+      // Dimensions copremières pour éviter tout alignement périodique entre les 2 nappes
+      const wA = base;
+      const hA = Math.round(base * config.ratioAY);
+      const wB = Math.round(base * config.ratioBX);
+      const hB = Math.round(base * config.ratioBY);
 
-    const [tileA, tileB] = await Promise.all([
-      renderGrainTileDataUrl(wA, hA, 0x4e4f524d, config),
-      renderGrainTileDataUrl(wB, hB, 0x4c465232, config),
-    ]);
+      const tileA = await renderGrainTileDataUrl(wA, hA, 0x4e4f524d, config);
+      await yieldToMain();
+      const tileB = await renderGrainTileDataUrl(wB, hB, 0x4c465232, config);
 
-    if (!tileA || !tileB) return;
+      if (!tileA || !tileB) return;
 
-    const cssScale = config.scale;
-    const sizeAX = Math.round(wA * cssScale);
-    const sizeAY = Math.round(hA * cssScale);
-    const sizeBX = Math.round(wB * cssScale);
-    const sizeBY = Math.round(hB * cssScale);
+      const cssScale = config.scale;
+      const sizeAX = Math.round(wA * cssScale);
+      const sizeAY = Math.round(hA * cssScale);
+      const sizeBX = Math.round(wB * cssScale);
+      const sizeBY = Math.round(hB * cssScale);
 
-    cachedVarsRule = `:root { --grain-size-a: ${sizeAX}px ${sizeAY}px; --grain-size-b: ${sizeBX}px ${sizeBY}px; --grain-image-a: url("${tileA}"); --grain-image-b: url("${tileB}"); }`;
-    applyGrainVars(cachedVarsRule);
+      cachedVarsRule = `:root { --grain-size-a: ${sizeAX}px ${sizeAY}px; --grain-size-b: ${sizeBX}px ${sizeBY}px; --grain-image-a: url("${tileA}"); --grain-image-b: url("${tileB}"); }`;
+      applyGrainVars(cachedVarsRule);
+    } finally {
+      isSynthesizing = false;
+    }
   };
 
-  if ('requestIdleCallback' in window) {
-    window.requestIdleCallback(() => {
+  // Diffère la synthèse après l'animation d'entrée Hero afin de laisser 100 % du budget CPU/GPU
+  // au premier affichage (FCP/LCP) et à l'hydratation initiale sur Safari iOS et Chrome Mobile.
+  setTimeout(() => {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => {
+        void run();
+      });
+    } else {
       void run();
-    });
-  } else {
-    setTimeout(() => {
-      void run();
-    }, 16);
-  }
+    }
+  }, 950);
 }

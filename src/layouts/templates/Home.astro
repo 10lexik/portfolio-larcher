@@ -27,7 +27,7 @@ const veepee = getVeepeeContent(locale);
 const profile = getProfileContent(locale);
 ---
 
-<Layout locale={locale}>
+<Layout locale={locale} preloadImage={home.hero.brands[0]?.posterDesk}>
   <Section id="hero" theme="dark" stack class="home-hero" labelledby="hero-title">
     <div class="home-hero__grid">
       <div class="home-hero__text">
@@ -56,14 +56,16 @@ const profile = getProfileContent(locale);
         </div>
       </div>
       <ul class="home-hero__collage" aria-hidden="true">
-        {home.hero.brands.map((brand) => (
+        {home.hero.brands.map((brand, i) => (
           <li class="home-hero__card">
             <VideoLoop
               src={brand.videoDesk}
               poster={brand.posterDesk}
               label={`${home.hero.desktopVideoLabelPrefix} ${brand.name}`}
               ratio={home.hero.ratios.desktop}
-              client:load
+              posterPriority={i < 2 ? 'high' : undefined}
+              desktopOnly
+              client:media="(min-width: 768px)"
             />
             <div class="home-hero__mob">
               <span class="home-hero__mob-notch"></span>
@@ -72,7 +74,9 @@ const profile = getProfileContent(locale);
                 poster={brand.posterMob}
                 label={`${home.hero.mobileVideoLabelPrefix} ${brand.name}`}
                 ratio={home.hero.ratios.mobile}
-                client:load
+                posterPriority="low"
+                desktopOnly
+                client:media="(min-width: 768px)"
               />
             </div>
           </li>
