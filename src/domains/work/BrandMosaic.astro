@@ -68,7 +68,6 @@ const { codeRefs } = getVeepeeContent(locale);
               label={`${t('mosaicVideoDeskLabel', locale)} ${brand.name}`}
               ratio={brand.ratioDesk}
               lazy
-              client:visible={{ rootMargin: '280px' }}
             />
             <span class="mosaic__badge mosaic__badge--desk">{t('mosaicBadgeDesk', locale)}</span>
           </div>
@@ -88,7 +87,6 @@ const { codeRefs } = getVeepeeContent(locale);
               label={`${t('mosaicVideoMobLabel', locale)} ${brand.name}`}
               ratio={brand.ratioMob}
               lazy
-              client:visible={{ rootMargin: '280px' }}
             />
             <span class="mosaic__badge mosaic__badge--mob">{t('mosaicBadgeMob', locale)}</span>
           </div>
@@ -461,6 +459,7 @@ const { codeRefs } = getVeepeeContent(locale);
     border-radius: var(--radius-tile);
     background-image: linear-gradient(180deg, var(--color-white-07), var(--color-white-05));
     box-shadow: var(--shadow-edge-sm);
+    contain: layout style;
   }
 
   .mosaic__stage {
@@ -539,11 +538,6 @@ const { codeRefs } = getVeepeeContent(locale);
     letter-spacing: 0.04em;
     color: var(--color-white-90);
     pointer-events: none;
-
-    @media (min-width: 768px) {
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-    }
   }
 
   .mosaic__badge--desk {

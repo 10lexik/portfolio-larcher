@@ -75,7 +75,7 @@ const v = getVeepeeContent(locale);
       ))}
     </div>
     <div class="cs-hero__stats">
-      <Stats items={v.kpis} client:load />
+      <Stats items={v.kpis} />
     </div>
   </Section>
 
@@ -123,7 +123,7 @@ const v = getVeepeeContent(locale);
       lead={v.sections.architecture.lead}
     />
     <CaseInsight insight={v.sectionInsights.architecture} locale={locale} />
-    <Stats items={v.archKpis} client:load />
+    <Stats items={v.archKpis} />
     <div class="cs-gap">
       <Split center={false}>
         <ComponentTree
@@ -200,7 +200,7 @@ const v = getVeepeeContent(locale);
       lead={v.sections.headerAnimation.lead}
     />
     <CaseInsight insight={v.sectionInsights.headerAnimation} locale={locale} />
-    <Stats items={v.headerAnimationKpis} client:load />
+    <Stats items={v.headerAnimationKpis} />
     <div class="cs-gap">
       <Split center={false}>
         <CodeBlock code={v.snippets.headerAnimation} label={v.labels.headerAnimApiLabel} />
@@ -229,10 +229,10 @@ const v = getVeepeeContent(locale);
         <div class="cs-videos__item">
           <VideoLoop
             src={video.src}
+            poster={video.poster}
             label={video.label}
             caption={video.caption}
             lazy
-            client:visible={{ rootMargin: '280px' }}
           />
         </div>
       ))}
@@ -340,7 +340,7 @@ const v = getVeepeeContent(locale);
     />
     <ProofTable proofs={v.proofs} locale={locale} />
     <div class="cs-gap">
-      <Stats items={v.kpis} client:load />
+      <Stats items={v.kpis} />
     </div>
     <div
       class="grid-auto cs-gap"
@@ -492,6 +492,7 @@ const v = getVeepeeContent(locale);
     border-radius: var(--radius-tile);
     background-image: linear-gradient(180deg, var(--color-white-07), var(--color-white-05));
     box-shadow: var(--shadow-edge-md);
+    contain: layout style;
 
     @media (min-width: 960px) {
       grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);

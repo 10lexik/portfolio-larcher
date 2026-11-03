@@ -22,10 +22,6 @@ body {
     radial-gradient(900px 600px at 105% 105%, var(--color-halo-rose) 0%, transparent 55%);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  @media (min-width: 768px) {
-    background-attachment: fixed;
-  }
 }
 
 img,

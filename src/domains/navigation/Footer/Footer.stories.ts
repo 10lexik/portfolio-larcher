@@ -29,4 +29,3 @@ export const EnglishColophon: Story = {
     locale: 'en',
   },
 };
-

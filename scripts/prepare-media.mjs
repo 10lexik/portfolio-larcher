@@ -94,6 +94,26 @@ for (const [from, to] of videos) {
     { stdio: 'inherit' },
   );
   console.log('ok', `videos/${to}`);
+  const posterOut = to.replace(/\.mp4$/, '.webp');
+  const frameBuffer = execFileSync('ffmpeg', [
+    '-v',
+    '-8',
+    '-ss',
+    '0.1',
+    '-i',
+    join(OUT, 'videos', to),
+    '-frames:v',
+    '1',
+    '-f',
+    'image2pipe',
+    '-vcodec',
+    'png',
+    '-',
+  ]);
+  await sharp(frameBuffer)
+    .webp({ quality: 82 })
+    .toFile(join(OUT, 'videos', posterOut));
+  console.log('ok', `videos/${posterOut}`);
 }
 
 // Image de partage social 1200×630

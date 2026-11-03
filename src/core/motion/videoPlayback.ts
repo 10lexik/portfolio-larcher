@@ -1,14 +1,19 @@
 /**
  * Orchestrateur partagé de chargement différé et de lecture des boucles `<video>`.
  *
- * - Sur mobile (< 768 px) :
- *   - Les vidéos `desktopOnly` (collage Hero) ne sont ni téléchargées ni décodées.
- *   - Dans la mosaïque et les démonstrations sous le pli, seule la carte la plus centrée
- *     dans la bande médiane du viewport est lue simultanément (zéro écouteur `scroll` JS :
- *     calcul 100 % délégué au moteur natif `IntersectionObserver`).
- * - Sur les navigateurs dépourvus du support natif `<video loading="lazy">` (Safari iOS, Firefox),
- *   un `IntersectionObserver` de préchargement (`rootMargin: '260px 0px'`) restaure `src` et
- *   `preload="metadata"` juste avant l'entrée dans le viewport.
+ * Principes de fluidité 60/120 fps :
+ * 1. **Zéro îlot Svelte requis en SSR** : `initVideoPlayback()` découvre automatiquement tous les
+ *    `<video data-video-loop>` du document (tout en restant idempotent avec `registerManagedVideo`
+ *    utilisé par `onMount` dans Storybook).
+ * 2. **Défaut d'exécution hors scroll (`scrollend`)** : aucun `video.load()` ni nouveau `video.play()`
+ *    n'est exécuté pendant un geste de défilement actif ; l'hydratation des sources H.264 est étalée
+ *    séquentiellement une vidéo à la fois une fois le scroll stabilisé et le premier paint effectué.
+ * 3. **Budget matériel de décodeurs GPU** :
+ *    - Mise en pause immédiate de toute section `[data-stack]` dès qu'elle commence à être recouverte
+ *      (`data-stack-occluded="true"`).
+ *    - Plafond strict de flux H.264 simultanés dans les grilles sous le pli (`6` décodeurs max sur
+ *      desktop = 1 rangée complète de 3 cartes Desktop+Mobile ou les 4 démos GSAP ; `2` décodeurs max
+ *      sur mobile = la carte centrée Desktop+Mobile), évitant toute bascule en décodage logiciel CPU.
  */
 import { prefersReducedMotion } from './motion';
 
@@ -20,30 +25,47 @@ interface ManagedVideoOptions {
 interface VideoEntry {
   video: HTMLVideoElement;
   desktopOnly: boolean;
+  isHeroCollage: boolean;
   onReady?: () => void;
   hydrated: boolean;
   centerRatio: number;
   viewportRatio: number;
+  cleanup: () => void;
+}
+
+interface NavigatorConnection {
+  saveData?: boolean;
 }
 
 const DESKTOP_MEDIA_QUERY = '(min-width: 768px)';
+const MAX_GRID_DECODERS_DESKTOP = 6;
+const MAX_GRID_DECODERS_MOBILE = 2;
+const BOOT_SETTLE_MS = 280;
+const SCROLL_FALLBACK_IDLE_MS = 140;
+const HYDRATION_STEP_MS = 70;
 
 const entries = new Map<HTMLVideoElement, VideoEntry>();
+const hydrationQueue: VideoEntry[] = [];
 
 let preloadObserver: IntersectionObserver | null = null;
 let viewportObserver: IntersectionObserver | null = null;
 let centerObserver: IntersectionObserver | null = null;
 let listenersBound = false;
 let syncScheduled = false;
+let isScrolling = false;
+let initialBootSettled = true;
+let scrollIdleTimer: ReturnType<typeof setTimeout> | null = null;
+let bootSettleTimer: ReturnType<typeof setTimeout> | null = null;
+let hydrationStepTimer: ReturnType<typeof setTimeout> | null = null;
 
 function isDesktopViewport(): boolean {
   return typeof window !== 'undefined' && window.matchMedia(DESKTOP_MEDIA_QUERY).matches;
 }
 
-function supportsNativeLazyMedia(): boolean {
-  return (
-    typeof HTMLMediaElement !== 'undefined' && Object.hasOwn(HTMLMediaElement.prototype, 'loading')
-  );
+function isSaveDataEnabled(): boolean {
+  if (typeof navigator === 'undefined') return false;
+  const nav = navigator as Navigator & { connection?: NavigatorConnection };
+  return Boolean(nav.connection?.saveData);
 }
 
 function pauseSafely(video: HTMLVideoElement): void {
@@ -59,8 +81,31 @@ function playSafely(video: HTMLVideoElement): void {
   });
 }
 
-function hydrateVideoSource(entry: VideoEntry): void {
-  if (entry.hydrated) return;
+function isOccludedByStack(video: HTMLVideoElement): boolean {
+  const stackSection = video.closest<HTMLElement>('[data-stack]');
+  return stackSection?.dataset.stackOccluded === 'true';
+}
+
+function isHiddenByMosaicView(video: HTMLVideoElement): boolean {
+  const showcase = video.closest<HTMLElement>('[data-mosaic-showcase]');
+  if (!showcase) return false;
+  const view = showcase.dataset.view ?? 'combined';
+  if (view === 'desktop' && video.closest('[data-mosaic-mob-card]')) {
+    return true;
+  }
+  // En vue 'mobile', le calque desktop est flouté/assombri à l'arrière-plan : inutile de le décoder
+  if (view === 'mobile' && video.closest('[data-mosaic-desk]')) {
+    return true;
+  }
+  return false;
+}
+
+function getLogicalGroup(video: HTMLVideoElement): Element {
+  return video.closest('[data-mosaic-stage], .cs-videos__item') ?? video;
+}
+
+function hydrateVideoSourceNow(entry: VideoEntry): void {
+  if (entry.hydrated || !entry.video.isConnected) return;
   if (entry.desktopOnly && !isDesktopViewport()) return;
 
   const { video } = entry;
@@ -74,21 +119,57 @@ function hydrateVideoSource(entry: VideoEntry): void {
   entry.hydrated = Boolean(video.currentSrc || video.getAttribute('src'));
 }
 
-function isHiddenByMosaicView(video: HTMLVideoElement, isDesktop: boolean): boolean {
-  const showcase = video.closest<HTMLElement>('[data-mosaic-showcase]');
-  if (!showcase) return false;
-  const view = showcase.dataset.view ?? 'combined';
-  if (view === 'desktop' && video.closest('[data-mosaic-mob-card]')) {
-    return true;
+function pumpHydrationQueue(): void {
+  hydrationStepTimer = null;
+  if (isScrolling || !initialBootSettled || prefersReducedMotion()) return;
+  if (typeof document !== 'undefined' && document.visibilityState === 'hidden') return;
+
+  while (hydrationQueue.length > 0) {
+    const next = hydrationQueue.shift();
+    if (!next || !entries.has(next.video) || next.hydrated) continue;
+    if (next.desktopOnly && !isDesktopViewport()) continue;
+    if (isOccludedByStack(next.video) || isHiddenByMosaicView(next.video)) continue;
+    if (next.viewportRatio <= 0 && !next.isHeroCollage) continue;
+
+    hydrateVideoSourceNow(next);
+    scheduleSync();
+
+    if (hydrationQueue.length > 0) {
+      hydrationStepTimer = setTimeout(pumpHydrationQueue, HYDRATION_STEP_MS);
+    }
+    return;
   }
-  if (view === 'mobile' && !isDesktop && video.closest('[data-mosaic-desk]')) {
-    return true;
-  }
-  return false;
 }
 
-function getLogicalGroup(video: HTMLVideoElement): Element {
-  return video.closest('[data-mosaic-stage], .cs-videos__item') ?? video;
+function enqueueHydration(entry: VideoEntry): void {
+  if (entry.hydrated || isSaveDataEnabled()) return;
+  if (entry.desktopOnly && !isDesktopViewport()) return;
+  if (!hydrationQueue.includes(entry)) {
+    // Priorise les vidéos actuellement visibles sur le simple préchargement en marge
+    if (entry.viewportRatio >= 0.2) {
+      hydrationQueue.unshift(entry);
+    } else {
+      hydrationQueue.push(entry);
+    }
+  }
+  if (!hydrationStepTimer && !isScrolling && initialBootSettled) {
+    hydrationStepTimer = setTimeout(pumpHydrationQueue, 16);
+  }
+}
+
+function syncReducedMotionMode(): void {
+  const isDesktop = isDesktopViewport();
+  entries.forEach((entry) => {
+    const { video } = entry;
+    pauseSafely(video);
+    video.controls = true;
+    if (!entry.hydrated && video.dataset.src && !(entry.desktopOnly && !isDesktop)) {
+      if (entry.viewportRatio > 0) {
+        hydrateVideoSourceNow(entry);
+        video.classList.add('is-ready');
+      }
+    }
+  });
 }
 
 function syncNow(): void {
@@ -96,72 +177,86 @@ function syncNow(): void {
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
   const hiddenTab = document.visibilityState === 'hidden';
-  const reduced = prefersReducedMotion();
-  const isDesktop = isDesktopViewport();
-
-  if (hiddenTab || reduced) {
+  if (hiddenTab) {
     entries.forEach(({ video }) => pauseSafely(video));
     return;
   }
 
-  if (isDesktop) {
-    entries.forEach((entry) => {
-      const { video } = entry;
-      if (isHiddenByMosaicView(video, true) || entry.viewportRatio < 0.25) {
-        pauseSafely(video);
-        return;
-      }
-      hydrateVideoSource(entry);
-      if (entry.hydrated) {
-        playSafely(video);
-      }
-    });
+  if (prefersReducedMotion()) {
+    syncReducedMotionMode();
     return;
   }
 
-  // Mobile (< 768 px) : 0 lecture sur `desktopOnly`, et 1 seule carte active au centre du viewport
-  const groupScores = new Map<Element, number>();
+  const isDesktop = isDesktopViewport();
+  const saveData = isSaveDataEnabled();
+  const canStartPlayback = !isScrolling && initialBootSettled && !saveData;
+
+  // 1. Sélectionne les groupes actifs sous le pli selon leur proximité au centre du viewport
+  const groupMap = new Map<Element, { entries: VideoEntry[]; score: number }>();
 
   entries.forEach((entry) => {
-    if (entry.desktopOnly) {
-      pauseSafely(entry.video);
-      return;
-    }
-    if (isHiddenByMosaicView(entry.video, false)) {
-      pauseSafely(entry.video);
-      return;
-    }
-    const score = entry.centerRatio > 0 ? entry.centerRatio + 1 : entry.viewportRatio * 0.5;
-    if (score < 0.2) return;
-    const group = getLogicalGroup(entry.video);
-    const prev = groupScores.get(group) ?? 0;
-    if (score > prev) {
-      groupScores.set(group, score);
-    }
-  });
+    const { video } = entry;
+    if (video.controls) video.controls = false;
 
-  let activeGroup: Element | null = null;
-  let bestScore = 0;
-  groupScores.forEach((score, group) => {
-    if (score > bestScore) {
-      bestScore = score;
-      activeGroup = group;
-    }
-  });
-
-  entries.forEach((entry) => {
-    if (entry.desktopOnly) {
-      pauseSafely(entry.video);
+    // Mise en pause immédiate des vidéos hors écran, masquées ou recouvertes par un stack
+    if (
+      (entry.desktopOnly && !isDesktop) ||
+      isOccludedByStack(video) ||
+      isHiddenByMosaicView(video) ||
+      entry.viewportRatio < 0.2
+    ) {
+      pauseSafely(video);
       return;
     }
-    const group = getLogicalGroup(entry.video);
-    if (activeGroup && group === activeGroup && !isHiddenByMosaicView(entry.video, false)) {
-      hydrateVideoSource(entry);
-      if (entry.hydrated) {
-        playSafely(entry.video);
+
+    // Collage Hero (hors recouvrement) : animé sur mobile et desktop après le premier rendu
+    if (entry.isHeroCollage) {
+      if (!entry.hydrated) {
+        enqueueHydration(entry);
+      } else if (canStartPlayback) {
+        playSafely(video);
       }
+      return;
+    }
+
+    const group = getLogicalGroup(video);
+    const entryScore = entry.centerRatio > 0 ? 1 + entry.centerRatio : entry.viewportRatio * 0.6;
+    const existing = groupMap.get(group);
+    if (existing) {
+      existing.entries.push(entry);
+      if (entryScore > existing.score) existing.score = entryScore;
     } else {
-      pauseSafely(entry.video);
+      groupMap.set(group, { entries: [entry], score: entryScore });
+    }
+  });
+
+  // 2. Plafonne le nombre de décodeurs matériels actifs dans les grilles (6 desktop / 2 mobile)
+  const maxDecoders = isDesktop ? MAX_GRID_DECODERS_DESKTOP : MAX_GRID_DECODERS_MOBILE;
+  const rankedGroups = Array.from(groupMap.values()).sort((a, b) => b.score - a.score);
+  const allowedEntries = new Set<VideoEntry>();
+  let usedDecoders = 0;
+
+  for (const group of rankedGroups) {
+    if (group.score < 0.15) continue;
+    const needed = group.entries.length;
+    if (usedDecoders + needed <= maxDecoders || usedDecoders === 0) {
+      group.entries.forEach((e) => allowedEntries.add(e));
+      usedDecoders += needed;
+    }
+    if (usedDecoders >= maxDecoders) break;
+  }
+
+  groupMap.forEach(({ entries: groupEntries }) => {
+    for (const entry of groupEntries) {
+      if (allowedEntries.has(entry)) {
+        if (!entry.hydrated) {
+          enqueueHydration(entry);
+        } else if (canStartPlayback) {
+          playSafely(entry.video);
+        }
+      } else {
+        pauseSafely(entry.video);
+      }
     }
   });
 }
@@ -170,6 +265,29 @@ function scheduleSync(): void {
   if (syncScheduled || typeof window === 'undefined') return;
   syncScheduled = true;
   requestAnimationFrame(syncNow);
+}
+
+function markScrollFinished(): void {
+  if (scrollIdleTimer) {
+    clearTimeout(scrollIdleTimer);
+    scrollIdleTimer = null;
+  }
+  if (!isScrolling) return;
+  isScrolling = false;
+  scheduleSync();
+  if (hydrationQueue.length > 0 && !hydrationStepTimer) {
+    hydrationStepTimer = setTimeout(pumpHydrationQueue, 24);
+  }
+}
+
+function handlePassiveScroll(): void {
+  isScrolling = true;
+  if (hydrationStepTimer) {
+    clearTimeout(hydrationStepTimer);
+    hydrationStepTimer = null;
+  }
+  if (scrollIdleTimer) clearTimeout(scrollIdleTimer);
+  scrollIdleTimer = setTimeout(markScrollFinished, SCROLL_FALLBACK_IDLE_MS);
 }
 
 function ensureObservers(): void {
@@ -183,13 +301,11 @@ function ensureObservers(): void {
           const managed = entries.get(ioEntry.target as HTMLVideoElement);
           if (!managed) continue;
           if (managed.desktopOnly && !isDesktopViewport()) continue;
-          hydrateVideoSource(managed);
-          if (managed.hydrated) {
-            preloadObserver?.unobserve(managed.video);
-          }
+          enqueueHydration(managed);
+          preloadObserver?.unobserve(managed.video);
         }
       },
-      { rootMargin: '260px 0px' },
+      { rootMargin: '180px 0px' },
     );
   }
 
@@ -203,7 +319,7 @@ function ensureObservers(): void {
         }
         scheduleSync();
       },
-      { threshold: [0, 0.25, 0.6] },
+      { threshold: [0, 0.2, 0.55] },
     );
   }
 
@@ -217,30 +333,25 @@ function ensureObservers(): void {
         }
         scheduleSync();
       },
-      { rootMargin: '-22% 0px -22% 0px', threshold: [0, 0.35, 0.75] },
+      { rootMargin: '-20% 0px -20% 0px', threshold: [0, 0.35, 0.75] },
     );
   }
 
   if (!listenersBound) {
     listenersBound = true;
+    window.addEventListener('scroll', handlePassiveScroll, { passive: true });
+    if ('onscrollend' in window) {
+      window.addEventListener('scrollend', markScrollFinished, { passive: true });
+    }
     const desktopMq = window.matchMedia(DESKTOP_MEDIA_QUERY);
     const reducedMq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    desktopMq.addEventListener('change', () => {
-      if (isDesktopViewport()) {
-        entries.forEach((entry) => {
-          if (entry.desktopOnly && entry.viewportRatio > 0) {
-            hydrateVideoSource(entry);
-          }
-        });
-      }
-      scheduleSync();
-    });
+    desktopMq.addEventListener('change', scheduleSync);
     reducedMq.addEventListener('change', scheduleSync);
     document.addEventListener('visibilitychange', scheduleSync);
   }
 }
 
-/** Notifie le gestionnaire qu'un changement de vue (ex. switch BrandMosaic) a modifié la visibilité des calques */
+/** Notifie le gestionnaire qu'un changement de vue ou de recouvrement (`stack`) a eu lieu */
 export function notifyVideoLayoutChange(): void {
   scheduleSync();
 }
@@ -254,53 +365,112 @@ export function registerManagedVideo(
     return () => {};
   }
 
+  const existing = entries.get(video);
+  if (existing) {
+    if (options.onReady && video.readyState >= 2) {
+      options.onReady();
+    }
+    return existing.cleanup;
+  }
+
   ensureObservers();
 
   const hasInitialSrc = Boolean(video.getAttribute('src'));
+  const desktopOnly = Boolean(options.desktopOnly || video.dataset.desktopOnly === 'true');
+  const isHeroCollage = Boolean(video.closest('.home-hero__collage'));
+
+  const markReady = () => {
+    video.classList.add('is-ready');
+    entry.onReady?.();
+  };
+
+  const cleanup = () => {
+    video.removeEventListener('loadeddata', markReady);
+    preloadObserver?.unobserve(video);
+    viewportObserver?.unobserve(video);
+    centerObserver?.unobserve(video);
+    pauseSafely(video);
+    entries.delete(video);
+    const qIdx = hydrationQueue.indexOf(entry);
+    if (qIdx !== -1) hydrationQueue.splice(qIdx, 1);
+    scheduleSync();
+  };
+
   const entry: VideoEntry = {
     video,
-    desktopOnly: Boolean(options.desktopOnly),
+    desktopOnly,
+    isHeroCollage,
     onReady: options.onReady,
     hydrated: hasInitialSrc,
     centerRatio: 0,
     viewportRatio: 0,
-  };
-
-  const handleReady = () => {
-    entry.onReady?.();
+    cleanup,
   };
 
   if (video.readyState >= 2) {
-    entry.onReady?.();
+    markReady();
   } else {
-    video.addEventListener('loadeddata', handleReady, { once: true });
+    video.addEventListener('loadeddata', markReady, { once: true });
   }
 
   entries.set(video, entry);
 
-  // Sur les navigateurs supportant nativement `<video loading="lazy">`, on peut exposer `src`
-  // directement hors mode `desktopOnly` mobile ; sinon l'IntersectionObserver diffère la requête.
-  if (
-    !hasInitialSrc &&
-    video.dataset.src &&
-    supportsNativeLazyMedia() &&
-    !(entry.desktopOnly && !isDesktopViewport())
-  ) {
-    hydrateVideoSource(entry);
-  } else if (!hasInitialSrc) {
+  if (!hasInitialSrc && !isHeroCollage) {
     preloadObserver?.observe(video);
   }
 
   viewportObserver?.observe(video);
   centerObserver?.observe(video);
 
-  return () => {
-    video.removeEventListener('loadeddata', handleReady);
-    preloadObserver?.unobserve(video);
-    viewportObserver?.unobserve(video);
-    centerObserver?.unobserve(video);
-    pauseSafely(video);
-    entries.delete(video);
-    scheduleSync();
-  };
+  return cleanup;
+}
+
+/** Découvre et orchestre tous les `<video data-video-loop>` rendus en SSR dans `root` */
+export function initVideoPlayback(root: ParentNode = document): void {
+  if (typeof window === 'undefined') return;
+
+  if (root === document) {
+    initialBootSettled = false;
+    if (bootSettleTimer) clearTimeout(bootSettleTimer);
+    bootSettleTimer = setTimeout(() => {
+      bootSettleTimer = null;
+      initialBootSettled = true;
+      scheduleSync();
+      if (hydrationQueue.length > 0 && !hydrationStepTimer && !isScrolling) {
+        hydrationStepTimer = setTimeout(pumpHydrationQueue, 16);
+      }
+    }, BOOT_SETTLE_MS);
+  }
+
+  const videos = root.querySelectorAll<HTMLVideoElement>('video[data-video-loop]');
+  videos.forEach((video) => {
+    registerManagedVideo(video, {
+      desktopOnly: video.dataset.desktopOnly === 'true',
+    });
+  });
+
+  scheduleSync();
+}
+
+/** Libère proprement les observateurs et flux de la page précédente lors d'une navigation ClientRouter */
+export function resetVideoPlayback(): void {
+  if (bootSettleTimer) {
+    clearTimeout(bootSettleTimer);
+    bootSettleTimer = null;
+  }
+  if (hydrationStepTimer) {
+    clearTimeout(hydrationStepTimer);
+    hydrationStepTimer = null;
+  }
+  if (scrollIdleTimer) {
+    clearTimeout(scrollIdleTimer);
+    scrollIdleTimer = null;
+  }
+  isScrolling = false;
+  hydrationQueue.length = 0;
+
+  const snapshot = Array.from(entries.values());
+  snapshot.forEach((entry) => {
+    entry.cleanup();
+  });
 }

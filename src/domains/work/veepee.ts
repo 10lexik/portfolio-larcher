@@ -110,7 +110,7 @@ interface VeepeeContent {
   variantItems: VariantSpec[];
   headerAnimationKpis: Kpi[];
   headerAnimationPillars: Array<{ label: string; title: string; text: string }>;
-  demoVideos: Array<{ src: string; label: string; caption: string }>;
+  demoVideos: Array<{ src: string; poster: string; label: string; caption: string }>;
   gsapComponents: GsapComponentSpec[];
   figmaChain: Array<{
     label: string;
@@ -242,8 +242,9 @@ export function getVeepeeContent(locale: Locale = 'fr'): VeepeeContent {
       label: dict.headerAnimationKpiLabels[i],
     })),
     headerAnimationPillars: dict.headerAnimationPillars,
-    demoVideos: assets.media.headerAnimationVideos.map((src, i) => ({
-      src,
+    demoVideos: assets.media.headerAnimationVideos.map((media, i) => ({
+      src: media.src,
+      poster: media.poster,
       label: dict.demoVideos[i].label,
       caption: dict.demoVideos[i].caption,
     })),

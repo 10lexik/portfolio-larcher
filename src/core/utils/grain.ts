@@ -41,18 +41,39 @@ interface SchedulerWithYield {
 let cachedVarsRule: string | null = null;
 let grainStyleSheet: CSSStyleSheet | null = null;
 let isSynthesizing = false;
+let lastScrollTimestamp = 0;
+let scrollTrackerBound = false;
 const activeObjectUrls: string[] = [];
 
+function ensureScrollTracker(): void {
+  if (scrollTrackerBound || typeof window === 'undefined') return;
+  scrollTrackerBound = true;
+  window.addEventListener(
+    'scroll',
+    () => {
+      lastScrollTimestamp = performance.now();
+    },
+    { passive: true },
+  );
+}
+
 /**
- * Rend brièvement la main au thread principal (`scheduler.yield()` avec repli `setTimeout`)
- * afin qu'aucune tranche de synthèse procédurale ne dépasse le budget d'interaction (INP < 50 ms).
+ * Rend la main au thread principal et suspend la synthèse tant qu'un défilement est actif,
+ * afin qu'aucune tranche procédurale ne concurrence un geste de scroll.
  */
-function yieldToMain(): Promise<void> {
+async function yieldToMain(): Promise<void> {
+  ensureScrollTracker();
+  while (typeof performance !== 'undefined' && performance.now() - lastScrollTimestamp < 180) {
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, 180);
+    });
+  }
   const win = window as Window & { scheduler?: SchedulerWithYield };
   if (win.scheduler && typeof win.scheduler.yield === 'function') {
-    return win.scheduler.yield();
+    await win.scheduler.yield();
+    return;
   }
-  return new Promise((resolve) => {
+  await new Promise<void>((resolve) => {
     setTimeout(resolve, 0);
   });
 }
@@ -507,7 +528,8 @@ export function initPrintGrain(): void {
       const sizeBX = Math.round(wB * cssScale);
       const sizeBY = Math.round(hB * cssScale);
 
-      cachedVarsRule = `:root { --grain-size-a: ${sizeAX}px ${sizeAY}px; --grain-size-b: ${sizeBX}px ${sizeBY}px; --grain-image-a: url("${tileA}"); --grain-image-b: url("${tileB}"); }`;
+      cachedVarsRule = `#${GRAIN_OVERLAY_ID} { --grain-size-a: ${sizeAX}px ${sizeAY}px; --grain-size-b: ${sizeBX}px ${sizeBY}px; --grain-image-a: url("${tileA}"); --grain-image-b: url("${tileB}"); }`;
+      await yieldToMain();
       applyGrainVars(cachedVarsRule);
     } finally {
       isSynthesizing = false;

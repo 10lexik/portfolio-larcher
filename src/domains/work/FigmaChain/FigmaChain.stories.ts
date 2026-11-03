@@ -23,4 +23,3 @@ export const EnglishPipeline: Story = {
     locale: 'en',
   },
 };
-

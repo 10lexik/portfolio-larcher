@@ -64,8 +64,7 @@ const profile = getProfileContent(locale);
               label={`${home.hero.desktopVideoLabelPrefix} ${brand.name}`}
               ratio={home.hero.ratios.desktop}
               posterPriority={i < 2 ? 'high' : undefined}
-              desktopOnly
-              client:media="(min-width: 768px)"
+              deferSrc
             />
             <div class="home-hero__mob">
               <span class="home-hero__mob-notch"></span>
@@ -75,8 +74,7 @@ const profile = getProfileContent(locale);
                 label={`${home.hero.mobileVideoLabelPrefix} ${brand.name}`}
                 ratio={home.hero.ratios.mobile}
                 posterPriority="low"
-                desktopOnly
-                client:media="(min-width: 768px)"
+                deferSrc
               />
             </div>
           </li>
@@ -84,7 +82,7 @@ const profile = getProfileContent(locale);
       </ul>
     </div>
     <div class="home-hero__stats">
-      <Stats items={veepee.kpis} client:load />
+      <Stats items={veepee.kpis} />
     </div>
   </Section>
 
@@ -212,12 +210,19 @@ const profile = getProfileContent(locale);
 
     @media (min-width: 1024px) {
       transform: perspective(1800px) rotateY(-9deg) rotateX(3deg);
+      backface-visibility: hidden;
     }
 
     & .video-loop__frame {
       border: var(--border-edge-thin);
       border-radius: 1rem;
       box-shadow: var(--shadow-edge-lg);
+    }
+
+    & .home-hero__mob .video-loop__frame {
+      border: none;
+      border-radius: 0.5rem;
+      box-shadow: none;
     }
   }
 
@@ -240,12 +245,6 @@ const profile = getProfileContent(locale);
     background-color: var(--color-brand-dark);
     box-shadow: var(--shadow-edge-lg);
     pointer-events: none;
-
-    & .video-loop__frame {
-      border: none;
-      border-radius: 0.5rem;
-      box-shadow: none;
-    }
   }
 
   .home-hero__mob-notch {

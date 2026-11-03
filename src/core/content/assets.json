@@ -166,10 +166,22 @@
       }
     },
     "headerAnimationVideos": [
-      "/media/videos/clip-path-slider.mp4",
-      "/media/videos/image-text-appear.mp4",
-      "/media/videos/scroll-filtered.mp4",
-      "/media/videos/scroll-pin.mp4"
+      {
+        "src": "/media/videos/clip-path-slider.mp4",
+        "poster": "/media/videos/clip-path-slider.webp"
+      },
+      {
+        "src": "/media/videos/image-text-appear.mp4",
+        "poster": "/media/videos/image-text-appear.webp"
+      },
+      {
+        "src": "/media/videos/scroll-filtered.mp4",
+        "poster": "/media/videos/scroll-filtered.webp"
+      },
+      {
+        "src": "/media/videos/scroll-pin.mp4",
+        "poster": "/media/videos/scroll-pin.webp"
+      }
     ]
   },
   "home": {

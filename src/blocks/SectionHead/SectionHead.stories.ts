@@ -68,4 +68,3 @@ export const WithGradientEmphasis: Story = {
     ),
   },
 };
-

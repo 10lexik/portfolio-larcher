@@ -21,11 +21,13 @@ import {
   prefersReducedMotion,
 } from './motion';
 import { createParallax, prepareParallax } from './parallax';
+import { initCounters } from './counter';
 import { initSectionTimelines, prepareSectionTimelines } from './sectionTimeline';
 import { initStacking } from './stacking';
 import { initAllStaggeredGrids, prepareStaggeredGrids } from './staggeredGrid';
 import { animateSplitTitle, prepareSplitTitle } from './textSplitter';
 import { animateVectorBorders, prepareVectorBorders } from './vectorBorder';
+import { initVideoPlayback, resetVideoPlayback } from './videoPlayback';
 
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ ignoreMobileResize: true });
@@ -214,6 +216,7 @@ class AnimationOrchestrator {
     }
     this.lastDocumentHeight = 0;
     this.refreshCall?.kill();
+    resetVideoPlayback();
     ScrollTrigger.getAll().forEach((st) => st.kill());
     this.loader.reset();
     this.resetScroll();
@@ -291,7 +294,11 @@ class AnimationOrchestrator {
 
     this.preparePage(root);
 
-    if (isFullDocument) {
+    if (
+      isFullDocument &&
+      typeof document !== 'undefined' &&
+      document.querySelector('astro-island[ssr][client="load"]')
+    ) {
       await nextFrame();
       await this.waitForIslands();
       if (!isCurrent()) return;
@@ -302,6 +309,9 @@ class AnimationOrchestrator {
     if (typeof document !== 'undefined') {
       document.documentElement.removeAttribute('data-anim-pending');
     }
+
+    initCounters(root);
+    initVideoPlayback(root);
 
     if (prefersReducedMotion()) return;
 
@@ -477,10 +487,9 @@ class AnimationOrchestrator {
 
   private async waitForIslands() {
     if (typeof document === 'undefined' || typeof window === 'undefined') return;
-    const viewportH = window.innerHeight;
     const islands = Array.from(
       document.querySelectorAll<HTMLElement>('astro-island[ssr][client="load"]'),
-    ).filter((island) => island.getBoundingClientRect().top < viewportH);
+    );
     if (!islands.length) return;
 
     await Promise.all(

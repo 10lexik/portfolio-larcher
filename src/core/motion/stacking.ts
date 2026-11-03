@@ -9,6 +9,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MOTION_STACK, prefersReducedMotion } from './motion';
+import { notifyVideoLayoutChange } from './videoPlayback';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -55,6 +56,16 @@ function createStack(section: HTMLElement) {
   const content = Array.from(section.querySelectorAll<HTMLElement>('[data-stack-content]'));
   if (content.length) gsap.set(content, { clearProps: 'transform' });
 
+  let occluded = false;
+  section.dataset.stackOccluded = 'false';
+
+  const syncOcclusion = (nextOccluded: boolean) => {
+    if (nextOccluded === occluded) return;
+    occluded = nextOccluded;
+    section.dataset.stackOccluded = nextOccluded ? 'true' : 'false';
+    notifyVideoLayoutChange();
+  };
+
   const tl = gsap.timeline({
     defaults: { ease: 'power1.in' },
     scrollTrigger: {
@@ -66,6 +77,18 @@ function createStack(section: HTMLElement) {
       scrub: MOTION_STACK.scrub,
       invalidateOnRefresh: true,
       id: `stack-${section.id || 'section'}`,
+      onToggle: (self) => {
+        content.forEach((el) => {
+          el.style.willChange = self.isActive ? 'transform' : '';
+        });
+        dim.style.willChange = self.isActive ? 'opacity' : '';
+      },
+      onUpdate: (self) => {
+        syncOcclusion(self.progress > 0.08);
+      },
+      onLeave: () => {
+        syncOcclusion(true);
+      },
     },
   });
 
@@ -77,6 +100,7 @@ function createStack(section: HTMLElement) {
         scale: MOTION_STACK.scale,
         y: () =>
           Math.round(MOTION_STACK.drift * Math.min(section.offsetHeight, window.innerHeight)),
+        force3D: true,
       },
       0,
     );

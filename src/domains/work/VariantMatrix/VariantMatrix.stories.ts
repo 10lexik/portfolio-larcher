@@ -23,4 +23,3 @@ export const EnglishCatalog: Story = {
     locale: 'en',
   },
 };
-

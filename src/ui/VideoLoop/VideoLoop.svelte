@@ -13,6 +13,8 @@
     poster?: string;
     /** Diffère le chargement du poster et du flux vidéo hors écran */
     lazy?: boolean;
+    /** Diffère uniquement le flux MP4 après le premier rendu tout en gardant le poster immédiat (ex. Hero) */
+    deferSrc?: boolean;
     /** Priorité réseau explicite du poster (`high` pour le candidat LCP, `low` pour une miniature secondaire) */
     posterPriority?: 'high' | 'low';
     /** Sur mobile (< 768 px), affiche uniquement le poster WebP sans télécharger ni décoder le MP4 */
@@ -27,6 +29,7 @@
     ratio = '9 / 16',
     poster,
     lazy = false,
+    deferSrc = false,
     posterPriority,
     desktopOnly = false,
     class: className = '',
@@ -50,7 +53,7 @@
   }
 
   const dims = $derived(parseIntrinsicDimensions(ratio));
-  const deferVideoSrc = $derived(lazy || desktopOnly);
+  const deferVideoSrc = $derived(lazy || deferSrc || desktopOnly);
   const lazyVideoAttrs = $derived(
     lazy ? ({ loading: 'lazy' } as Record<string, string>) : ({} as Record<string, string>),
   );
@@ -80,8 +83,8 @@
 <!--
   @component
   Boucle vidéo muette accessible optimisée pour les Core Web Vitals mobiles et desktop :
-  dimensions intrinsèques anti-CLS, poster WebP prioritaire, chargement différé hors écran (`lazy`),
-  mode `desktopOnly` zéro transfert vidéo sur mobile et bascule en lecteur natif sous `prefers-reduced-motion`.
+  dimensions intrinsèques anti-CLS, poster WebP prioritaire, chargement différé hors écran (`lazy`)
+  ou après premier paint (`deferSrc`), et bascule en lecteur natif sous `prefers-reduced-motion`.
 -->
 <figure class={['video-loop', desktopOnly && 'video-loop--desktop-only', className]}>
   <div class="video-loop__frame" style:aspect-ratio={ratio}>
@@ -99,6 +102,8 @@
     {/if}
     <video
       bind:this={video}
+      data-video-loop=""
+      data-desktop-only={desktopOnly ? 'true' : undefined}
       class={['video-loop__media', (!poster || ready) && 'is-ready']}
       src={deferVideoSrc ? undefined : src}
       data-src={deferVideoSrc ? src : undefined}

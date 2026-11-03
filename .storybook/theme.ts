@@ -37,4 +37,3 @@ export const portfolioTheme = create({
   inputTextColor: '#e8e8f0',
   inputBorderRadius: 10,
 });
-

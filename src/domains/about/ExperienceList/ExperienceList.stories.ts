@@ -23,4 +23,3 @@ export const EnglishTrackRecord: Story = {
     locale: 'en',
   },
 };
-
