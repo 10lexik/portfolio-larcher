@@ -612,7 +612,7 @@
       "storybook": {
         "eyebrow": "07 · Living Documentation",
         "title": "Making Storybook the visual and accessibility reference for the project",
-        "lead": "Every primitive and composition block is built in isolation, documented, and audited against WCAG 2.1 AA criteria. The Storybook compiled alongside this portfolio exposes all of these components online."
+        "lead": "Every primitive, composition block, and domain component is built in isolation, documented, and audited against WCAG 2.1 AA criteria. The Storybook compiled alongside this portfolio exposes all 25 of these components online."
       }
     },
     "labels": {
@@ -629,9 +629,18 @@
         "label": "component pillars",
         "note": "core · ui · blocks · domains (+ layouts, pages)"
       },
-      { "label": "atomic UI primitives" },
-      { "label": "composition blocks" },
-      { "label": "interactive Storybook stories" },
+      {
+        "label": "atomic UI primitives",
+        "note": "src/ui/ · ported from the media platform"
+      },
+      {
+        "label": "composition blocks",
+        "note": "src/blocks/ (+ 7 Domain components)"
+      },
+      {
+        "label": "interactive Storybook stories",
+        "note": "27 Docs pages · 9 play tests"
+      },
       { "label": "blocking quality gates", "note": "npm run check" }
     ],
     "stack": [
@@ -683,8 +692,8 @@
       "storybook": {
         "role": "Product Designer · System Designer",
         "problem": "Testing a component only inside a full page misses content edge cases, contrast issues, or keyboard navigation flaws.",
-        "decision": "Require a <Name>.stories.ts file in every UI and Block component directory (enforced by lint:arch) and enable automated WCAG 2.1 AA auditing (addon-a11y).",
-        "resolution": "67 interactive stories are compiled and deployed alongside the site (/storybook/index.html), allowing every component to be tested across 4 viewports and every theme."
+        "decision": "Require a <Name>.stories.ts file in every UI, Block, and Domain component directory (enforced by lint:arch), generate Svelte 5 Autodocs, and enable automated WCAG 2.1 AA auditing (addon-a11y).",
+        "resolution": "70 interactive stories, 27 documentation pages, and 9 play interaction tests are compiled alongside the site (/storybook/index.html), inspectable in French or English across 4 viewports and 3 themed surfaces."
       }
     },
     "constraints": [
@@ -711,22 +720,22 @@
       },
       {
         "title": "Atomic primitives",
-        "text": "25 foundational UI components: button, badge, heading, media, modal, form fields, accordion, counter… Each directory groups its Svelte component, CSS, stories, and types."
+        "text": "10 UI primitives in this repository (ported from the 25 foundational primitives of the media platform): button, badge, heading, media, video, code block, accordion, counter… Each directory groups its Svelte component, CSS, and stories."
       },
       {
         "title": "Composition blocks",
-        "text": "12 reusable editorial blocks: section header, bento grid, gallery, quote, key stats, component tree, Case Study summary, and timeline."
+        "text": "8 reusable editorial blocks (ported from the 12 blocks of the media platform): section header, asymmetric split, bento grid, quote, key stats, component tree, Case Study summary, and timeline."
       },
       {
         "title": "Vertical business slices",
-        "text": "Each domain groups its components and data adapters without ever importing a neighboring domain: articles, agenda, and hubs on the media platform; work, about, and navigation on this portfolio."
+        "text": "7 isolated domain components with zero cross-domain imports: articles, agenda, and hubs on the media platform; navigation (Header, Footer), work (CaseCard, VariantMatrix, FigmaChain, ProofTable), and about (ExperienceList) on this portfolio."
       }
     ],
     "srcTreeNotes": [
       "foundation: styles (tokens.css), GSAP motion, i18n, content, and utilities",
-      "25 atomic primitives (1 folder = .svelte + .css + .stories.ts)",
-      "12 generic composition blocks",
-      "isolated business slices (media: articles, agenda… → here: work, about, navigation)",
+      "10 co-located atomic primitives (1 folder = .svelte + .css + .stories.ts)",
+      "8 generic composition blocks",
+      "7 isolated domain components across work, about, and navigation",
       "Astro shells (Layout, Section, Container) and page templates",
       "HTTP routing only (60 lines max, no UI markup)"
     ],
@@ -799,8 +808,8 @@
         "text": "Mobile (375px), tablet (768px), laptop (1280px), and desktop (1440px) match the system’s breakpoints."
       },
       {
-        "title": "Multi-theme previewing",
-        "text": "Every story can be inspected on dark, raised, and light themed surfaces to validate contrast."
+        "title": "Multi-theme and bilingual previewing",
+        "text": "Every story can be inspected in French or English (FR / EN) across dark, raised, and surface themed backgrounds to validate contrast."
       }
     ],
     "motionEngines": [

@@ -11,6 +11,11 @@
   let { items, class: className = '' }: Props = $props();
 </script>
 
+<!--
+  @component
+  Bandeau d'indicateurs clés de performance (KPI) combinant valeurs animées (`<Counter>`)
+  et plages textuelles formatées (`display`), avec libellé et note contextuelle.
+-->
 <ul class={['stats', className]}>
   {#each items as item (item.label)}
     <li class="stats__item" data-reveal>

@@ -1,0 +1,29 @@
+/* Harmonisation des pages Autodocs et MDX avec les tokens sombres du Design System */
+
+.sbdocs.sbdocs-wrapper {
+  background-color: var(--color-brand-dark);
+  color: var(--color-text-body);
+}
+
+.sbdocs.sbdocs-content {
+  max-width: 72rem;
+}
+
+.sbdocs .docs-story {
+  background-color: var(--color-brand-dark);
+  border-color: var(--color-white-10);
+}
+
+.sbdocs :is(h1, h2, h3, h4) {
+  color: var(--color-white);
+  border-bottom-color: var(--color-white-10);
+}
+
+.sbdocs :is(p, li, td) {
+  color: var(--color-text-body);
+}
+
+.sbdocs code {
+  font-family: var(--font-mono);
+}
+

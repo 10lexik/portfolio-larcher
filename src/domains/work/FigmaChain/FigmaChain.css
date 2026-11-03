@@ -1,40 +1,16 @@
----
-import { t } from '@core/i18n/t';
-import type { Locale } from '@core/content/types';
-import { getVeepeeContent } from './veepee';
+/* ==========================================================================
+   FIGMA CHAIN — chaîne séquentielle de gouvernance Figma → Code (domaine work)
+   ========================================================================== */
 
-interface Props {
-  locale?: Locale;
-}
+.chain {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
 
-const { locale = 'fr' } = Astro.props;
-const chain = getVeepeeContent(locale).figmaChain;
----
-
-<ol class="chain" aria-label={t('figmaChainAria', locale)}>
-  {chain.map((step, i) => (
-    <li class={`chain__step chain__step--${step.accent}`} data-reveal style={`--reveal-index:${i}`}>
-      <p class="chain__label">{step.label}</p>
-      <ul class="chain__items">
-        {step.items.map((item) => (
-          <li>{item}</li>
-        ))}
-      </ul>
-    </li>
-  ))}
-</ol>
-
-<style>
-  .chain {
-    display: grid;
-    gap: 1rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
-  }
-
-  .chain__step {
+  & .chain__step {
     --chain-accent: var(--color-brand-primary-light);
 
     position: relative;
@@ -76,7 +52,7 @@ const chain = getVeepeeContent(locale).figmaChain;
     }
   }
 
-  .chain__label {
+  & .chain__label {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -99,7 +75,7 @@ const chain = getVeepeeContent(locale).figmaChain;
     }
   }
 
-  .chain__items {
+  & .chain__items {
     display: grid;
     gap: 0.5rem;
     margin: 0;
@@ -107,4 +83,5 @@ const chain = getVeepeeContent(locale).figmaChain;
     list-style: none;
     line-height: 1.45;
   }
-</style>
+}
+

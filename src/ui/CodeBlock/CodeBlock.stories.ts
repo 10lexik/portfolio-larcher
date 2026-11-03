@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/svelte';
+import assets from '@core/content/assets.json';
 import CodeBlock from './CodeBlock.svelte';
 
 const meta = {
@@ -6,17 +7,36 @@ const meta = {
   tags: ['autodocs'],
   args: {
     label: 'HeaderCusTypes.ts',
-    code: "export type HeaderVariant =\n  'top' | 'bottom' | 'pop-in' | 'block' | 'center'",
+    code: assets.veepee.snippets.types,
   },
 } satisfies Meta<typeof CodeBlock>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const TypeScript: Story = {};
-export const Scss: Story = {
+export const TypeScript: Story = {
+  name: 'TypeScript',
+};
+
+export const CssThemeTokens: Story = {
+  name: 'CSS @theme Tokens',
+  args: {
+    label: 'src/core/styles/tokens.css',
+    code: assets.designSystem.snippets.tokensExcerpt,
+  },
+};
+
+export const ScssVariables: Story = {
+  name: 'SCSS Variables',
   args: {
     label: 'HeaderCus.scss',
-    code: '// variables par composant\n$headerCus-logo-width-desk: du(184px);\n$headerCus-color-text: white;',
+    code: assets.veepee.snippets.scssComponentTokens,
+  },
+};
+
+export const WithoutLabel: Story = {
+  args: {
+    label: undefined,
+    code: assets.designSystem.snippets.checkCommand,
   },
 };

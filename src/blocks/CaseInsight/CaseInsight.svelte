@@ -19,6 +19,11 @@
   let { insight, locale = 'fr', class: className = '' }: Props = $props();
 </script>
 
+<!--
+  @component
+  Encadré narratif d'étude de cas structuré en trois temps : Constat terrain (`01`), Décision d'architecture (`02`)
+  et Résultat en production (`03`), entièrement bilingue (`FR / EN`) via les clés UI globales.
+-->
 <aside class={['case-insight', className]} aria-label={t('insightTag', locale)} data-reveal>
   {#if insight.role}
     <div class="case-insight__bar">

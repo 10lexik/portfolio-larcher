@@ -1,32 +1,58 @@
 import type { Meta, StoryObj } from '@storybook/svelte';
+import { getDesignSystemContent } from '@domains/work/designSystem';
+import { getVeepeeContent } from '@domains/work/veepee';
 import ComponentTree from './ComponentTree.svelte';
+
+const veepeeFr = getVeepeeContent('fr');
+const veepeeEn = getVeepeeContent('en');
+const dsFr = getDesignSystemContent('fr');
+const dsEn = getDesignSystemContent('en');
 
 const meta = {
   component: ComponentTree,
   tags: ['autodocs'],
   args: {
-    label: 'Arborescence · exemple',
-    root: 'src/components/',
-    nodes: [
-      {
-        folder: 'Header/',
-        featured: true,
-        badge: 'composant complet',
-        children: [
-          { files: ['Header.vue', '.ts', '.scss'] },
-          { files: ['HeaderTypes.ts'], note: 'contrat de props' },
-          { files: ['Readme.md'], note: 'documentation embarquée' },
-          { folder: 'variants/', files: ['Top', 'Bottom', 'Center'] },
-        ],
+    label: veepeeFr.labels.treeLabel,
+    root: veepeeFr.componentTreeRoot,
+    nodes: veepeeFr.componentTree,
+  },
+  parameters: {
+    localizedArgs: {
+      fr: {
+        label: veepeeFr.labels.treeLabel,
+        nodes: veepeeFr.componentTree,
       },
-      { files: ['Slider', 'Cards', 'Gallery', '…'] },
-    ],
+      en: {
+        label: veepeeEn.labels.treeLabel,
+        nodes: veepeeEn.componentTree,
+      },
+    },
   },
 } satisfies Meta<typeof ComponentTree>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const FeaturedSubtree: Story = {};
 
-export const SansTitre: Story = { args: { label: undefined } };
+export const SixLayerPillars: Story = {
+  args: {
+    label: dsFr.labels.treeLabel,
+    root: dsFr.srcTreeRoot,
+    nodes: dsFr.srcTree,
+  },
+  parameters: {
+    localizedArgs: {
+      fr: { label: dsFr.labels.treeLabel, nodes: dsFr.srcTree },
+      en: { label: dsEn.labels.treeLabel, nodes: dsEn.srcTree },
+    },
+  },
+};
+
+export const WithoutLabel: Story = {
+  args: {
+    label: undefined,
+    root: dsFr.srcTreeRoot,
+    nodes: dsFr.srcTree,
+  },
+};

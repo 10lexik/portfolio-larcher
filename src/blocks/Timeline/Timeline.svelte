@@ -16,6 +16,11 @@
   let { steps, class: className = '' }: Props = $props();
 </script>
 
+<!--
+  @component
+  Chronologie verticale numérotée (`01`, `02`…) illustrant un flux séquentiel ou une chaîne de dépendances
+  avec connecteur continu et pastilles d'accent thématiques.
+-->
 <ol class={['timeline', className]}>
   {#each steps as step, i (step.title)}
     <li

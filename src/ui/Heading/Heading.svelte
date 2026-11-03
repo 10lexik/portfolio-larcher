@@ -49,6 +49,11 @@
   const animAttrs = $derived(appear ? { 'data-reveal': '' } : {});
 </script>
 
+<!--
+  @component
+  Primitive typographique découplant la hiérarchie DOM (`as="h1..h6|p"`) de l'échelle fluide (`variant="hero..label"`).
+  Applique automatiquement les règles micro-typographiques françaises (`formatTitleTypography`) et supporte les sous-titres bicolores (`splitTone`).
+-->
 {#snippet contentSnippet()}
   {#if children}
     {@render children()}

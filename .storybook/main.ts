@@ -26,7 +26,7 @@ const config: StorybookConfig = {
   stories: [
     {
       directory: '../src/core/stories',
-      files: '**/*.stories.@(js|ts|svelte)',
+      files: '**/*.@(mdx|stories.@(js|ts|svelte))',
       titlePrefix: 'Foundations',
     },
     {
@@ -39,8 +39,13 @@ const config: StorybookConfig = {
       files: '**/*.stories.@(js|ts|svelte)',
       titlePrefix: 'Blocks',
     },
+    {
+      directory: '../src/domains',
+      files: '**/*.stories.@(js|ts|svelte)',
+      titlePrefix: 'Domains',
+    },
   ],
-  addons: ['@storybook/addon-a11y'],
+  addons: ['@storybook/addon-docs', '@storybook/addon-a11y', '@storybook/addon-svelte-csf'],
   framework: {
     name: '@storybook/svelte-vite',
     options: {},

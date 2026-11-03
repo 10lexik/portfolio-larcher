@@ -40,6 +40,8 @@
     "@astrojs/check": "^0.9.10",
     "@eslint/js": "^10.0.1",
     "@storybook/addon-a11y": "^10.6.3",
+    "@storybook/addon-docs": "^10.6.5",
+    "@storybook/addon-svelte-csf": "^5.1.6",
     "@storybook/svelte": "^10.6.3",
     "@storybook/svelte-vite": "^10.6.3",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",

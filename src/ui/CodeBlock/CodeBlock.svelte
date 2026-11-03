@@ -14,6 +14,11 @@
   const html = $derived(highlight(code));
 </script>
 
+<!--
+  @component
+  Bloc d'extrait de code avec coloration syntaxique légère sans dépendance lourde côté client (`highlight.ts`).
+  Utilise JetBrains Mono Variable et les tokens `--color-code-bg` / `--text-fluid-code`.
+-->
 <div class={['code-block', className]}>
   {#if label}<p class="code-block__label">{label}</p>{/if}
   <!-- eslint-disable-next-line svelte/no-at-html-tags -->

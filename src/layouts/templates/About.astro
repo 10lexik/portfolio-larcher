@@ -1,15 +1,15 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import Section from '@layouts/Section.astro';
-import SectionHead from '@blocks/SectionHead/SectionHead.astro';
+import SectionHead from '@blocks/SectionHead/SectionHead.svelte';
 import Quote from '@blocks/Quote/Quote.svelte';
 import Bento from '@blocks/Bento/Bento.svelte';
 import Button from '@ui/Button/Button.svelte';
 import Tile from '@ui/Tile/Tile.svelte';
+import ExperienceList from '@domains/about/ExperienceList/ExperienceList.svelte';
 import { getProfileContent } from '@domains/about/profile';
 import { getSite } from '@core/content/site';
 import { t } from '@core/i18n/t';
-import { formatTitleTypography } from '@core/utils/text';
 import type { Locale } from '@core/content/types';
 
 interface Props {
@@ -69,22 +69,7 @@ const profile = getProfileContent(locale);
       eyebrow={profile.sections.experience.eyebrow}
       title={profile.sections.experience.title}
     />
-    <ol class="about-roles">
-      {profile.experience.map((role, i) => (
-        <li data-reveal style={`--reveal-index:${i}`}>
-          <Tile accent={i === 0 ? 'primary' : 'none'}>
-            <p class="tile__label">{role.period}</p>
-            <h3 class="tile__title">{formatTitleTypography(role.title)}</h3>
-            <p class="about-roles__company">{role.company}</p>
-            <ul class="about-roles__points">
-              {role.points.map((point) => (
-                <li>{point}</li>
-              ))}
-            </ul>
-          </Tile>
-        </li>
-      ))}
-    </ol>
+    <ExperienceList locale={locale} />
   </Section>
 
   <Section id="formation" theme="raised" labelledby="edu-title">
@@ -143,28 +128,6 @@ const profile = getProfileContent(locale);
       background-clip: text;
       color: transparent;
     }
-  }
-
-  .about-roles {
-    display: grid;
-    gap: var(--grid-gap);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .about-roles__company {
-    margin: 0 0 0.75rem;
-    font-weight: 600;
-    color: var(--color-brand-mint);
-  }
-
-  .about-roles__points {
-    display: grid;
-    gap: 0.5rem;
-    margin: 0;
-    padding-left: 1.1rem;
-    line-height: 1.5;
   }
 
   .about-fill {

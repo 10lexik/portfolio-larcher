@@ -1,0 +1,43 @@
+/* ==========================================================================
+   STORY GRID — grille de comparaison multi-variantes pour Storybook
+   ========================================================================== */
+
+.story-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--story-grid-min, 14rem)), 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &.story-grid--stack {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  & .story-grid__cell {
+    display: grid;
+    gap: 0.75rem;
+    align-content: space-between;
+    padding: 1.1rem;
+    border: var(--border-edge-thin);
+    border-radius: var(--radius-media);
+    background-image: linear-gradient(180deg, var(--color-white-07), var(--color-white-05));
+  }
+
+  & .story-grid__stage {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    min-width: 0;
+  }
+
+  & .story-grid__caption {
+    margin: 0;
+    padding-top: 0.55rem;
+    border-top: var(--border-edge-thin);
+    font-family: var(--font-mono);
+    font-size: var(--text-fluid-2xs);
+    color: var(--color-text-muted);
+  }
+}
+

@@ -77,6 +77,12 @@
   });
 </script>
 
+<!--
+  @component
+  Boucle vidéo muette accessible optimisée pour les Core Web Vitals mobiles et desktop :
+  dimensions intrinsèques anti-CLS, poster WebP prioritaire, chargement différé hors écran (`lazy`),
+  mode `desktopOnly` zéro transfert vidéo sur mobile et bascule en lecteur natif sous `prefers-reduced-motion`.
+-->
 <figure class={['video-loop', desktopOnly && 'video-loop--desktop-only', className]}>
   <div class="video-loop__frame" style:aspect-ratio={ratio}>
     {#if poster}

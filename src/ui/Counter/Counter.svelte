@@ -55,6 +55,12 @@
   });
 </script>
 
+<!--
+  @component
+  Compteur numérique progressif déclenché à l'entrée dans le viewport (`IntersectionObserver`).
+  Affiche immédiatement la valeur finale en SSR, sans JS ou lorsque `prefers-reduced-motion: reduce` est actif,
+  tout en exposant la valeur cible complète aux lecteurs d'écran via `aria-label`.
+-->
 <span bind:this={root} class={['counter', className]} aria-label={`${prefix}${value}${suffix}`}>
   <span aria-hidden="true">{prefix}{shown}{suffix}</span>
 </span>

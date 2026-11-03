@@ -4,8 +4,8 @@ import '@fontsource-variable/jetbrains-mono';
 import interLatinWoff2 from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import '@core/styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-import Header from '@domains/navigation/Header.astro';
-import Footer from '@domains/navigation/Footer.astro';
+import Header from '@domains/navigation/Header/Header.svelte';
+import Footer from '@domains/navigation/Footer/Footer.svelte';
 import type { Locale } from '@core/content/types';
 import { getSite } from '@core/content/site';
 import { getAlternatePath, t } from '@core/i18n/t';
@@ -86,7 +86,7 @@ const imageUrl = new URL(resolvedImage, site.url).href;
     <a class="skip-link" href="#main">
       {t('skipToContent', locale)}
     </a>
-    <Header locale={locale} />
+    <Header locale={locale} pathname={Astro.url.pathname} />
     <main id="main">
       <slot />
     </main>

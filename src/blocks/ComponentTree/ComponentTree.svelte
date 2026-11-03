@@ -35,6 +35,11 @@
   }
 </script>
 
+<!--
+  @component
+  Représentation arborescente récursive (`{#snippet branch}`) d'une architecture de fichiers ou de composants,
+  avec coloration par extension (`.vue`, `.ts`, `.scss`, `.md`) et mise en exergue de sous-arbres (`featured`).
+-->
 {#snippet branch(items: TreeNode[])}
   <ul class="tree__list">
     {#each items as node, i (i)}

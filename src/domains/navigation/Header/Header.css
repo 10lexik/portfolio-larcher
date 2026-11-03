@@ -1,95 +1,17 @@
----
-import type { Locale } from '@core/content/types';
-import { getNav, getSite } from '@core/content/site';
-import { getAlternatePath, t } from '@core/i18n/t';
+/* ==========================================================================
+   HEADER — barre de navigation globale (domaine navigation)
+   ========================================================================== */
 
-interface Props {
-  locale?: Locale;
-}
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: var(--border-edge-thin);
+  background-color: var(--color-dark-80);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 
-const { locale = 'fr' } = Astro.props;
-const site = getSite(locale);
-const nav = getNav(locale);
-const current = Astro.url.pathname.replace(/\/$/, '') || '/';
-const frHref = getAlternatePath(Astro.url.pathname, 'fr');
-const enHref = getAlternatePath(Astro.url.pathname, 'en');
----
-
-<header class="site-header" data-theme="dark">
-  <div class="site-header__bar">
-    <a
-      class="site-header__brand"
-      href={site.homeHref}
-      aria-label={`${site.name} — ${t('homeAriaLabel', locale)}`}
-    >
-      <span class="site-header__mark" aria-hidden="true">
-        {site.monogram}
-      </span>
-      <span class="site-header__name">{site.name}</span>
-    </a>
-
-    <nav class="site-header__nav" aria-label={t('navLabel', locale)}>
-      <ul class="site-header__list">
-        {nav.map((item) => (
-          <li>
-            <a
-              class="site-header__link"
-              href={item.href}
-              data-astro-reload={item.reload ? '' : undefined}
-              aria-current={current === item.href ? 'page' : undefined}
-            >
-              {item.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-
-    <div class="site-header__actions">
-      <div class="site-header__lang" role="group" aria-label={t('langSwitchLabel', locale)}>
-        <a
-          class="site-header__lang-link"
-          href={frHref}
-          hreflang="fr"
-          aria-current={locale === 'fr' ? 'true' : undefined}
-        >
-          {t('langFr', locale)}
-        </a>
-        <a
-          class="site-header__lang-link"
-          href={enHref}
-          hreflang="en"
-          aria-current={locale === 'en' ? 'true' : undefined}
-        >
-          {t('langEn', locale)}
-        </a>
-      </div>
-
-      <a
-        class="site-header__cta"
-        href={site.linkedin}
-        target="_blank"
-        rel="noopener noreferrer"
-        data-vector-btn
-      >
-        <span data-vector-btn-label>{t('headerCta', locale)}</span>
-      </a>
-    </div>
-  </div>
-</header>
-
-<style>
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    border-bottom: var(--border-edge-thin);
-    background-color: var(--color-dark-80);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-  }
-
-  .site-header__bar {
+  & .site-header__bar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -100,7 +22,7 @@ const enHref = getAlternatePath(Astro.url.pathname, 'en');
     padding: 0.75rem var(--spacing-fluid-x);
   }
 
-  .site-header__brand {
+  & .site-header__brand {
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;
@@ -108,7 +30,7 @@ const enHref = getAlternatePath(Astro.url.pathname, 'en');
     color: var(--color-white);
   }
 
-  .site-header__mark {
+  & .site-header__mark {
     display: grid;
     place-items: center;
     width: 2.25rem;
@@ -125,7 +47,7 @@ const enHref = getAlternatePath(Astro.url.pathname, 'en');
     color: var(--color-white);
   }
 
-  .site-header__name {
+  & .site-header__name {
     display: none;
     font-size: var(--text-fluid-base);
 
@@ -134,7 +56,7 @@ const enHref = getAlternatePath(Astro.url.pathname, 'en');
     }
   }
 
-  .site-header__nav {
+  & .site-header__nav {
     order: 3;
     width: 100%;
     overflow-x: auto;
@@ -146,7 +68,7 @@ const enHref = getAlternatePath(Astro.url.pathname, 'en');
     }
   }
 
-  .site-header__list {
+  & .site-header__list {
     display: flex;
     gap: 0.25rem;
     margin: 0;
@@ -155,7 +77,7 @@ const enHref = getAlternatePath(Astro.url.pathname, 'en');
     white-space: nowrap;
   }
 
-  .site-header__link {
+  & .site-header__link {
     display: inline-block;
     padding: 0.45rem 0.9rem;
     border-radius: var(--radius-chip);
@@ -177,13 +99,13 @@ const enHref = getAlternatePath(Astro.url.pathname, 'en');
     }
   }
 
-  .site-header__actions {
+  & .site-header__actions {
     display: inline-flex;
     align-items: center;
     gap: 0.65rem;
   }
 
-  .site-header__lang {
+  & .site-header__lang {
     display: inline-flex;
     align-items: center;
     padding: 0.16rem;
@@ -192,7 +114,7 @@ const enHref = getAlternatePath(Astro.url.pathname, 'en');
     background-color: var(--color-white-05);
   }
 
-  .site-header__lang-link {
+  & .site-header__lang-link {
     padding: 0.25rem 0.55rem;
     border-radius: var(--radius-chip);
     font-family: var(--font-mono);
@@ -213,7 +135,7 @@ const enHref = getAlternatePath(Astro.url.pathname, 'en');
     }
   }
 
-  .site-header__cta {
+  & .site-header__cta {
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -234,4 +156,5 @@ const enHref = getAlternatePath(Astro.url.pathname, 'en');
       border-color: transparent;
     }
   }
-</style>
+}
+

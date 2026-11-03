@@ -29,6 +29,11 @@
   const resolvedHref = $derived(href ? safeURL(href) : '');
 </script>
 
+<!--
+  @component
+  Étiquette compacte polymorphe (`<span>` statique ou lien `<a>` sécurisé par `safeURL`).
+  Utilisée pour catégoriser les technologies, statuts, livrables et métadonnées de Case Study.
+-->
 {#if resolvedHref}
   <a
     href={resolvedHref}

@@ -612,7 +612,7 @@
       "storybook": {
         "eyebrow": "07 · Documentation vivante",
         "title": "Faire du Storybook le référentiel visuel et accessible du projet",
-        "lead": "Chaque primitive et chaque bloc est développé en isolation, documenté et audité selon les critères WCAG 2.1 AA. Le Storybook compilé avec ce portfolio expose en ligne l’ensemble de ces composants."
+        "lead": "Chaque primitive, bloc et composant métier est développé en isolation, documenté et audité selon les critères WCAG 2.1 AA. Le Storybook compilé avec ce portfolio expose en ligne l’ensemble de ces 25 composants."
       }
     },
     "labels": {
@@ -629,9 +629,18 @@
         "label": "piliers de composants",
         "note": "core · ui · blocks · domains (+ layouts, pages)"
       },
-      { "label": "primitives UI atomiques" },
-      { "label": "blocs de composition" },
-      { "label": "stories Storybook interactives" },
+      {
+        "label": "primitives UI atomiques",
+        "note": "src/ui/ · issues du socle média"
+      },
+      {
+        "label": "blocs de composition",
+        "note": "src/blocks/ (+ 7 composants Domains)"
+      },
+      {
+        "label": "stories Storybook interactives",
+        "note": "27 pages Docs · 9 tests play"
+      },
       { "label": "contrôles qualité bloquants", "note": "npm run check" }
     ],
     "stack": [
@@ -683,8 +692,8 @@
       "storybook": {
         "role": "Product Designer · System Designer",
         "problem": "Tester un composant uniquement au sein d’une page complète laisse passer des cas limites de contenu, des erreurs de contraste ou des défauts de navigation au clavier.",
-        "decision": "Imposer la présence d’un fichier <Nom>.stories.ts dans chaque dossier de composant UI et Block (exigence vérifiée par lint:arch) et activer l’audit automatique WCAG 2.1 AA (addon-a11y).",
-        "resolution": "67 stories interactives sont compilées et déployées avec le site (/storybook/index.html), permettant de tester chaque composant sur 4 largeurs d’écran et sur chaque thème."
+        "decision": "Imposer la présence d’un fichier <Nom>.stories.ts dans chaque dossier de composant UI, Block et Domain (exigence vérifiée par lint:arch), générer les Autodocs Svelte 5 et activer l’audit automatique WCAG 2.1 AA (addon-a11y).",
+        "resolution": "70 stories interactives, 27 pages de documentation et 9 tests d’interaction play sont compilés avec le site (/storybook/index.html), inspectables en français ou en anglais sur 4 largeurs d’écran et 3 surfaces thématiques."
       }
     },
     "constraints": [
@@ -711,22 +720,22 @@
       },
       {
         "title": "Primitives atomiques",
-        "text": "25 composants d’interface élémentaires : bouton, badge, titre, média, modale, champs de formulaire, accordéon, compteur… Chaque dossier regroupe son composant Svelte, son CSS, ses stories et ses types."
+        "text": "10 primitives d’interface dans ce dépôt (issues des 25 composants élémentaires de la plateforme média) : bouton, badge, titre, média, vidéo, bloc de code, accordéon, compteur… Chaque dossier regroupe son composant Svelte, son CSS et ses stories."
       },
       {
         "title": "Blocs de composition",
-        "text": "12 blocs éditoriaux réutilisables : en-tête de section, grille bento, galerie, citation, indicateurs clés, arborescence, synthèse de Case Study et chronologie."
+        "text": "8 blocs éditoriaux réutilisables (issus des 12 blocs du socle média) : en-tête de section, mise en page asymétrique, grille bento, citation, indicateurs clés, arborescence, synthèse de Case Study et chronologie."
       },
       {
         "title": "Tranches verticales métier",
-        "text": "Chaque domaine regroupe ses composants et ses adaptateurs de données sans jamais importer un domaine voisin : articles, agenda et hubs sur la plateforme média ; work, about et navigation sur ce portfolio."
+        "text": "7 composants métiers isolés sans dépendance croisée entre domaines verticaux : articles, agenda et hubs sur la plateforme média ; navigation (Header, Footer), work (CaseCard, VariantMatrix, FigmaChain, ProofTable) et about (ExperienceList) sur ce portfolio."
       }
     ],
     "srcTreeNotes": [
       "socle : styles (tokens.css), motion GSAP, i18n, contenu et utilitaires",
-      "25 primitives atomiques (1 dossier = .svelte + .css + .stories.ts)",
-      "12 blocs génériques de composition",
-      "tranches métier isolées (média : articles, agenda… → ici : work, about, navigation)",
+      "10 primitives atomiques co-localisées (1 dossier = .svelte + .css + .stories.ts)",
+      "8 blocs génériques de composition",
+      "7 composants métiers isolés répartis dans work, about et navigation",
       "coquilles Astro (Layout, Section, Container) et templates de page",
       "routage HTTP uniquement (60 lignes maximum, aucun balisage UI)"
     ],
@@ -799,8 +808,8 @@
         "text": "Mobile (375 px), tablette (768 px), portable (1280 px) et grand écran (1440 px) reproduisent les points de rupture du système."
       },
       {
-        "title": "Prévisualisation multi-thèmes",
-        "text": "Chaque story peut être inspectée sur les différentes surfaces thématiques (dark, raised, light) pour valider les contrastes."
+        "title": "Prévisualisation multi-thèmes et bilingue",
+        "text": "Chaque story s’inspecte en français ou en anglais (FR / EN) sur les trois surfaces thématiques (dark, raised, surface) pour valider les contrastes."
       }
     ],
     "motionEngines": [

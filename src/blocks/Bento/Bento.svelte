@@ -20,6 +20,11 @@
   let { items, class: className = '' }: Props = $props();
 </script>
 
+<!--
+  @component
+  Grille éditoriale modulaire 3 colonnes (`>= 768px`) assemblant des primitives `<Tile>`.
+  Chaque cellule contrôle son étendue horizontale (`span: 1 | 2 | 3`) et son entrée séquencée (`--reveal-index`).
+-->
 <div class={['bento', className]}>
   {#each items as item, i (item.title)}
     <div

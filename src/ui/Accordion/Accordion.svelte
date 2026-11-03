@@ -20,6 +20,11 @@
   const group = `accordion-${Math.random().toString(36).slice(2, 8)}`;
 </script>
 
+<!--
+  @component
+  Accordéon natif accessible reposant sur `<details>` / `<summary>` HTML5 sans surcharge JS d'état.
+  Supporte l'ouverture mutuellement exclusive via l'attribut standard `name` partagé par groupe.
+-->
 <div class={['accordion', className]}>
   {#each items as item, i (item.title)}
     <details class="accordion__item" name={exclusive ? group : undefined} open={i === openIndex}>

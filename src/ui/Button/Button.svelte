@@ -48,6 +48,12 @@
   }
 </script>
 
+<!--
+  @component
+  Primitive d'action polymorphe (`<button>` ou `<a>` selon `href`/`link` et `disabled`).
+  Assainit systématiquement les URL (`safeURL`) et icônes SVG inline (`sanitizeSvg`), et expose
+  `data-vector-btn-label` pour les contours vectoriels animés.
+-->
 {#snippet contentSnippet()}
   {#if icon && iconPosition === 'left'}
     <span class="btn__icon btn__icon--left">

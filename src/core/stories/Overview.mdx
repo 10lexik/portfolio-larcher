@@ -1,0 +1,60 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Overview" />
+
+# Gwennaël Larcher · Design System
+
+**Architecture & Living Component Workbench** — Astro 7 · Svelte 5 (Runes) · Tailwind CSS 4 (`@theme`) · GSAP 3 · Storybook 10 (**70 interactive stories · 27 Docs pages · 9 `play` tests**).
+
+This Storybook documents the production Design System powering this portfolio and derived from the multi-domain editorial media architecture presented in **Case Study 02**. Every rule documented below is mechanically enforced on every commit by `npm run check`.
+
+---
+
+## 1. Six-Layer Unidirectional Architecture
+
+Components and modules are organized by architectural stability and dependency direction rather than technical file type:
+
+| Layer       | Path           | Responsibility                                                                                                                                                                       | Allowed Imports                                       |
+| :---------- | :------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------- |
+| **Core**    | `src/core/`    | Single-source design tokens (`tokens.css`), GSAP motion orchestrator, procedural paper grain, `fr`/`en` i18n dictionaries, security sanitizers                                       | `core` only                                           |
+| **UI**      | `src/ui/`      | **10** atomic, domain-agnostic Svelte 5 primitives (`Button`, `Badge`, `Heading`, `Tile`, `Accordion`, `Figure`, `VideoLoop`, `CodeBlock`, `Counter`, `Divider`)                     | `core`, `ui`                                          |
+| **Blocks**  | `src/blocks/`  | **8** generic editorial composition blocks (`SectionHead`, `Split`, `Stats`, `Bento`, `CaseInsight`, `ComponentTree`, `Quote`, `Timeline`)                                           | `core`, `ui`, `blocks`                                |
+| **Domains** | `src/domains/` | **7** isolated vertical domain components across `navigation` (`Header`, `Footer`), `work` (`CaseCard`, `VariantMatrix`, `FigmaChain`, `ProofTable`), and `about` (`ExperienceList`) | `core`, `ui`, `blocks`, own domain (`work` ↛ `about`) |
+| **Layouts** | `src/layouts/` | Astro document shells (`Layout.astro`, `Section.astro`, `Container.astro`) and page templates                                                                                        | `core` → `layouts`                                    |
+| **Pages**   | `src/pages/`   | Pure HTTP & locale routing (`<= 60` lines per file, zero UI markup)                                                                                                                  | All lower layers                                      |
+
+---
+
+## 2. Co-Location & Component Contract
+
+Every component directory in `src/ui/<Name>`, `src/blocks/<Name>`, and `src/domains/<domain>/<Name>` strictly contains:
+
+- `<Name>.svelte` — Typed Svelte 5 Runes (`$props()`, `$derived()`, `Snippet` composition) + `@component` documentation.
+- `<Name>.css` — Mobile-first native CSS nesting consuming tokens from `src/core/styles/tokens.css` exclusively.
+- `<Name>.stories.ts` — Interactive CSF stories, multi-variant matrices, `FR / EN` localized states, and automated `play` interaction tests.
+- **Zero `index.ts` barrel files** — Explicit imports preserve tree-shaking and clean dependency graphs (`lint:arch`).
+
+---
+
+## 3. Single Source of Truth Tokens & Theme Parity
+
+- **`src/core/styles/tokens.css`** defines all brand & semantic colors, fluid `clamp()` typographic scales, glass borders, radii, elevation shadows, motion curves, and paper-grain parameters inside Tailwind CSS 4's `@theme` block.
+- **Zero hardcoded magic values** — Raw `#hex`, `rgb()`, `cubic-bezier()`, hardcoded `font-size`, `transition-all`, `@apply`, and `!important` are blocked in component stylesheets by `lint:tokens`.
+- **Surface parity (`data-theme`)** — Every themed section or header declares `data-theme="dark"` (`#090912`) or `data-theme="raised"` (`#181826`), validated by `lint:themes`. Use the **Backgrounds** toolbar above to inspect contrast across surfaces.
+- **Bilingual SSOT (`FR / EN`)** — Use the **Locale (`Globe`)** switcher in the top toolbar to switch live between `src/core/i18n/fr.json` and `src/core/i18n/en.json`.
+
+---
+
+## 4. Nine Automated CI Guardrails (`npm run check`)
+
+| Gate                     | Command                    | What It Enforces                                                                                 |
+| :----------------------- | :------------------------- | :----------------------------------------------------------------------------------------------- |
+| **01 · Astro Types**     | `astro check`              | Strict TypeScript validation across `.astro`, `.svelte`, and `.ts`                               |
+| **02 · Svelte Runes**    | `npm run typecheck:svelte` | `svelte-check --fail-on-warnings` (zero warnings tolerated)                                      |
+| **03 · Static Analysis** | `npm run lint`             | ESLint 10 (`no-explicit-any`, `svelte/require-each-key`, `prefer-svelte-reactivity`)             |
+| **04 · CSS Standards**   | `npm run lint:css`         | Stylelint 17 (`custom-property-pattern`, prefix media/container ranges)                          |
+| **05 · Token SSOT**      | `npm run lint:tokens`      | Bans hardcoded colors, font sizes, shadows, `@apply`, `transition-all`, `!important`             |
+| **06 · Theme Parity**    | `npm run lint:themes`      | Verifies themed surfaces always carry `data-theme="dark \| raised"`                              |
+| **07 · Architecture**    | `npm run lint:arch`        | Unidirectional imports, domain isolation, co-located `.svelte`/`.css`/`.stories.ts`, thin routes |
+| **08 · Dead Code**       | `npm run lint:dead`        | Knip detection of unused files, exports, types, and dependencies                                 |
+| **09 · Formatting**      | `npm run format:check`     | Prettier consistency across Astro, Svelte, TypeScript, JSON, and CSS                             |

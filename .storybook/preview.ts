@@ -2,46 +2,107 @@ import type { Preview } from '@storybook/svelte-vite';
 import '@fontsource-variable/inter';
 import '@fontsource-variable/jetbrains-mono';
 import '../src/core/styles/global.css';
+import './storybook-docs.css';
+import type { Locale } from '../src/core/content/types';
 import { initReveal } from '../src/core/motion/reveal';
 import { initPrintGrain } from '../src/core/utils/grain';
+import { portfolioTheme } from './theme';
 
 /**
- * Fonds de story : couleur posée sur <body> (jamais sur <html>), alignée sur les tokens de marque.
- * Les entrées au scroll (`data-reveal`) sont rejouées à chaque story.
+ * Surfaces thématiques alignées sur `src/core/styles/tokens.css` et `lint:themes`.
+ * Accepte indifféremment la clé (`dark`, `raised`, `surface`) ou la valeur hexadécimale.
  */
-const BG_BY_KEY: Record<string, { color: string; theme: 'dark' | 'raised' }> = {
+const SURFACES: Record<string, { color: string; theme: 'dark' | 'raised' }> = {
   dark: { color: '#090912', theme: 'dark' },
+  '#090912': { color: '#090912', theme: 'dark' },
+  surface: { color: '#12121c', theme: 'dark' },
+  '#12121c': { color: '#12121c', theme: 'dark' },
   raised: { color: '#181826', theme: 'raised' },
+  '#181826': { color: '#181826', theme: 'raised' },
 };
 
-let revealObserverAttached = false;
+type LocalizedArgsMap = Partial<Record<Locale, Record<string, unknown>>>;
 
 const preview: Preview = {
+  globalTypes: {
+    locale: {
+      name: 'Locale',
+      description: 'Active content dictionary (src/core/i18n/{fr,en}.json)',
+      toolbar: {
+        icon: 'globe',
+        dynamicTitle: true,
+        items: [
+          { value: 'fr', right: 'FR', title: 'Français (fr.json)' },
+          { value: 'en', right: 'EN', title: 'English (en.json)' },
+        ],
+      },
+    },
+  },
+  initialGlobals: {
+    locale: 'fr',
+    backgrounds: { value: 'dark' },
+  },
   decorators: [
     (story, context) => {
+      const activeLocale: Locale = context.globals?.locale === 'en' ? 'en' : 'fr';
+
       if (typeof document !== 'undefined') {
         document.documentElement.classList.add('js');
-        const key = String(
+        document.documentElement.lang = activeLocale;
+
+        const rawBg = String(
           context.globals?.backgrounds?.value ?? context.parameters?.backgrounds?.default ?? 'dark',
-        );
-        const resolved = BG_BY_KEY[key] ?? BG_BY_KEY['dark'];
-        document.body.dataset.theme = resolved.theme;
-        document.body.style.backgroundColor = resolved.color;
+        ).toLowerCase();
+        const surface = SURFACES[rawBg] ?? SURFACES.dark;
+        document.body.dataset.theme = surface.theme;
+        document.body.style.backgroundColor = surface.color;
+
         initPrintGrain();
         requestAnimationFrame(() => initReveal());
-        if (!revealObserverAttached && typeof MutationObserver !== 'undefined') {
-          revealObserverAttached = true;
-          const mo = new MutationObserver(() => initReveal());
-          mo.observe(document.body, { childList: true, subtree: true });
+      }
+
+      const nextArgs: Record<string, unknown> = { ...context.args };
+      let hasOverrides = false;
+
+      if ('locale' in (context.argTypes ?? {}) && context.initialArgs?.locale === undefined) {
+        if (context.args.locale === undefined) {
+          nextArgs.locale = activeLocale;
+          hasOverrides = true;
         }
       }
-      return story();
+
+      const localizedArgs = context.parameters?.localizedArgs as LocalizedArgsMap | undefined;
+      const localeBundle = localizedArgs?.[activeLocale];
+      if (localeBundle) {
+        for (const [key, localizedVal] of Object.entries(localeBundle)) {
+          if (context.args[key] === context.initialArgs?.[key]) {
+            nextArgs[key] = localizedVal;
+            hasOverrides = true;
+          }
+        }
+      }
+
+      return hasOverrides ? story({ args: nextArgs }) : story();
     },
   ],
   parameters: {
     options: {
       storySort: {
-        order: ['Foundations', 'UI', 'Blocks'],
+        order: [
+          'Foundations',
+          ['Overview', 'Design Tokens'],
+          'UI',
+          'Blocks',
+          'Domains',
+          ['Navigation', 'Work', 'About'],
+        ],
+      },
+    },
+    docs: {
+      theme: portfolioTheme,
+      toc: {
+        headingSelector: 'h2, h3',
+        title: 'On this page',
       },
     },
     controls: {
@@ -68,7 +129,7 @@ const preview: Preview = {
           type: 'mobile',
         },
         tablet: {
-          name: 'Tablet (768×1024 — seuil md)',
+          name: 'Tablet (768×1024 — md breakpoint)',
           styles: { width: '768px', height: '1024px' },
           type: 'tablet',
         },
@@ -86,10 +147,11 @@ const preview: Preview = {
     },
     backgrounds: {
       default: 'dark',
-      values: [
-        { name: 'dark', value: '#090912' },
-        { name: 'raised', value: '#181826' },
-      ],
+      options: {
+        dark: { name: 'Dark (#090912 · data-theme="dark")', value: '#090912' },
+        raised: { name: 'Raised (#181826 · data-theme="raised")', value: '#181826' },
+        surface: { name: 'Surface (#12121c · card base)', value: '#12121c' },
+      },
     },
     layout: 'padded',
   },

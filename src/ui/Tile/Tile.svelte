@@ -32,6 +32,11 @@
   }: Props = $props();
 </script>
 
+<!--
+  @component
+  Surface conteneur « verre » (`--radius-tile`, `--border-edge-thin`) avec filet d'accent chromatique optionnel (`accent`),
+  surtitre (`label`), titre typographié (`title`) et slot de composition Svelte 5 (`children: Snippet`).
+-->
 <div
   class={[
     'tile',

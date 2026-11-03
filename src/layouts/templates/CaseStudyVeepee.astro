@@ -1,8 +1,8 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import Section from '@layouts/Section.astro';
-import SectionHead from '@blocks/SectionHead/SectionHead.astro';
-import Split from '@blocks/Split/Split.astro';
+import SectionHead from '@blocks/SectionHead/SectionHead.svelte';
+import Split from '@blocks/Split/Split.svelte';
 import Stats from '@blocks/Stats/Stats.svelte';
 import Quote from '@blocks/Quote/Quote.svelte';
 import ComponentTree from '@blocks/ComponentTree/ComponentTree.svelte';
@@ -14,9 +14,9 @@ import Tile from '@ui/Tile/Tile.svelte';
 import VideoLoop from '@ui/VideoLoop/VideoLoop.svelte';
 import CodeBlock from '@ui/CodeBlock/CodeBlock.svelte';
 import BrandMosaic from '@domains/work/BrandMosaic.astro';
-import VariantMatrix from '@domains/work/VariantMatrix.astro';
-import FigmaChain from '@domains/work/FigmaChain.astro';
-import ProofTable from '@domains/work/ProofTable.astro';
+import VariantMatrix from '@domains/work/VariantMatrix/VariantMatrix.svelte';
+import FigmaChain from '@domains/work/FigmaChain/FigmaChain.svelte';
+import ProofTable from '@domains/work/ProofTable/ProofTable.svelte';
 import { getVeepeeContent } from '@domains/work/veepee';
 import { getSite } from '@core/content/site';
 import { t } from '@core/i18n/t';
