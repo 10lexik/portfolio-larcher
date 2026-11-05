@@ -12,6 +12,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MOTION_PRESETS, MOTION_SCROLL, prefersReducedMotion } from './motion';
+import { cancelDeferredReset, playSmartEntrance, resetOrDeferBelowFold } from './scrollEntrance';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -60,7 +61,9 @@ export function prepareSectionTimelines(root: ParentNode = document) {
     if (header.dataset.stlBound === 'true') return;
     HEADER_ELEMENTS.forEach(({ selector, initial }) => {
       const el = header.querySelector<HTMLElement>(selector);
-      if (el) gsap.set(el, { ...initial });
+      if (!el) return;
+      el.dataset.stlItem = 'true';
+      gsap.set(el, { ...initial });
     });
   });
 }
@@ -130,24 +133,18 @@ export function initSectionTimelines(
       const el = header.querySelector<HTMLElement>(selector);
       if (!el) return;
 
-      const playElIn = () => {
-        gsap.fromTo(
-          el,
-          { ...from },
-          {
-            ...to,
-            overwrite: true,
-            ...(suffix !== 'border' ? { clearProps: 'transform' } : {}),
-          },
-        );
+      const toVars: gsap.TweenVars = {
+        ...to,
+        ...(suffix !== 'border' ? { clearProps: 'transform' } : {}),
       };
 
       const resetElOut = () => {
-        const currentY = parseFloat(String(gsap.getProperty(el, 'y') ?? '0')) || 0;
-        const naturalTop = el.getBoundingClientRect().top - currentY;
-        if (naturalTop < window.innerHeight - 1) return;
         gsap.killTweensOf(el);
-        gsap.set(el, { ...initial, x: 0, y: 0 });
+        if (suffix === 'border') {
+          gsap.set(el, { ...initial });
+        } else {
+          gsap.set(el, { ...initial, x: 0, y: 0, clearProps: 'transform' });
+        }
       };
 
       if (isStacked) {
@@ -158,7 +155,7 @@ export function initSectionTimelines(
             end: MOTION_SCROLL.end,
             once: true,
             id: `${sectionId}-${suffix}`,
-            onEnter: () => playElIn(),
+            onEnter: () => playSmartEntrance(el, from, toVars),
           }),
         );
       } else {
@@ -168,12 +165,12 @@ export function initSectionTimelines(
             start: MOTION_SCROLL.startHeader,
             end: MOTION_SCROLL.end,
             id: `${sectionId}-${suffix}`,
-            onEnter: () => playElIn(),
-            onLeaveBack: () => resetElOut(),
-            onRefresh: (self) => {
-              if (!self.isActive && self.progress === 0) {
-                resetElOut();
-              }
+            onEnter: (self) => {
+              cancelDeferredReset(self);
+              playSmartEntrance(el, from, toVars);
+            },
+            onLeaveBack: (self) => {
+              resetOrDeferBelowFold(self, el, resetElOut);
             },
           }),
         );

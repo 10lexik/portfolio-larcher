@@ -15,6 +15,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { documentTop } from './geometry';
 import { MOTION_PRESETS, prefersReducedMotion } from './motion';
+import { cancelDeferredReset, playSmartEntrance, resetOrDeferBelowFold } from './scrollEntrance';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,6 +31,7 @@ const STAGGER_GRID_SELECTOR = [
   '.chain',
   '.cs-videos',
   '.about-roles',
+  '.experience-list',
   '.ds-checks',
   '.timeline',
   '.home-hero__collage',
@@ -67,6 +69,7 @@ export function prepareStaggeredGrids(root: ParentNode = document) {
   const grids = root.querySelectorAll<HTMLElement>(STAGGER_GRID_SELECTOR);
   grids.forEach((grid) => {
     if (grid.dataset.staggerInit === 'true' || grid.offsetHeight === 0) return;
+    if (grid.parentElement?.closest(STAGGER_GRID_SELECTOR)) return;
     const items = getGridItems(grid);
     if (!items.length) return;
     items.forEach((item) => {
@@ -76,7 +79,7 @@ export function prepareStaggeredGrids(root: ParentNode = document) {
         nested.dataset.staggerItem = 'true';
       });
     });
-    gsap.set(items, { autoAlpha: 0, x: 0, y: 0, scale: 1 });
+    gsap.set(items, { autoAlpha: 0 });
   });
 }
 
@@ -97,7 +100,10 @@ export function initAllStaggeredGrids(
 ): ScrollTrigger[] {
   if (prefersReducedMotion()) return [];
   const grids = Array.from(root.querySelectorAll<HTMLElement>(STAGGER_GRID_SELECTOR)).filter(
-    (grid) => grid.dataset.staggerInit !== 'true' && grid.offsetHeight > 0,
+    (grid) =>
+      grid.dataset.staggerInit !== 'true' &&
+      grid.offsetHeight > 0 &&
+      !grid.parentElement?.closest(STAGGER_GRID_SELECTOR),
   );
   if (!grids.length) return [];
 
@@ -168,24 +174,14 @@ export function initAllStaggeredGrids(
     }
 
     // Cas C : Rangée sous la ligne de flottaison → ScrollTrigger indépendant
-    const playRowIn = () => {
-      gsap.fromTo(
-        rowItems,
-        { ...from },
-        {
-          ...to,
-          overwrite: true,
-          clearProps: 'transform',
-        },
-      );
+    const toVars: gsap.TweenVars = {
+      ...to,
+      clearProps: 'transform',
     };
 
     const resetRowOut = () => {
-      const currentY = parseFloat(String(gsap.getProperty(rowTrigger, 'y') ?? '0')) || 0;
-      const naturalTop = rowTrigger.getBoundingClientRect().top - currentY;
-      if (naturalTop < window.innerHeight - 1) return;
       gsap.killTweensOf(rowItems);
-      gsap.set(rowItems, { autoAlpha: 0, x: 0, y: 0, scale: 1 });
+      gsap.set(rowItems, { autoAlpha: 0, x: 0, y: 0, scale: 1, clearProps: 'transform' });
     };
 
     if (isStacked) {
@@ -196,7 +192,7 @@ export function initAllStaggeredGrids(
           end: scroll.end,
           once: true,
           id: `grid-${gridIndex}-r${rowIndex + 1}`,
-          onEnter: () => playRowIn(),
+          onEnter: () => playSmartEntrance(rowItems, from, toVars),
         }),
       );
     } else {
@@ -206,12 +202,12 @@ export function initAllStaggeredGrids(
           start: scroll.start,
           end: scroll.end,
           id: `grid-${gridIndex}-r${rowIndex + 1}`,
-          onEnter: () => playRowIn(),
-          onLeaveBack: () => resetRowOut(),
-          onRefresh: (self) => {
-            if (!self.isActive && self.progress === 0) {
-              resetRowOut();
-            }
+          onEnter: (self) => {
+            cancelDeferredReset(self);
+            playSmartEntrance(rowItems, from, toVars);
+          },
+          onLeaveBack: (self) => {
+            resetOrDeferBelowFold(self, rowTrigger, resetRowOut);
           },
         }),
       );

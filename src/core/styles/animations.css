@@ -92,37 +92,27 @@ em [data-split-char],
 }
 
 /* Zéro-FOUC avant préparation GSAP (levé par startPage après preparePage).
-   Une fois data-anim-pending retiré, seul GSAP pilote autoAlpha (aucune règle .js [data-reveal]
-   susceptible d'écraser l'opacité lors de l'hydratation d'une île Svelte). */
-html[data-anim-pending] .site-header,
-html[data-anim-pending] [data-reveal],
-html[data-anim-pending] [data-section-timeline],
-html[data-anim-pending] [data-split-title],
-html[data-anim-pending] [data-vector-btn],
-html[data-anim-pending] .mosaic > *,
-html[data-anim-pending] .bento > *,
-html[data-anim-pending] .stats > *,
-html[data-anim-pending] .grid-auto > *,
-html[data-anim-pending] .cs-catalogue > *,
-html[data-anim-pending] .variants > *,
-html[data-anim-pending] .chain > *,
-html[data-anim-pending] .cs-videos > *,
-html[data-anim-pending] .about-roles > *,
-html[data-anim-pending] .ds-checks > *,
-html[data-anim-pending] .timeline > *,
-html[data-anim-pending] .home-hero__collage > * {
-  visibility: hidden;
-}
-
-@media (prefers-reduced-motion: reduce) {
+   Actif uniquement lorsque l'utilisateur n'a pas demandé de réduction de mouvement :
+   en prefers-reduced-motion: reduce, le contenu reste visible nativement dès le premier octet. */
+@media (prefers-reduced-motion: no-preference) {
   html[data-anim-pending] .site-header,
   html[data-anim-pending] [data-reveal],
   html[data-anim-pending] [data-section-timeline],
   html[data-anim-pending] [data-split-title],
-  html[data-anim-pending] [data-vector-btn] {
-    visibility: visible;
-    opacity: 1;
-    transform: none;
-    transition: none;
+  html[data-anim-pending] [data-vector-btn],
+  html[data-anim-pending] .mosaic > *,
+  html[data-anim-pending] .bento > *,
+  html[data-anim-pending] .stats > *,
+  html[data-anim-pending] .grid-auto > *,
+  html[data-anim-pending] .cs-catalogue > *,
+  html[data-anim-pending] .variants > *,
+  html[data-anim-pending] .chain > *,
+  html[data-anim-pending] .cs-videos > *,
+  html[data-anim-pending] .about-roles > *,
+  html[data-anim-pending] .experience-list > *,
+  html[data-anim-pending] .ds-checks > *,
+  html[data-anim-pending] .timeline > *,
+  html[data-anim-pending] .home-hero__collage > * {
+    visibility: hidden;
   }
 }

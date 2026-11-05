@@ -110,4 +110,3 @@ export function initCounters(root: ParentNode = document): void {
     bindCounterElement(el);
   });
 }
-

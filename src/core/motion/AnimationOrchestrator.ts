@@ -22,6 +22,12 @@ import {
 } from './motion';
 import { createParallax, prepareParallax } from './parallax';
 import { initCounters } from './counter';
+import {
+  cancelDeferredReset,
+  clearAllDeferredResets,
+  playSmartEntrance,
+  resetOrDeferBelowFold,
+} from './scrollEntrance';
 import { initSectionTimelines, prepareSectionTimelines } from './sectionTimeline';
 import { initStacking } from './stacking';
 import { initAllStaggeredGrids, prepareStaggeredGrids } from './staggeredGrid';
@@ -44,7 +50,20 @@ const HERO_TITLE_SELECTOR =
   '[data-split-title]:not([data-stl-title]), .home-hero__title, .cs-hero__title, .ds-hero__title, .about-hero__title';
 
 const STANDALONE_REVEAL_SELECTOR =
-  '[data-reveal]:not([data-section-timeline]):not([data-stagger-item="true"])';
+  '[data-reveal]:not([data-section-timeline]):not([data-stagger-item="true"]):not([data-stl-item="true"])';
+
+const ONCE_CONTEXT_SELECTOR =
+  '[data-stack], [data-stack-reveal], [data-reveal-once], .ds-split__aside';
+
+/** Déduplication structurelle (1 élément = 1 seul moteur, aucun parent + enfant tous deux animés) */
+function isNestedMotionTarget(el: HTMLElement): boolean {
+  if (el.matches(HERO_TITLE_SELECTOR) || el.dataset.revealBound === 'true') return true;
+  return Boolean(
+    el.parentElement?.closest(
+      '[data-reveal], [data-section-timeline], [data-stagger-item="true"], [data-split-title], [data-vector-btn]',
+    ),
+  );
+}
 
 const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
@@ -216,6 +235,7 @@ class AnimationOrchestrator {
     }
     this.lastDocumentHeight = 0;
     this.refreshCall?.kill();
+    clearAllDeferredResets();
     resetVideoPlayback();
     ScrollTrigger.getAll().forEach((st) => st.kill());
     this.loader.reset();
@@ -270,7 +290,7 @@ class AnimationOrchestrator {
 
     // 5. Masque les éléments [data-reveal] autonomes sans altérer leur géométrie
     root.querySelectorAll<HTMLElement>(STANDALONE_REVEAL_SELECTOR).forEach((el) => {
-      if (el.matches(HERO_TITLE_SELECTOR) || el.dataset.revealBound === 'true') return;
+      if (isNestedMotionTarget(el)) return;
       gsap.set(el, { autoAlpha: 0 });
     });
 
@@ -361,27 +381,27 @@ class AnimationOrchestrator {
     // 5. Éléments [data-reveal] autonomes (badges, leads, clusters, citations, CaseInsight)
     const standalone = Array.from(
       root.querySelectorAll<HTMLElement>(STANDALONE_REVEAL_SELECTOR),
-    ).filter((el) => !el.matches(HERO_TITLE_SELECTOR) && el.dataset.revealBound !== 'true');
+    ).filter((el) => !isNestedMotionTarget(el));
 
     // Passe 1 (LECTURE PURE)
     const measuredStandalone = standalone.map((el) => ({
       el,
       rect: el.getBoundingClientRect(),
-      isStacked: Boolean(el.closest('[data-stack], [data-stack-reveal]')),
+      isOnce: Boolean(el.closest(ONCE_CONTEXT_SELECTOR)),
     }));
 
     const waveItems: HTMLElement[] = [];
-    const scrollItems: Array<{ el: HTMLElement; isStacked: boolean }> = [];
+    const scrollItems: Array<{ el: HTMLElement; isOnce: boolean }> = [];
 
     // Passe 2 (TRI)
-    measuredStandalone.forEach(({ el, rect, isStacked }) => {
+    measuredStandalone.forEach(({ el, rect, isOnce }) => {
       el.dataset.revealBound = 'true';
       if (rect.bottom <= 0) {
         gsap.set(el, { autoAlpha: 1, clearProps: 'transform,opacity,visibility' });
       } else if (rect.top < viewportH) {
         waveItems.push(el);
       } else {
-        scrollItems.push({ el, isStacked });
+        scrollItems.push({ el, isOnce });
       }
     });
 
@@ -419,7 +439,7 @@ class AnimationOrchestrator {
     });
 
     // Sous la ligne de flottaison : ScrollTrigger uniquement
-    scrollItems.forEach(({ el, isStacked }, idx) => {
+    scrollItems.forEach(({ el, isOnce }, idx) => {
       const mode = el.dataset.reveal;
       const fromVars: gsap.TweenVars =
         mode === 'fade'
@@ -428,34 +448,28 @@ class AnimationOrchestrator {
             ? { autoAlpha: 0, scale: 0.96 }
             : { autoAlpha: 0, y: MOTION_DISTANCE.md };
 
-      const playElIn = () => {
-        gsap.fromTo(el, fromVars, {
-          autoAlpha: 1,
-          y: 0,
-          scale: 1,
-          duration: MOTION_DURATION.moderate,
-          ease: MOTION_EASE.out,
-          overwrite: true,
-          clearProps: 'transform',
-        });
+      const toVars: gsap.TweenVars = {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: MOTION_DURATION.moderate,
+        ease: MOTION_EASE.out,
+        clearProps: 'transform',
       };
 
       const resetElOut = () => {
-        const currentY = parseFloat(String(gsap.getProperty(el, 'y') ?? '0')) || 0;
-        const naturalTop = el.getBoundingClientRect().top - currentY;
-        if (naturalTop < window.innerHeight - 1) return;
         gsap.killTweensOf(el);
-        gsap.set(el, { autoAlpha: 0, x: 0, y: 0, scale: 1 });
+        gsap.set(el, { autoAlpha: 0, x: 0, y: 0, scale: 1, clearProps: 'transform' });
       };
 
-      if (isStacked) {
+      if (isOnce) {
         ScrollTrigger.create({
           trigger: el,
           start: MOTION_SCROLL.start,
           end: MOTION_SCROLL.end,
           once: true,
           id: `reveal-${idx}`,
-          onEnter: () => playElIn(),
+          onEnter: () => playSmartEntrance(el, fromVars, toVars),
         });
       } else {
         ScrollTrigger.create({
@@ -463,12 +477,12 @@ class AnimationOrchestrator {
           start: MOTION_SCROLL.start,
           end: MOTION_SCROLL.end,
           id: `reveal-${idx}`,
-          onEnter: () => playElIn(),
-          onLeaveBack: () => resetElOut(),
-          onRefresh: (self) => {
-            if (!self.isActive && self.progress === 0) {
-              resetElOut();
-            }
+          onEnter: (self) => {
+            cancelDeferredReset(self);
+            playSmartEntrance(el, fromVars, toVars);
+          },
+          onLeaveBack: (self) => {
+            resetOrDeferBelowFold(self, el, resetElOut);
           },
         });
       }
@@ -478,7 +492,6 @@ class AnimationOrchestrator {
     animateVectorBorders(root, introTl, 0.12);
 
     if (isFullDocument) {
-      ScrollTrigger.refresh();
       this.lastDocumentHeight = document.documentElement.scrollHeight;
       this.refreshCall?.kill();
       this.observeLayout();
@@ -517,7 +530,14 @@ class AnimationOrchestrator {
 
   safeRefresh() {
     if (typeof window === 'undefined') return;
-    if (!ScrollTrigger.isScrolling()) {
+    const scrollY = window.scrollY;
+    const viewportH = window.innerHeight;
+    const hasRelevantPinsOrScrubs = ScrollTrigger.getAll().some(
+      (st) =>
+        (Boolean(st.pin) && (st.isActive || scrollY <= st.end + viewportH * 0.5)) ||
+        (Boolean(st.vars.scrub) && st.isActive),
+    );
+    if (!hasRelevantPinsOrScrubs || !ScrollTrigger.isScrolling()) {
       ScrollTrigger.refresh();
       return;
     }

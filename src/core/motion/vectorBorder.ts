@@ -8,6 +8,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MOTION_PRESETS, MOTION_SCROLL, prefersReducedMotion } from './motion';
+import { cancelDeferredReset, playSmartEntrance, resetOrDeferBelowFold } from './scrollEntrance';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -132,15 +133,78 @@ export function animateVectorBorders(
       waveIdx += 1;
       playSingleVectorBorder(btn, timeline, offset);
     } else {
-      ScrollTrigger.create({
-        trigger: btn,
-        start: MOTION_SCROLL.start,
-        end: MOTION_SCROLL.end,
-        onEnter: () => {
-          const scrollTl = gsap.timeline();
-          playSingleVectorBorder(btn, scrollTl, 0);
-        },
-      });
+      const { stroke, label } = MOTION_PRESETS.vectorBorderDraw;
+      const isOnce = Boolean(btn.closest('[data-stack], [data-stack-reveal]'));
+
+      const playBtnIn = () => {
+        const rect = attachVectorBorder(btn);
+        if (rect) {
+          const dashOffset = parseFloat(String(gsap.getProperty(rect, 'strokeDashoffset') ?? '0'));
+          if (dashOffset > 5) {
+            gsap.fromTo(
+              rect,
+              { strokeDashoffset: 100 },
+              {
+                strokeDashoffset: 0,
+                duration: stroke.duration,
+                ease: stroke.ease,
+                overwrite: true,
+              },
+            );
+          } else {
+            gsap.to(rect, {
+              strokeDashoffset: 0,
+              duration: stroke.duration,
+              ease: stroke.ease,
+              overwrite: true,
+            });
+          }
+        }
+        const labelEl = btn.querySelector<HTMLElement>('[data-vector-btn-label]');
+        if (labelEl) {
+          playSmartEntrance(labelEl, label.from, {
+            ...label.to,
+            delay: 0.08,
+            clearProps: 'transform,opacity,visibility',
+          });
+        }
+      };
+
+      const resetBtnOut = () => {
+        const rect = btn.querySelector<SVGRectElement>('.vector-border-svg rect');
+        if (rect) {
+          gsap.killTweensOf(rect);
+          gsap.set(rect, { strokeDashoffset: 100 });
+        }
+        const labelEl = btn.querySelector<HTMLElement>('[data-vector-btn-label]');
+        if (labelEl) {
+          gsap.killTweensOf(labelEl);
+          gsap.set(labelEl, { ...label.initial, x: 0, y: 0, clearProps: 'transform' });
+        }
+      };
+
+      if (isOnce) {
+        ScrollTrigger.create({
+          trigger: btn,
+          start: MOTION_SCROLL.start,
+          end: MOTION_SCROLL.end,
+          once: true,
+          onEnter: () => playBtnIn(),
+        });
+      } else {
+        ScrollTrigger.create({
+          trigger: btn,
+          start: MOTION_SCROLL.start,
+          end: MOTION_SCROLL.end,
+          onEnter: (self) => {
+            cancelDeferredReset(self);
+            playBtnIn();
+          },
+          onLeaveBack: (self) => {
+            resetOrDeferBelowFold(self, btn, resetBtnOut);
+          },
+        });
+      }
     }
   });
 }
