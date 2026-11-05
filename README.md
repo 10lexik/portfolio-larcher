@@ -32,7 +32,7 @@ src/
 npm install
 npm run dev          # Local dev server (http://localhost:4321)
 npm run storybook    # Storybook workbench (http://localhost:6006)
-npm run check        # Run all 9 automated quality gates
+npm run check        # Run all 10 automated quality & security gates
 npm run build        # Static build (dist/ + dist/storybook/)
 ```
 
@@ -47,5 +47,6 @@ npm run build        # Static build (dist/ + dist/storybook/)
 | `npm run lint:tokens` | Bans hardcoded font sizes, colors, shadows, and `@apply` / `!important` |
 | `npm run lint:themes` | Enforces parity between themed section backgrounds and `data-theme` |
 | `npm run lint:arch` | Verifies pillar hierarchy, domain isolation, co-location contracts, and thin routes |
+| `npm run lint:security` | Enforces DOM sink allowlist, CSP SHA-256 parity, anti-tabnabbing, `public/` hygiene, and `security.ts` unit tests |
 | `npm run lint:dead` | Knip dead-code, unused export, and dependency check |
 | `npm run format:check` | Prettier formatting check |

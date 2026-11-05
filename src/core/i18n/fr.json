@@ -602,8 +602,8 @@
       },
       "gardefous": {
         "eyebrow": "05 · Gouvernance automatisée",
-        "title": "Neuf vérifications bloquantes réunies sous une seule commande",
-        "lead": "Pour éviter que la qualité ne repose uniquement sur la vigilance en revue de code, chaque modification est validée par une chaîne complète d’analyse statique, de typage et de règles architecturales."
+        "title": "Dix vérifications bloquantes réunies sous une seule commande",
+        "lead": "Pour éviter que la qualité ne repose uniquement sur la vigilance en revue de code, chaque modification est validée par une chaîne complète d’analyse statique, de typage, de sécurité et de règles architecturales."
       },
       "workflow": {
         "eyebrow": "06 · Industrialisation CI/CD",
@@ -619,7 +619,7 @@
       "treeLabel": "Arborescence src/",
       "tokensExcerptLabel": "tokens.css — extrait de la source unique de vérité",
       "orchestratorLabel": "src/core/motion/AnimationOrchestrator.ts — Cycle de vie et 5 moteurs GSAP",
-      "checksTableAria": "Chaîne des 9 contrôles automatisés",
+      "checksTableAria": "Chaîne des 10 contrôles automatisés",
       "checkCommandLabel": "Commande unique de validation",
       "stepImportedByPrefix": "Peut être importé par",
       "stepLastLayer": "Couche terminale : routage HTTP uniquement."
@@ -680,7 +680,7 @@
       "gardefous": {
         "role": "Lead Front-End Dev · Developer Experience",
         "problem": "Un document de bonnes pratiques externe ne suffit pas à empêcher l’introduction d’un import circulaire, d’un type any, d’une couleur en dur ou d’un export inutilisé sous la pression d’une mise en production.",
-        "decision": "Assembler neuf outils complémentaires (astro check, svelte-check, ESLint, Stylelint, lint:tokens, lint:themes, lint:arch, Knip et Prettier) au sein de la commande unique npm run check.",
+        "decision": "Assembler dix outils complémentaires (astro check, svelte-check, ESLint, Stylelint, lint:tokens, lint:themes, lint:arch, lint:security, Knip et Prettier) au sein de la commande unique npm run check.",
         "resolution": "La validation complète s’exécute en quelques secondes : les revues de code se concentrent désormais sur la pertinence fonctionnelle et l’expérience utilisateur."
       },
       "workflow": {
@@ -747,6 +747,7 @@
       "Détection des tailles, couleurs ou ombres en dur et des règles CSS proscrites.",
       "Contrôle de parité entre les classes de fond thématique et l’attribut data-theme.",
       "Validation du sens des imports entre les 6 couches, de l’isolation des domaines et de la minceur des routes.",
+      "Liste blanche des puits DOM, parité SHA-256 de la CSP, anti-tabnabbing, hygiène de public/ et tests unitaires sur security.ts.",
       "Knip : détection des fichiers, exports et dépendances non référencés.",
       "Vérification du formatage Prettier sur Astro, Svelte, TypeScript et CSS."
     ],

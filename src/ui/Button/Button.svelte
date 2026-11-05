@@ -1,7 +1,7 @@
 <script lang="ts">
   import './Button.css';
   import type { ButtonProp } from '@ui/types';
-  import { safeURL, sanitizeSvg } from '@core/utils/security';
+  import { safeExternalRel, safeURL, sanitizeSvg } from '@core/utils/security';
 
   let {
     label,
@@ -30,6 +30,7 @@
   });
 
   const resolvedHref = $derived(safeURL(rawHref));
+  const resolvedRel = $derived(safeExternalRel(target, rel));
 
   const classes = $derived([
     'btn',
@@ -81,7 +82,7 @@
     href={resolvedHref}
     class={classes}
     {target}
-    {rel}
+    rel={resolvedRel}
     data-astro-reload={resolvedHref.startsWith('/storybook') ? '' : undefined}
     onclick={handleClick}
     {...rest}

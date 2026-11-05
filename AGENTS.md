@@ -37,6 +37,8 @@ src/
 | `npm run lint:tokens` | Interdit valeurs en dur et pratiques proscrites |
 | `npm run lint:themes` | Parité fond thématique ↔ `data-theme` |
 | `npm run lint:arch` | Piliers, isolation, contrats de composants, minceur des routes |
+| `npm run lint:security` | Puits DOM, parité du hash CSP SHA-256, anti-tabnabbing, hygiène `public/` et tests `security.ts` |
+| `npm run lint:dead` | Knip (fichiers, exports et dépendances non référencés) |
 | `npm run format:check` | Prettier |
 
 ## 4. Déploiement

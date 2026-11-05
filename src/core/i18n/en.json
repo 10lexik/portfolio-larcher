@@ -602,8 +602,8 @@
       },
       "gardefous": {
         "eyebrow": "05 · Automated Governance",
-        "title": "Nine blocking quality gates unified under a single command",
-        "lead": "So quality never depends on code-review vigilance alone, every change runs through a complete static analysis, type-checking, and architectural validation pipeline."
+        "title": "Ten blocking quality gates unified under a single command",
+        "lead": "So quality never depends on code-review vigilance alone, every change runs through a complete static analysis, type-checking, security, and architectural validation pipeline."
       },
       "workflow": {
         "eyebrow": "06 · CI/CD Industrialization",
@@ -619,7 +619,7 @@
       "treeLabel": "src/ directory tree",
       "tokensExcerptLabel": "tokens.css — excerpt from the single source of truth",
       "orchestratorLabel": "src/core/motion/AnimationOrchestrator.ts — Lifecycle and 5 GSAP engines",
-      "checksTableAria": "Pipeline of 9 automated quality gates",
+      "checksTableAria": "Pipeline of 10 automated quality gates",
       "checkCommandLabel": "Unified validation command",
       "stepImportedByPrefix": "Can be imported by",
       "stepLastLayer": "Terminal layer: HTTP routing only."
@@ -680,7 +680,7 @@
       "gardefous": {
         "role": "Lead Front-End Dev · Developer Experience",
         "problem": "An external best-practices document cannot prevent a circular import, a TypeScript any, a hardcoded color, or an unused export from slipping in under deadline pressure.",
-        "decision": "Combine nine complementary tools (astro check, svelte-check, ESLint, Stylelint, lint:tokens, lint:themes, lint:arch, Knip, and Prettier) under the single npm run check command.",
+        "decision": "Combine ten complementary tools (astro check, svelte-check, ESLint, Stylelint, lint:tokens, lint:themes, lint:arch, lint:security, Knip, and Prettier) under the single npm run check command.",
         "resolution": "Full validation completes in seconds, letting code reviews focus on functional relevance and user experience."
       },
       "workflow": {
@@ -747,6 +747,7 @@
       "Detects hardcoded font sizes, colors, or shadows and forbidden CSS rules.",
       "Checks parity between themed background classes and the data-theme attribute.",
       "Validates import direction across the 6 layers, domain isolation, and route thinness.",
+      "DOM sink allowlist, CSP SHA-256 hash parity, anti-tabnabbing, public/ hygiene, and unit tests on security.ts.",
       "Knip: detects unreferenced files, exports, and dependencies.",
       "Verifies Prettier formatting across Astro, Svelte, TypeScript, and CSS."
     ],

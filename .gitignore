@@ -20,6 +20,8 @@ npm-debug.log*
 
 # Système et éditeurs
 .DS_Store
+**/.DS_Store
+Thumbs.db
 .idea/
 .vscode/*
 !.vscode/extensions.json

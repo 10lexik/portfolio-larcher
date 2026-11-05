@@ -1,6 +1,7 @@
 ---
 import VideoLoop from '@ui/VideoLoop/VideoLoop.svelte';
 import { t } from '@core/i18n/t';
+import { safeURL } from '@core/utils/security';
 import type { Locale } from '@core/content/types';
 import { getVeepeeContent, type Brand } from './veepee';
 
@@ -95,8 +96,8 @@ const { codeRefs } = getVeepeeContent(locale);
         <div class="mosaic__meta">
           <div class="mosaic__header">
             <p class="mosaic__name">
-              {brand.href ? (
-                <a href={brand.href} target="_blank" rel="noopener noreferrer">
+              {brand.href && safeURL(brand.href) ? (
+                <a href={safeURL(brand.href)} target="_blank" rel="noopener noreferrer">
                   {brand.name} ↗
                 </a>
               ) : (

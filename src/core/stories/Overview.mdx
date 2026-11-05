@@ -45,7 +45,7 @@ Every component directory in `src/ui/<Name>`, `src/blocks/<Name>`, and `src/doma
 
 ---
 
-## 4. Nine Automated CI Guardrails (`npm run check`)
+## 4. Ten Automated CI Guardrails (`npm run check`)
 
 | Gate                     | Command                    | What It Enforces                                                                                 |
 | :----------------------- | :------------------------- | :----------------------------------------------------------------------------------------------- |
@@ -56,5 +56,6 @@ Every component directory in `src/ui/<Name>`, `src/blocks/<Name>`, and `src/doma
 | **05 · Token SSOT**      | `npm run lint:tokens`      | Bans hardcoded colors, font sizes, shadows, `@apply`, `transition-all`, `!important`             |
 | **06 · Theme Parity**    | `npm run lint:themes`      | Verifies themed surfaces always carry `data-theme="dark \| raised"`                              |
 | **07 · Architecture**    | `npm run lint:arch`        | Unidirectional imports, domain isolation, co-located `.svelte`/`.css`/`.stories.ts`, thin routes |
-| **08 · Dead Code**       | `npm run lint:dead`        | Knip detection of unused files, exports, types, and dependencies                                 |
-| **09 · Formatting**      | `npm run format:check`     | Prettier consistency across Astro, Svelte, TypeScript, JSON, and CSS                             |
+| **08 · Security**        | `npm run lint:security`    | DOM sink allowlist, CSP SHA-256 hash parity, anti-tabnabbing, `public/` hygiene & unit tests     |
+| **09 · Dead Code**       | `npm run lint:dead`        | Knip detection of unused files, exports, types, and dependencies                                 |
+| **10 · Formatting**      | `npm run format:check`     | Prettier consistency across Astro, Svelte, TypeScript, JSON, and CSS                             |

@@ -79,7 +79,7 @@ function appendSplitWords(
     if (/^[ \t\r\n]+$/.test(token)) {
       const space = document.createElement('span');
       space.className = 'split-space';
-      space.innerHTML = '&nbsp;';
+      space.textContent = '\u00A0';
       targetParent.appendChild(space);
       continue;
     }
@@ -176,7 +176,7 @@ function splitTitleChars(element: HTMLElement): HTMLElement[] {
         if (restEmText) {
           const space = document.createElement('span');
           space.className = 'split-space';
-          space.innerHTML = '&nbsp;';
+          space.textContent = '\u00A0';
           wrapper.appendChild(space);
 
           const cloneContainer = document.createElement(node.tagName.toLowerCase());

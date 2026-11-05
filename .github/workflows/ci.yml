@@ -1,0 +1,48 @@
+name: CI — Quality & Security Gates
+
+on:
+  push:
+    branches: [main, alpha]
+  pull_request:
+    branches: [main, alpha]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Check, Audit & Build
+    runs-on: ubuntu-latest
+    env:
+      ASTRO_TELEMETRY_DISABLED: '1'
+      STORYBOOK_DISABLE_TELEMETRY: '1'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.14.0'
+          cache: 'npm'
+
+      - name: Install dependencies deterministically
+        run: npm ci
+
+      - name: Audit dependencies (block High / Critical advisories)
+        run: npm audit --audit-level=high
+
+      - name: Run all 10 automated quality & security gates
+        run: npm run check
+
+      - name: Build production portfolio & Storybook
+        run: npm run build
+
+      - name: Verify post-build CSP SHA-256 & dist/ hygiene
+        run: npm run lint:security
+

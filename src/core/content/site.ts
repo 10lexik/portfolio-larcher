@@ -109,8 +109,6 @@ export function getSite(locale: Locale = 'fr'): SiteMeta {
   };
 }
 
-export const SITE = getSite('fr');
-
 export function getNav(locale: Locale = 'fr'): NavItem[] {
   const dict = getDictionary(locale);
   const routes = assets.routes[locale];

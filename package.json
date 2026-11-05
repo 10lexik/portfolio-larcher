@@ -18,9 +18,10 @@
     "lint:tokens": "node scripts/checks/lint-tokens.mjs",
     "lint:themes": "node scripts/checks/lint-themes.mjs",
     "lint:arch": "node scripts/checks/lint-arch.mjs",
+    "lint:security": "node scripts/checks/lint-security.mjs",
     "typecheck:svelte": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
     "lint:dead": "knip",
-    "check": "astro check && npm run typecheck:svelte && npm run lint && npm run lint:css && npm run lint:tokens && npm run lint:themes && npm run lint:arch && npm run lint:dead && npm run format:check",
+    "check": "astro check && npm run typecheck:svelte && npm run lint && npm run lint:css && npm run lint:tokens && npm run lint:themes && npm run lint:arch && npm run lint:security && npm run lint:dead && npm run format:check",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "media": "node scripts/prepare-media.mjs"

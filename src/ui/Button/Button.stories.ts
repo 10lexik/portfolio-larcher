@@ -34,6 +34,9 @@ const meta = {
       control: 'inline-radio',
       options: ['left', 'right'],
     },
+    icon: {
+      control: false,
+    },
   },
 } satisfies Meta<typeof Button>;
 
